@@ -1,0 +1,6 @@
+#ifndef MODULE_CONFIG_H
+#define MODULE_CONFIG_H
+
+#define MOD_LVGL_LCD 1
+
+#endif // MODULE_CONFIG_H
