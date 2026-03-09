@@ -11,6 +11,8 @@
  *    - add the path as an include path.
  */
 
+#define LV_CONF_INCLUDE_SIMPLE
+
 /* clang-format off */
 #if 1 /* Set this to "1" to enable content */
 

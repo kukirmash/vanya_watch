@@ -9,3 +9,5 @@ idf_component_register(
         "." 
         "project_lcd"
 )
+
+target_compile_definitions(${COMPONENT_LIB} PRIVATE LV_LVGL_H_INCLUDE_SIMPLE)
