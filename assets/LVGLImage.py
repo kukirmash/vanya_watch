@@ -985,19 +985,20 @@ class LVGLImage:
     def _png_to_alpha_only(self, cf: ColorFormat, filename: str):
         reader = png.Reader(str(filename))
         w, h, rows, info = reader.asRGBA8()
-        if not info['alpha']:
-            raise FormatError(f"{filename} has no alpha channel")
+
+        #if not info['alpha']:
+        #    raise FormatError(f"{filename} has no alpha channel")
 
         rawdata = bytearray()
         if cf == ColorFormat.A8:
             for row in rows:
-                A = row[3::4]
+                A = row[0::4]
                 for e in A:
                     rawdata += uint8_t(e)
         else:
             shift = 8 - cf.bpp
             mask = 2**cf.bpp - 1
-            rows = [[(a >> shift) & mask for a in row[3::4]] for row in rows]
+            rows = [[(a >> shift) & mask for a in row[0::4]] for row in rows]
             for row in png.pack_rows(rows, cf.bpp):
                 rawdata += row
 

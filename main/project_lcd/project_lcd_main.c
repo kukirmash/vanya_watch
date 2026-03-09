@@ -293,10 +293,65 @@ static const lv_image_dsc_t * anim_90_imgs[46] = {
 };
 
 //-----------------------------------------------------------------------------------------
+#if VW_DEMO_SEQUENTIAL_ANIMATION
+
+static const lv_image_dsc_t ** all_anims_array[10] = {
+    (const lv_image_dsc_t **)anim_01_imgs,
+    (const lv_image_dsc_t **)anim_12_imgs,
+    (const lv_image_dsc_t **)anim_23_imgs,
+    (const lv_image_dsc_t **)anim_34_imgs,
+    (const lv_image_dsc_t **)anim_45_imgs,
+    (const lv_image_dsc_t **)anim_56_imgs,
+    (const lv_image_dsc_t **)anim_67_imgs,
+    (const lv_image_dsc_t **)anim_78_imgs,
+    (const lv_image_dsc_t **)anim_89_imgs,
+    (const lv_image_dsc_t **)anim_90_imgs
+};
+
+static lv_obj_t * animimg;         // Объект картинки-анимации
+static uint8_t current_step = 0;   // Текущая цифра (от 0 до 9)
+
+static void timer_xcb(lv_timer_t * timer)
+{
+    // Загружаем нужный массив кадров (в зависимости от текущего шага)
+    lv_animimg_set_src(animimg, (const void **)all_anims_array[current_step], 46);
+    
+    // Запускаем анимацию
+    lv_animimg_start(animimg);
+
+    // Увеличиваем счетчик для следующего нажатия
+    current_step++;
+    if(current_step >= 10) {
+        current_step = 0; // Возвращаемся к 0 после 9
+    }
+}
+
+#endif // VW_DEMO_SEQUENTIAL_ANIMATION
+
+//-----------------------------------------------------------------------------------------
 void lvgl_lcd()
 {
+    lv_obj_set_style_bg_color(lv_screen_active(), lv_color_hex(0x000000), LV_PART_MAIN);
     lv_obj_set_style_pad_all( lv_screen_active(), 0, LV_PART_MAIN );
 
+    #if VW_DEMO_SEQUENTIAL_ANIMATION
+
+    // Создаем объект анимации и выводим его по центру
+    animimg = lv_animimg_create(lv_screen_active());
+    lv_obj_center(animimg);
+
+    // Устанавливаем начальные параметры (покажем просто первый кадр "0", не запуская)
+    lv_animimg_set_src(animimg, (const void **)all_anims_array[0], 46);
+    lv_animimg_set_duration(animimg, 1500);   
+    lv_animimg_set_repeat_count(animimg, 1);
+
+    lv_obj_set_style_image_recolor(animimg, lv_color_hex(0xFEB563), LV_PART_MAIN);
+    lv_obj_set_style_image_recolor_opa(animimg, 255, LV_PART_MAIN);
+
+    lv_timer_t* timer = lv_timer_create( timer_xcb, 3000, 0 );
+#endif // VW_DEMO_SEQUENTIAL_ANIMATION
+
+#if VW_DEMO_WATCHFACE
     lv_obj_t * animimg0 = lv_animimg_create(lv_screen_active());
     lv_obj_align(animimg0, LV_ALIGN_TOP_LEFT, 7, 27);
     lv_animimg_set_src(animimg0, (const void **) anim_01_imgs, 46);
@@ -324,6 +379,8 @@ void lvgl_lcd()
     lv_animimg_set_duration(animimg3, 1500);
     lv_animimg_set_repeat_count(animimg3, LV_ANIM_REPEAT_INFINITE);
     lv_animimg_start(animimg3);
+
+    #endif // VW_DEMO_WATCHFACE
 }
 
 //-----------------------------------------------------------------------------------------
