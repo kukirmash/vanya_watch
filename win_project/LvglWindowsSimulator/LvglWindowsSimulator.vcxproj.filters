@@ -5003,6 +5003,144 @@
     <ClCompile Include="project_lcd\images\watchface2\img_1_2_46.c">
       <Filter>project_lcd\images\watchface2</Filter>
     </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_01.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_02.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_03.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_04.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_05.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_06.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_07.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_08.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_09.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_10.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_11.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_12.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_13.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_14.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_15.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_16.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_17.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_18.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_19.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_20.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_21.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_22.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_23.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_24.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_25.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_26.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_27.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_28.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_29.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_30.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_31.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_32.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_33.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_34.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_35.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_36.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_37.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_38.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_39.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_40.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_41.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_42.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_43.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_44.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_45.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_2_0_46.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
     <ClCompile Include="project_lcd\images\watchface2\img_2_3_01.c">
       <Filter>project_lcd\images\watchface2</Filter>
     </ClCompile>
@@ -5139,6 +5277,144 @@
       <Filter>project_lcd\images\watchface2</Filter>
     </ClCompile>
     <ClCompile Include="project_lcd\images\watchface2\img_2_3_46.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_01.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_02.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_03.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_04.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_05.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_06.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_07.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_08.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_09.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_10.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_11.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_12.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_13.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_14.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_15.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_16.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_17.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_18.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_19.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_20.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_21.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_22.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_23.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_24.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_25.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_26.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_27.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_28.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_29.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_30.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_31.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_32.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_33.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_34.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_35.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_36.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_37.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_38.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_39.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_40.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_41.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_42.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_43.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_44.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_45.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_3_0_46.c">
       <Filter>project_lcd\images\watchface2</Filter>
     </ClCompile>
     <ClCompile Include="project_lcd\images\watchface2\img_3_4_01.c">
@@ -5415,6 +5691,144 @@
       <Filter>project_lcd\images\watchface2</Filter>
     </ClCompile>
     <ClCompile Include="project_lcd\images\watchface2\img_4_5_46.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_01.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_02.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_03.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_04.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_05.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_06.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_07.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_08.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_09.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_10.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_11.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_12.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_13.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_14.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_15.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_16.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_17.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_18.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_19.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_20.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_21.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_22.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_23.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_24.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_25.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_26.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_27.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_28.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_29.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_30.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_31.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_32.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_33.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_34.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_35.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_36.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_37.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_38.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_39.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_40.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_41.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_42.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_43.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_44.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_45.c">
+      <Filter>project_lcd\images\watchface2</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\images\watchface2\img_5_0_46.c">
       <Filter>project_lcd\images\watchface2</Filter>
     </ClCompile>
     <ClCompile Include="project_lcd\images\watchface2\img_5_6_01.c">
