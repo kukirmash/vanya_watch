@@ -1,0 +1,7 @@
+[submodule "win_project/LvglPlatform/lvgl"]
+	path = win_project/LvglPlatform/lvgl
+	url = https://github.com/lvgl/lvgl
+	branch = release/v9.5
+[submodule "win_project/LvglPlatform/freetype"]
+	path = win_project/LvglPlatform/freetype
+	url = https://github.com/freetype/freetype
