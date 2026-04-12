@@ -739,8 +739,10 @@
     <ClInclude Include="config\module_config.h" />
     <ClInclude Include="config\project_config.h" />
     <ClInclude Include="lv_conf.h" />
+    <ClInclude Include="project_lcd\demo_sequential.h" />
     <ClInclude Include="project_lcd\lvgl_lcd_conf.h" />
     <ClInclude Include="project_lcd\project_lcd_main.h" />
+    <ClInclude Include="project_lcd\watchface.h" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="LvglWindowsSimulator.manifest" />
@@ -4231,6 +4233,7 @@
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <ClCompile Include="LvglWindowsSimulator.cpp" />
+    <ClCompile Include="project_lcd\demo_sequential.c" />
     <ClCompile Include="project_lcd\images\watchface2\img_0_1_01.c" />
     <ClCompile Include="project_lcd\images\watchface2\img_0_1_02.c" />
     <ClCompile Include="project_lcd\images\watchface2\img_0_1_03.c" />
@@ -4830,6 +4833,7 @@
     <ClCompile Include="project_lcd\images\watchface2\img_9_0_45.c" />
     <ClCompile Include="project_lcd\images\watchface2\img_9_0_46.c" />
     <ClCompile Include="project_lcd\project_lcd_main.c" />
+    <ClCompile Include="project_lcd\watchface.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)..\LvglPlatform\freetype\.clang-format" />

@@ -15,8 +15,8 @@ void lvgl_lcd();
 //-----------------------------------------------------------------------------------------
 
 #ifdef __cplusplus
-} /* extern "C" */
-#endif
+} 
+#endif //  extern "C"
 
 #endif // MOD_LVGL_LCD
 #endif // PROJECT_LCD_MAIN_H

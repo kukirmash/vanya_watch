@@ -72,10 +72,6 @@ int main()
         return -1;
     }
 
-    lv_obj_t* scr = lv_screen_active();
-    lv_obj_set_style_bg_color( scr, lv_color_hex( 0x000000 ), LV_PART_MAIN ); // Черный фон
-    lv_obj_set_style_radius( scr, 50, LV_PART_MAIN );
-
     lvgl_lcd();
 
     while (1)
