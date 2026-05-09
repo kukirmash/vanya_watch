@@ -2111,6 +2111,9 @@
     <ClInclude Include="project_lcd\demo_sequential.h">
       <Filter>project_lcd</Filter>
     </ClInclude>
+    <ClInclude Include="project_lcd\control_center.h">
+      <Filter>project_lcd</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="LvglWindowsSimulator.manifest" />
@@ -6533,6 +6536,18 @@
     <ClCompile Include="project_lcd\demo_sequential.c">
       <Filter>project_lcd</Filter>
     </ClCompile>
+    <ClCompile Include="project_lcd\fonts\science_gothic\science_gothic_14.c">
+      <Filter>project_lcd\fonts\science_gothic</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\fonts\science_gothic\science_gothic_18.c">
+      <Filter>project_lcd\fonts\science_gothic</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\control_center.c">
+      <Filter>project_lcd</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\fonts\science_gothic\science_gothic_22.c">
+      <Filter>project_lcd\fonts\science_gothic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="freetype">
@@ -8538,6 +8553,12 @@
     </Filter>
     <Filter Include="project_lcd\images\watchface2">
       <UniqueIdentifier>{7e28edba-105a-46a5-b30e-2e40403300ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="project_lcd\fonts">
+      <UniqueIdentifier>{6940fab9-a06b-4ee6-ada2-ef0f43dc4f31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="project_lcd\fonts\science_gothic">
+      <UniqueIdentifier>{f503b42e-7032-41a3-a8bc-c46e7d4231b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

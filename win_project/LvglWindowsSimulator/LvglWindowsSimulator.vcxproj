@@ -739,6 +739,7 @@
     <ClInclude Include="config\module_config.h" />
     <ClInclude Include="config\project_config.h" />
     <ClInclude Include="lv_conf.h" />
+    <ClInclude Include="project_lcd\control_center.h" />
     <ClInclude Include="project_lcd\demo_sequential.h" />
     <ClInclude Include="project_lcd\lvgl_lcd_conf.h" />
     <ClInclude Include="project_lcd\project_lcd_main.h" />
@@ -4233,7 +4234,11 @@
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <ClCompile Include="LvglWindowsSimulator.cpp" />
+    <ClCompile Include="project_lcd\control_center.c" />
     <ClCompile Include="project_lcd\demo_sequential.c" />
+    <ClCompile Include="project_lcd\fonts\science_gothic\science_gothic_14.c" />
+    <ClCompile Include="project_lcd\fonts\science_gothic\science_gothic_18.c" />
+    <ClCompile Include="project_lcd\fonts\science_gothic\science_gothic_22.c" />
     <ClCompile Include="project_lcd\images\watchface2\img_0_1_01.c" />
     <ClCompile Include="project_lcd\images\watchface2\img_0_1_02.c" />
     <ClCompile Include="project_lcd\images\watchface2\img_0_1_03.c" />
