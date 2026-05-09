@@ -1,22 +1,24 @@
 ﻿#ifndef PROJECT_LCD_MAIN_H
 #define PROJECT_LCD_MAIN_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "lvgl_lcd_conf.h"
 
-#if MOD_LVGL_LCD
+#include "esp_err.h"
+#include "esp_lcd_panel_io.h"
+#include "esp_lcd_panel_ops.h"
+#include "esp_lcd_touch_cst816s.h"
 
 //-----------------------------------------------------------------------------------------
-void lvgl_lcd();
+// Функция для инициализации LVGL
+esp_err_t app_lvgl_init(esp_lcd_panel_io_handle_t lcd_io, esp_lcd_panel_handle_t lcd_panel, esp_lcd_touch_handle_t touch_handle);
+
+//-----------------------------------------------------------------------------------------
+// Запуск экрана
+void app_main_display(void);
+
+//-----------------------------------------------------------------------------------------
+void lvgl_lcd(void); // Ваша существующая функция запуска графики
 
 //-----------------------------------------------------------------------------------------
 
-#ifdef __cplusplus
-} 
-#endif //  extern "C"
-
-#endif // MOD_LVGL_LCD
-#endif // PROJECT_LCD_MAIN_H
+#endif

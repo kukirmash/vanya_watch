@@ -742,6 +742,15 @@ CONFIG_EFUSE_MAX_BLK_LEN=256
 # end of eFuse Bit Manager
 
 #
+# ADC and ADC Calibration
+#
+# CONFIG_ADC_ONESHOT_CTRL_FUNC_IN_IRAM is not set
+# CONFIG_ADC_CONTINUOUS_ISR_IRAM_SAFE is not set
+# CONFIG_ADC_CONTINUOUS_FORCE_USE_ADC2_ON_C3_S3 is not set
+# CONFIG_ADC_ENABLE_DEBUG_LOG is not set
+# end of ADC and ADC Calibration
+
+#
 # Common ESP-related
 #
 CONFIG_ESP_ERR_TO_NAME_LOOKUP=y
@@ -1979,24 +1988,13 @@ CONFIG_LVGL_VERSION_PATCH=0
 #
 # Examples
 #
-CONFIG_LV_BUILD_EXAMPLES=y
+# CONFIG_LV_BUILD_EXAMPLES is not set
 # end of Examples
 
 #
 # Demos
 #
-CONFIG_LV_BUILD_DEMOS=y
-# CONFIG_LV_USE_DEMO_WIDGETS is not set
-# CONFIG_LV_USE_DEMO_KEYPAD_AND_ENCODER is not set
-# CONFIG_LV_USE_DEMO_BENCHMARK is not set
-# CONFIG_LV_USE_DEMO_RENDER is not set
-# CONFIG_LV_USE_DEMO_STRESS is not set
-# CONFIG_LV_USE_DEMO_MUSIC is not set
-# CONFIG_LV_USE_DEMO_FLEX_LAYOUT is not set
-# CONFIG_LV_USE_DEMO_MULTILANG is not set
-# CONFIG_LV_USE_DEMO_SMARTWATCH is not set
-# CONFIG_LV_USE_DEMO_EBIKE is not set
-# CONFIG_LV_USE_DEMO_HIGH_RES is not set
+# CONFIG_LV_BUILD_DEMOS is not set
 # end of Demos
 # end of LVGL configuration
 # end of Component config

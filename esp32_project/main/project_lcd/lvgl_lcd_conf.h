@@ -5,6 +5,8 @@
 #include "config/module_config.h"
 #include "lvgl.h"
 
+LV_FONT_DECLARE(science_gothic_14); LV_FONT_DECLARE(science_gothic_18); LV_FONT_DECLARE(science_gothic_22);
+
 //-----------------------------------------------------------------------------------------
 // Режимы работы
 #define VW_DEMO_SEQUENTIAL_ANIMATION    0
