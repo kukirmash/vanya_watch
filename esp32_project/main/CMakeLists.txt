@@ -7,6 +7,11 @@ idf_component_register(
         "project_lcd/demo_sequential.c"
         "project_lcd/project_lcd_main.c"
         "project_lcd/watchface.c"
+
+        "project_lcd/fonts/science_gothic/science_gothic_14.c"
+        "project_lcd/fonts/science_gothic/science_gothic_18.c"
+        "project_lcd/fonts/science_gothic/science_gothic_22.c"
+        
         ${image_frames}
     INCLUDE_DIRS 
         "." 
