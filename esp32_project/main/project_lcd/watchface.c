@@ -946,12 +946,14 @@ static void timer_xcb( lv_timer_t* timer )
     else 
         battery_symbol = LV_SYMBOL_BATTERY_EMPTY;
 
-    bool is_charging = battery_is_charging();
+    bool is_charging = power_get_battery_is_charging();
+
+    uint32_t power_mv = power_get_battery_mvolt();
 
     if (is_charging)
-        lv_label_set_text_fmt( battery_label, "%s%s %d%%", battery_symbol, LV_SYMBOL_CHARGE, power_ptc );
+        lv_label_set_text_fmt( battery_label, "%s%s %d%% %ldmV", battery_symbol, LV_SYMBOL_CHARGE, power_ptc, power_mv );
     else
-        lv_label_set_text_fmt( battery_label, "%s %d%%", battery_symbol, power_ptc );
+        lv_label_set_text_fmt( battery_label, "%s %d%% %ldmV", battery_symbol, power_ptc, power_mv );
     
 }
 

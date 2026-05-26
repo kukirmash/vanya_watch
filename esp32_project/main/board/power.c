@@ -117,7 +117,28 @@ uint8_t power_get_battery_percent(void)
 }
 
 //-----------------------------------------------------------------------------------------
-bool battery_is_charging(void)
+//Получить уровень заряда в мили Вольтах mV 
+uint32_t power_get_battery_mvolt(void)
+{
+    int adc_raw=0;
+    int voltage_mv=0;
+    
+    // Получаем значение с АЦП
+    ESP_ERROR_CHECK(adc_oneshot_read(adc1_handle, VW_GPIO_BAT_ADC, &adc_raw)); 
+
+    // Переводим в миллиВольты
+    if (do_calibration)
+        adc_cali_raw_to_voltage(adc1_cali_handle, adc_raw, &voltage_mv);
+    else
+        voltage_mv = (adc_raw * 3100) / 4095;
+
+    int battery_mv = voltage_mv * 3; // Делитель напряжения 1/3
+
+    return battery_mv;
+}
+
+//-----------------------------------------------------------------------------------------
+bool power_get_battery_is_charging(void)
 {
     // Инвертированная логика: 0 - заряжается 
     return gpio_get_level(VW_GPIO_CHG_STAT) == 0;
