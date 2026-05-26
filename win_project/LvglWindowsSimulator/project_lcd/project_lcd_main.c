@@ -19,7 +19,7 @@ void lvgl_lcd()
 
 #if VW_DEMO_SEQUENTIAL_ANIMATION
     demo_sequential_init(); // Запускаем демо
-#endif
+#endif // VW_DEMO_SEQUENTIAL_ANIMATION
 
 #if VW_WORK_MODE
 
@@ -29,6 +29,7 @@ void lvgl_lcd()
     lv_obj_set_style_radius( tileview, 50, LV_PART_MAIN );
     lv_obj_set_style_pad_all( tileview, 0, LV_PART_MAIN );
     lv_obj_set_scrollbar_mode( tileview, LV_SCROLLBAR_MODE_OFF );
+    lv_obj_remove_flag(tileview, LV_OBJ_FLAG_SCROLL_ELASTIC);
 
     lv_obj_t* main_tile = lv_tileview_add_tile( tileview, 1, 1, LV_DIR_ALL );
     lv_obj_t* control_center_tile = lv_tileview_add_tile( tileview, 1, 0, LV_DIR_ALL );
@@ -37,7 +38,7 @@ void lvgl_lcd()
     control_center_init( control_center_tile );
 
     lv_tileview_set_tile( tileview, main_tile, LV_ANIM_OFF );
-#endif
+#endif // VW_WORK_MODE
 }
 
 //-----------------------------------------------------------------------------------------
