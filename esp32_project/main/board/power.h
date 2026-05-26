@@ -7,8 +7,8 @@
 /* Пины питания для ревизии V2 */
 #define VW_GPIO_POWER_HOLD    (GPIO_NUM_41)
 #define VW_GPIO_BUTTON        (GPIO_NUM_40)
-#define VW_GPIO_CHG_STAT      (GPIO_NUM_2)  // Пин статуса зарядки
-#define VW_GPIO_BAT_ADC       (ADC_CHANNEL_0) // GPIO 1
+#define VW_GPIO_CHG_STAT      (GPIO_NUM_2)      // Пин статуса зарядки
+#define VW_GPIO_BAT_ADC       (ADC_CHANNEL_0)   // GPIO 1
 
 //-----------------------------------------------------------------------------------------
 // Инициализация всей системы питания:

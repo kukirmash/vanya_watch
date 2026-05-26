@@ -6,6 +6,7 @@ idf_component_register(
         "board/lcd.c"
         "board/touch.c"
         "board/power.c"
+        "board/time.c"
         "project_lcd/control_center.c"
         "project_lcd/demo_sequential.c"
         "project_lcd/project_lcd_main.c"

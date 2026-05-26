@@ -3,6 +3,8 @@
 
 #include "lvgl_lcd_conf.h"
 
+#if MOD_LVGL_LCD
+
 #include "esp_err.h"
 #include "esp_lcd_panel_io.h"
 #include "esp_lcd_panel_ops.h"
@@ -21,4 +23,5 @@ void lvgl_lcd(void); // Ваша существующая функция зап�
 
 //-----------------------------------------------------------------------------------------
 
-#endif
+#endif // MOD_LVGL_LCD
+#endif // PROJECT_LCD_MAIN_H

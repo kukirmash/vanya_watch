@@ -1,5 +1,7 @@
 ﻿#include "project_lcd_main.h"
 
+#if MOD_LVGL_LCD
+
 #include "../board/lcd.h"// TODO: VW_LCD_H_RES вынести в project_config
 #include "esp_log.h"
 #include "esp_check.h"
@@ -82,7 +84,7 @@ void lvgl_lcd()
 
 #if VW_DEMO_SEQUENTIAL_ANIMATION
     demo_sequential_init(); // Запускаем демо
-#endif
+#endif // VW_DEMO_SEQUENTIAL_ANIMATION
 
 #if VW_WORK_MODE
 
@@ -101,7 +103,9 @@ void lvgl_lcd()
     control_center_init( control_center_tile );
 
     lv_tileview_set_tile( tileview, main_tile, LV_ANIM_OFF );
-#endif
+#endif // VW_WORK_MODE
 }
 
 //-----------------------------------------------------------------------------------------
+
+#endif // MOD_LVGL_LCD
