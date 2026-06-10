@@ -131,24 +131,21 @@ void wifi_connect_to_ap(const char *ssid, const char *password)
 }
 
 //-----------------------------------------------------------------------------------------
-void wifi_sntp_sync_time(void)
+// Отдельная задача для синхронизации времени
+static void wifi_sntp_task(void *pvParameter)
 {
     ESP_LOGI(TAG, "Initializing SNTP...");
-
-    // Настраиваем адрес NTP сервера (для ESP-IDF v5)
     esp_sntp_config_t config = ESP_NETIF_SNTP_DEFAULT_CONFIG("pool.ntp.org");
     esp_netif_sntp_init(&config);
 
     ESP_LOGI(TAG, "Waiting for system time to be set...");
 
-    // Ждем до 15 секунд, пока пройдет синхронизация
+    // Блокировка происходит ТОЛЬКО внутри этой задачи
     esp_err_t err = esp_netif_sntp_sync_wait(pdMS_TO_TICKS(15000));
 
     if (err == ESP_OK)
     {
         ESP_LOGI(TAG, "Time synchronized successfully!");
-
-        // Установка часового пояса (Текущий: MSK, UTC+3).
         setenv("TZ", "MSK-3", 1);
         tzset();
     }
@@ -156,6 +153,16 @@ void wifi_sntp_sync_time(void)
     {
         ESP_LOGE(TAG, "Failed to get time from NTP!");
     }
+
+    // Задача выполнена - уничтожаем её, чтобы освободить память
+    vTaskDelete(NULL);
+}
+
+//-----------------------------------------------------------------------------------------
+void wifi_sntp_sync_time(void)
+{
+    // Вместо блокировки потока, просто запускаем одноразовую задачу
+    xTaskCreate(wifi_sntp_task, "sntp_task", 3072, NULL, 5, NULL);
 }
 
 //-----------------------------------------------------------------------------------------

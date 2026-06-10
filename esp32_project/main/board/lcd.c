@@ -19,10 +19,10 @@ static const char *TAG = "LCD";
 /* LCD pins */
 #define VW_LCD_GPIO_SCLK (GPIO_NUM_6)
 #define VW_LCD_GPIO_MOSI (GPIO_NUM_7)
-#define VW_LCD_GPIO_RST  (GPIO_NUM_8)
-#define VW_LCD_GPIO_DC   (GPIO_NUM_4)
-#define VW_LCD_GPIO_CS   (GPIO_NUM_5)
-#define VW_LCD_GPIO_BL   (GPIO_NUM_15)
+#define VW_LCD_GPIO_RST (GPIO_NUM_8)
+#define VW_LCD_GPIO_DC (GPIO_NUM_4)
+#define VW_LCD_GPIO_CS (GPIO_NUM_5)
+#define VW_LCD_GPIO_BL (GPIO_NUM_15)
 
 static esp_lcd_panel_handle_t lcd_panel = NULL;
 
@@ -35,8 +35,7 @@ esp_err_t lcd_app_init(esp_lcd_panel_io_handle_t *ret_io, esp_lcd_panel_handle_t
     /* LCD backlight */
     gpio_config_t bk_gpio_config = {
         .mode = GPIO_MODE_OUTPUT,
-        .pin_bit_mask = 1ULL << VW_LCD_GPIO_BL
-    };
+        .pin_bit_mask = 1ULL << VW_LCD_GPIO_BL};
     ESP_ERROR_CHECK(gpio_config(&bk_gpio_config));
 
     /* LCD initialization */
@@ -87,8 +86,10 @@ esp_err_t lcd_app_init(esp_lcd_panel_io_handle_t *ret_io, esp_lcd_panel_handle_t
     return ret;
 
 err:
-    if (lcd_panel) esp_lcd_panel_del(lcd_panel);
-    if (lcd_io) esp_lcd_panel_io_del(lcd_io);
+    if (lcd_panel)
+        esp_lcd_panel_del(lcd_panel);
+    if (lcd_io)
+        esp_lcd_panel_io_del(lcd_io);
     spi_bus_free(VW_LCD_SPI_NUM);
     return ret;
 }
@@ -96,11 +97,14 @@ err:
 //-----------------------------------------------------------------------------------------
 void lcd_set_power_state(bool on)
 {
-    if (on) {
+    if (on)
+    {
         // Включаем матрицу и подсветку
         esp_lcd_panel_disp_on_off(lcd_panel, true);
         gpio_set_level(VW_LCD_GPIO_BL, VW_LCD_BL_ON_LEVEL);
-    } else {
+    }
+    else
+    {
         // Выключаем подсветку и переводим матрицу в сон
         gpio_set_level(VW_LCD_GPIO_BL, !VW_LCD_BL_ON_LEVEL);
         esp_lcd_panel_disp_on_off(lcd_panel, false);

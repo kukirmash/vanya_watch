@@ -1,7 +1,51 @@
 #include "time.h"
 
 #include <stdio.h>
+
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
 #include "config/module_config.h"
+#include "config/project_config.h"
+
+//-----------------------------------------------------------------------------------------
+// Фоновая задача обновления времени
+static void time_task(void *pvParameter)
+{
+    struct tm timeinfo;
+    
+    while (1)
+    {
+        // Пауза теперь в начале цикла. Мы спим 1 секунду, так как первичное 
+        // время мы уже закинули в функции time_init ниже.
+        vTaskDelay(pdMS_TO_TICKS(1000));
+        
+        get_curr_time(&timeinfo);
+
+        // Отправляем обновленные данные в конфиг
+        project_config_set_time(
+            timeinfo.tm_hour, timeinfo.tm_min, timeinfo.tm_sec,
+            timeinfo.tm_mday, timeinfo.tm_mon + 1, timeinfo.tm_year + 1900
+        );
+    }
+}
+
+//-----------------------------------------------------------------------------------------
+void time_init(void)
+{
+    // Парсим время компиляции и устанавливаем в RTC микроконтроллера
+    set_time_from_compile();
+
+    struct tm timeinfo;
+    get_curr_time(&timeinfo);
+    project_config_set_time(
+        timeinfo.tm_hour, timeinfo.tm_min, timeinfo.tm_sec,
+        timeinfo.tm_mday, timeinfo.tm_mon + 1, timeinfo.tm_year + 1900
+    );
+
+    // Запускаем задачу времени (размер стека 2048, приоритет 5)
+    xTaskCreate(time_task, "time_task", 2048, NULL, 5, NULL);
+}
 
 //-----------------------------------------------------------------------------------------
 void get_curr_time(struct tm *timeinfo)

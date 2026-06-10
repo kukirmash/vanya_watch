@@ -8,10 +8,14 @@ idf_component_register(
         "board/power.c"
         "board/time.c"
         "board/wifi.c"
+
+        "config/project_config.c"
+
         "project_lcd/control_center.c"
         "project_lcd/demo_sequential.c"
         "project_lcd/project_lcd_main.c"
         "project_lcd/watchface.c"
+        "project_lcd/wifi_window.c"
 
         "project_lcd/fonts/science_gothic/science_gothic_14.c"
         "project_lcd/fonts/science_gothic/science_gothic_18.c"
@@ -21,6 +25,7 @@ idf_component_register(
     INCLUDE_DIRS 
         "." 
         "project_lcd"
+        "config"
 
     REQUIRES
         esp_adc

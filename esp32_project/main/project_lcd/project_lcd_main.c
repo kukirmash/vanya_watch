@@ -67,7 +67,6 @@ void app_main_display(void)
     lv_obj_t *scr = lv_scr_act();
     lv_obj_set_style_bg_color(scr, lv_color_hex(0x000000), 0);
     
-    // Запускаем вашу логику
     lvgl_lcd();
     
     lvgl_port_unlock();

@@ -2,8 +2,7 @@
 
 #if MOD_LVGL_LCD && VW_WORK_MODE
 
-#include "board/time.h"
-#include "board/power.h"
+#include "config/project_config.h"
 
 static const char *TAG = "VW_WATCHFACE";
 
@@ -821,13 +820,11 @@ static lv_obj_t *anim_m_units;  // Единицы минут
 static lv_obj_t *date_label;    // Дата
 static lv_obj_t *battery_label; // Заряд батареи
 
-static uint8_t curr_h_tens = 0;
-static uint8_t curr_h_units = 0;
-static uint8_t curr_m_tens = 0;
-static uint8_t curr_m_units = 0;
+static uint8_t curr_h_tens = 255;
+static uint8_t curr_h_units = 255;
+static uint8_t curr_m_tens = 255;
+static uint8_t curr_m_units = 255;
 static uint8_t curr_day = 0;
-
-static bool first_update = false;
 
 static const char *month_names[] = {
     "January", "February", "March", "April", "May", "June",
@@ -876,41 +873,19 @@ static void play_transition(lv_obj_t *anim_obj, uint8_t from_digit, uint8_t to_d
 }
 
 //-----------------------------------------------------------------------------------------
-static void timer_xcb(lv_timer_t *timer)
+static void watchface_time_observer_cb(lv_observer_t *observer, lv_subject_t *subject)
 {
-    struct tm timeinfo = {};
-    get_curr_time(&timeinfo);
+    const config_time_t *time_data = lv_subject_get_pointer(subject);
+    if (!time_data)
+        return;
 
-    uint8_t hours = timeinfo.tm_hour;
-    uint8_t minutes = timeinfo.tm_min;
-    uint8_t seconds = timeinfo.tm_sec;
+    uint8_t new_h_tens = time_data->hour / 10;
+    uint8_t new_h_units = time_data->hour % 10;
+    uint8_t new_m_tens = time_data->minute / 10;
+    uint8_t new_m_units = time_data->minute % 10;
 
-    uint8_t new_h_tens = hours / 10;
-    uint8_t new_h_units = hours % 10;
-    uint8_t new_m_tens = minutes / 10;
-    uint8_t new_m_units = minutes % 10;
-
-    LOGI(TAG, "Current time: %02d:%02d:%02d", hours, minutes, seconds);
-
-    bool minute_changed = new_m_units != curr_m_units;
-
-    if (minute_changed && first_update)
-        lv_timer_set_period(timer, 1 * 1000);
-    else
-        lv_timer_set_period(timer, 500);
-
-    // Обновляем дату, если день изменился
-    if (first_update == false || timeinfo.tm_mday != curr_day)
+    if (curr_m_units == 255)
     {
-        lv_label_set_text_fmt(date_label, "%d %s", timeinfo.tm_mday, month_names[timeinfo.tm_mon]);
-        curr_day = timeinfo.tm_mday;
-    }
-
-    // Первая установка
-    if (first_update == false)
-    {
-        // При первом запуске вычисляем логически правильные "предыдущие" цифры,
-        // чтобы часы красиво выехали на текущее время
         uint8_t prev_m_units = (new_m_units == 0) ? 9 : new_m_units - 1;
         uint8_t prev_m_tens = (new_m_tens == 0) ? 5 : new_m_tens - 1;
         uint8_t prev_h_tens = (new_h_tens == 0) ? 2 : new_h_tens - 1;
@@ -920,12 +895,9 @@ static void timer_xcb(lv_timer_t *timer)
         play_transition(anim_m_tens, prev_m_tens, new_m_tens);
         play_transition(anim_h_units, prev_h_units, new_h_units);
         play_transition(anim_h_tens, prev_h_tens, new_h_tens);
-
-        first_update = true;
     }
     else
     {
-        // Обычное обновление при смене времени
         if (new_m_units != curr_m_units)
             play_transition(anim_m_units, curr_m_units, new_m_units);
         if (new_m_tens != curr_m_tens)
@@ -940,28 +912,6 @@ static void timer_xcb(lv_timer_t *timer)
     curr_m_tens = new_m_tens;
     curr_h_units = new_h_units;
     curr_h_tens = new_h_tens;
-
-    // Заряд батареи
-    uint8_t power_ptc = power_get_battery_percent();
-
-    const char *battery_symbols[5] =
-        {
-            LV_SYMBOL_BATTERY_EMPTY, // Индекс 0 (0-19%)
-            LV_SYMBOL_BATTERY_1,     // Индекс 1 (20-39%)
-            LV_SYMBOL_BATTERY_2,     // Индекс 2 (40-59%)
-            LV_SYMBOL_BATTERY_3,     // Индекс 3 (60-79%)
-            LV_SYMBOL_BATTERY_FULL   // Индекс 4 (80-99%)
-        };
-
-    // Вычисляем индекс
-    int index = power_ptc / 20;
-
-    // Защита от выхода за пределы массива (если заряд 100%)
-    if (index > 4)
-        index = 4;
-
-    const char *battery_symbol = battery_symbols[index];
-    lv_label_set_text_fmt(battery_label, "%s %d%%", battery_symbol, power_ptc);
 }
 
 //-----------------------------------------------------------------------------------------
@@ -1010,8 +960,9 @@ void watchface_init(lv_obj_t *parent)
     lv_obj_set_style_text_font(battery_label, VW_FONT_18, LV_PART_MAIN);
     lv_obj_set_style_text_color(battery_label, lv_color_hex(VW_PRIMARY_COLOR_HEX), LV_PART_MAIN);
 
-    lv_timer_t *timer = lv_timer_create(timer_xcb, 500, 0);
-    timer_xcb(timer);
+    lv_label_bind_text(date_label, &subject_date_str, NULL);
+    lv_label_bind_text(battery_label, &subject_power_str, NULL);
+    lv_subject_add_observer_obj(&subject_time, watchface_time_observer_cb, parent, NULL);
 }
 
 //-----------------------------------------------------------------------------------------

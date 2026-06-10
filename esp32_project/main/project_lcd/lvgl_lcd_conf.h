@@ -17,6 +17,9 @@ LV_FONT_DECLARE(science_gothic_14); LV_FONT_DECLARE(science_gothic_18); LV_FONT_
 #define VW_PRIMARY_COLOR_HEX                  0xFEB563
 #define VW_SECONDARY_COLOR_HEX                0x838383
 
+#define VW_GREY_COLOR_HEX                     0x8E8E93
+#define VW_DARK_GREY_COLOR_HEX                0x1C1C1E
+
 //-----------------------------------------------------------------------------------------
 // Шрифты
 #define VW_FONT_14                    &science_gothic_14
