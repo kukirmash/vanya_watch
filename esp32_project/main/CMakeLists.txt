@@ -7,6 +7,7 @@ idf_component_register(
         "board/touch.c"
         "board/power.c"
         "board/time.c"
+        "board/wifi.c"
         "project_lcd/control_center.c"
         "project_lcd/demo_sequential.c"
         "project_lcd/project_lcd_main.c"
@@ -23,6 +24,9 @@ idf_component_register(
 
     REQUIRES
         esp_adc
+        esp_wifi
+        nvs_flash
+        esp_netif
 )
 
 target_compile_definitions(${COMPONENT_LIB} PRIVATE LV_LVGL_H_INCLUDE_SIMPLE)

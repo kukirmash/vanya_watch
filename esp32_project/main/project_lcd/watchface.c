@@ -943,8 +943,6 @@ static void timer_xcb(lv_timer_t *timer)
 
     // Заряд батареи
     uint8_t power_ptc = power_get_battery_percent();
-    bool is_charging = power_get_battery_is_charging();
-    uint32_t power_mv = power_get_battery_mvolt();
 
     const char *battery_symbols[5] =
         {
@@ -955,19 +953,15 @@ static void timer_xcb(lv_timer_t *timer)
             LV_SYMBOL_BATTERY_FULL   // Индекс 4 (80-99%)
         };
 
-    // 2. Вычисляем индекс
+    // Вычисляем индекс
     int index = power_ptc / 20;
 
-    // 3. Защита от выхода за пределы массива (если заряд 100%)
+    // Защита от выхода за пределы массива (если заряд 100%)
     if (index > 4)
         index = 4;
 
     const char *battery_symbol = battery_symbols[index];
-
-    if (is_charging)
-        lv_label_set_text_fmt(battery_label, "%s%s %d%% %ldmV", battery_symbol, LV_SYMBOL_CHARGE, power_ptc, power_mv);
-    else
-        lv_label_set_text_fmt(battery_label, "%s %d%% %ldmV", battery_symbol, power_ptc, power_mv);
+    lv_label_set_text_fmt(battery_label, "%s %d%%", battery_symbol, power_ptc);
 }
 
 //-----------------------------------------------------------------------------------------

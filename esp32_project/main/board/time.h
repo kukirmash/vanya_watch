@@ -1,7 +1,7 @@
 #ifndef VW_TIME_H
 #define VW_TIME_H
 
-#include <time.h>
+#include <sys/time.h>
 
 //-----------------------------------------------------------------------------------------
 /**
@@ -21,6 +21,9 @@ void get_curr_time(struct tm *timeinfo);
  * @param second Секунды (0 - 59)
  */
 void set_curr_time(int year, int month, int day, int hour, int minute, int second);
+
+//-----------------------------------------------------------------------------------------
+void set_time_from_compile(void);
 
 //-----------------------------------------------------------------------------------------
 
