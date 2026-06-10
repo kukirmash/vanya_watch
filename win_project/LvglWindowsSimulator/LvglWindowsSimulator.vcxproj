@@ -744,6 +744,7 @@
     <ClInclude Include="project_lcd\lvgl_lcd_conf.h" />
     <ClInclude Include="project_lcd\project_lcd_main.h" />
     <ClInclude Include="project_lcd\watchface.h" />
+    <ClInclude Include="project_lcd\wifi_window.h" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="LvglWindowsSimulator.manifest" />
@@ -4839,6 +4840,7 @@
     <ClCompile Include="project_lcd\images\watchface2\img_9_0_46.c" />
     <ClCompile Include="project_lcd\project_lcd_main.c" />
     <ClCompile Include="project_lcd\watchface.c" />
+    <ClCompile Include="project_lcd\wifi_window.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)..\LvglPlatform\freetype\.clang-format" />

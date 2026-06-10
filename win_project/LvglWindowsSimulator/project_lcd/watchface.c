@@ -894,8 +894,9 @@ static void timer_xcb( lv_timer_t* timer )
         lv_timer_set_period( timer, 500 );
 
     // Обновляем дату, если день изменился
-    if (first_update == false || timeinfo.tm_mday != curr_day) {
-        lv_label_set_text_fmt( date_label, "%d %s", timeinfo.tm_mday, month_names[timeinfo.tm_mon] );
+    if (first_update == false || timeinfo.tm_mday != curr_day)
+    {
+        lv_label_set_text_fmt(date_label, "%d %s", timeinfo.tm_mday, month_names[timeinfo.tm_mon]);
         curr_day = timeinfo.tm_mday;
     }
 
@@ -931,28 +932,26 @@ static void timer_xcb( lv_timer_t* timer )
     curr_h_tens = new_h_tens;
 
     // Заряд батареи
-    const char* battery_symbol = 0;
     uint8_t power_ptc = 100;
-    if ( power_ptc >= 80)
-        battery_symbol = LV_SYMBOL_BATTERY_FULL;
-    else if (power_ptc >= 60)
-        battery_symbol = LV_SYMBOL_BATTERY_3;
-    else if (power_ptc >= 40)
-        battery_symbol = LV_SYMBOL_BATTERY_2;
-    else if (power_ptc >= 20)
-        battery_symbol = LV_SYMBOL_BATTERY_1;
-    else 
-        battery_symbol = LV_SYMBOL_BATTERY_EMPTY;
 
-    bool is_charging = true();
+    const char *battery_symbols[5] =
+        {
+            LV_SYMBOL_BATTERY_EMPTY, // Индекс 0 (0-19%)
+            LV_SYMBOL_BATTERY_1,     // Индекс 1 (20-39%)
+            LV_SYMBOL_BATTERY_2,     // Индекс 2 (40-59%)
+            LV_SYMBOL_BATTERY_3,     // Индекс 3 (60-79%)
+            LV_SYMBOL_BATTERY_FULL   // Индекс 4 (80-99%)
+        };
 
-    uint32_t power_mv = 3700;
+    // Вычисляем индекс
+    int index = power_ptc / 20;
 
-    if (is_charging)
-        lv_label_set_text_fmt( battery_label, "%s%s %d%% %ldmV", battery_symbol, LV_SYMBOL_CHARGE, power_ptc, power_mv );
-    else
-        lv_label_set_text_fmt( battery_label, "%s %d%% %ldmV", battery_symbol, power_ptc, power_mv );
-    
+    // Защита от выхода за пределы массива (если заряд 100%)
+    if (index > 4)
+        index = 4;
+
+    const char *battery_symbol = battery_symbols[index];
+    lv_label_set_text_fmt(battery_label, "%s %d%%", battery_symbol, power_ptc);
 }
 
 //-----------------------------------------------------------------------------------------

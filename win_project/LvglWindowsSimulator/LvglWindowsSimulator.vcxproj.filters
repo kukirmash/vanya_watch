@@ -2114,6 +2114,9 @@
     <ClInclude Include="project_lcd\control_center.h">
       <Filter>project_lcd</Filter>
     </ClInclude>
+    <ClInclude Include="project_lcd\wifi_window.h">
+      <Filter>project_lcd</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="LvglWindowsSimulator.manifest" />
@@ -6547,6 +6550,9 @@
     </ClCompile>
     <ClCompile Include="project_lcd\fonts\science_gothic\science_gothic_22.c">
       <Filter>project_lcd\fonts\science_gothic</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\wifi_window.c">
+      <Filter>project_lcd</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
