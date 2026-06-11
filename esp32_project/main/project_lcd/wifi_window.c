@@ -35,31 +35,13 @@ static void back_btn_event_cb( lv_event_t* e )
 }
 
 //-----------------------------------------------------------------------------------------
-static void wifi_switch_event_cb( lv_event_t* e )
-{
-	lv_obj_t* sw = lv_event_get_target( e );
-	bool is_on = lv_obj_has_state( sw, LV_STATE_CHECKED );
-
-#if ESP32
-	wifi_set_state( is_on );
-#endif
-
-	if ( !is_on && wifi_list_cont != NULL )
-	{
-		lv_obj_clean( wifi_list_cont );
-	}
-}
-
-//-----------------------------------------------------------------------------------------
 static lv_obj_t* create_wifi_list_item( lv_obj_t* parent, const char* ssid, bool is_secure, int rssi )
 {
 	lv_obj_t* item = lv_button_create( parent );
-	lv_obj_set_width( item, lv_pct( 100 ) );
-	lv_obj_set_height( item, LV_SIZE_CONTENT );
-	lv_obj_set_style_bg_color( item, lv_color_hex( 0x333333 ), LV_PART_MAIN );
+	lv_obj_set_size( item, lv_pct( 100 ), LV_SIZE_CONTENT );
+	lv_obj_set_style_bg_color( item, lv_color_hex( VW_DARK_GREY_COLOR_HEX ), LV_PART_MAIN );
 	lv_obj_set_style_radius( item, 16, LV_PART_MAIN );
 	lv_obj_set_style_pad_all( item, 15, LV_PART_MAIN );
-
 	lv_obj_set_layout( item, LV_LAYOUT_FLEX );
 	lv_obj_set_flex_flow( item, LV_FLEX_FLOW_ROW );
 	lv_obj_set_flex_align( item, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER );
@@ -79,7 +61,6 @@ static lv_obj_t* create_wifi_list_item( lv_obj_t* parent, const char* ssid, bool
 
 	lv_obj_t* signal_icon = lv_label_create( item );
 	lv_label_set_text( signal_icon, LV_SYMBOL_WIFI );
-	// Делаем иконку сети цветом Primary
 	lv_obj_set_style_text_color( signal_icon, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
 
 	return item;
@@ -89,8 +70,6 @@ static lv_obj_t* create_wifi_list_item( lv_obj_t* parent, const char* ssid, bool
 static void wifi_scan_task( void* arg )
 {
 	wifi_ap_record_t ap_info[15];
-
-	// Очищаем массив от мусора! Защита от фантомных имен сетей.
 	memset( ap_info, 0, sizeof( ap_info ) );
 
 	int ap_count = wifi_get_ap_info( 15, ap_info );
@@ -103,7 +82,7 @@ static void wifi_scan_task( void* arg )
 
 	if ( wifi_window != NULL && wifi_list_cont != NULL )
 	{
-		lv_obj_clean( wifi_list_cont );
+		lv_obj_clean( wifi_list_cont ); // очищаем полностью контейнер
 
 		// Если Wi-Fi включен - рисуем список
 		if ( wifi_cfg.is_enabled )
@@ -114,11 +93,7 @@ static void wifi_scan_task( void* arg )
 				{
 					bool is_secure = ( ap_info[i].authmode != WIFI_AUTH_OPEN );
 
-					// Дополнительная защита: выводим только непустые имена
-					if ( strlen( ( char* )ap_info[i].ssid ) > 0 )
-					{
-						create_wifi_list_item( wifi_list_cont, ( const char* )ap_info[i].ssid, is_secure, ap_info[i].rssi );
-					}
+					create_wifi_list_item( wifi_list_cont, ( const char* )ap_info[i].ssid, is_secure, ap_info[i].rssi );
 				}
 			}
 			else
@@ -130,7 +105,6 @@ static void wifi_scan_task( void* arg )
 				lv_obj_set_style_text_align( no_wifi_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN );
 			}
 		}
-		// Если выключен - просто оставляем контейнер чистым (никаких списков и надписей)
 	}
 
 	is_scanning = false;
@@ -178,6 +152,23 @@ static void current_network_observer_cb( lv_observer_t* observer, lv_subject_t* 
 }
 
 //-----------------------------------------------------------------------------------------
+static void wifi_switch_event_cb( lv_event_t* e )
+{
+	lv_obj_t* sw = lv_event_get_target( e );
+	bool is_on = lv_obj_has_state( sw, LV_STATE_CHECKED );
+
+#if ESP32
+	wifi_set_state( is_on );
+	scan_timer_cb( NULL );
+#endif
+
+	if ( !is_on && wifi_list_cont != NULL )
+	{
+		lv_obj_clean( wifi_list_cont );
+	}
+}
+
+//-----------------------------------------------------------------------------------------
 void wifi_window_create( void )
 {
 	if ( wifi_window != NULL )
@@ -185,128 +176,128 @@ void wifi_window_create( void )
 
 	lv_obj_t* parent = lv_screen_active();
 
-	// Главное окно (Не скроллится! Скроллится будет внутренний контейнер)
+	// Главное окно 
 	wifi_window = lv_obj_create( parent );
 	lv_obj_set_size( wifi_window, lv_pct( 100 ), lv_pct( 100 ) );
+	lv_obj_set_layout( wifi_window, LV_LAYOUT_FLEX );
+	lv_obj_set_flex_flow( wifi_window, LV_FLEX_FLOW_COLUMN );
+	lv_obj_set_scrollbar_mode( wifi_window, LV_SCROLLBAR_MODE_OFF );
 	lv_obj_set_style_bg_color( wifi_window, lv_color_black(), LV_PART_MAIN );
 	lv_obj_set_style_border_width( wifi_window, 0, LV_PART_MAIN );
 	lv_obj_set_style_radius( wifi_window, 0, LV_PART_MAIN );
-	lv_obj_set_style_pad_all( wifi_window, 0, LV_PART_MAIN ); // Убрали паддинг для окна
-	lv_obj_set_scrollbar_mode( wifi_window, LV_SCROLLBAR_MODE_OFF );
-	lv_obj_set_layout( wifi_window, LV_LAYOUT_FLEX );
-	lv_obj_set_flex_flow( wifi_window, LV_FLEX_FLOW_COLUMN );
+	lv_obj_set_style_pad_all( wifi_window, 0, LV_PART_MAIN );
 
-	// 1. Шапка (Зафиксирована сверху)
+	// 1. Шапка 
 	lv_obj_t* header = lv_obj_create( wifi_window );
-	lv_obj_set_width( header, lv_pct( 100 ) );
-	lv_obj_set_height( header, 30 );
+	lv_obj_set_size( header, lv_pct( 100 ), 30 );
+	lv_obj_remove_flag( header, LV_OBJ_FLAG_SCROLLABLE );
 	lv_obj_set_style_bg_opa( header, 0, LV_PART_MAIN );
 	lv_obj_set_style_border_width( header, 0, LV_PART_MAIN );
 	lv_obj_set_style_pad_hor( header, 15, LV_PART_MAIN );
 	lv_obj_set_style_pad_ver( header, 0, LV_PART_MAIN );
-	lv_obj_remove_flag( header, LV_OBJ_FLAG_SCROLLABLE );
 
+	// Кнопка "Назад"
 	lv_obj_t* back_btn = lv_btn_create( header );
-	lv_obj_set_style_bg_opa( back_btn, 0, LV_PART_MAIN );
-	lv_obj_set_style_shadow_width( back_btn, 0, LV_PART_MAIN );
 	lv_obj_align( back_btn, LV_ALIGN_BOTTOM_LEFT, 0, 0 );
 	lv_obj_add_event_cb( back_btn, back_btn_event_cb, LV_EVENT_CLICKED, NULL );
+	lv_obj_set_style_bg_opa( back_btn, 0, LV_PART_MAIN );
+	lv_obj_set_style_shadow_width( back_btn, 0, LV_PART_MAIN );
+	lv_obj_set_style_pad_all( back_btn, 0, LV_PART_MAIN );
 
+	// "< Wi-Fi" в кнопке
 	lv_obj_t* back_label = lv_label_create( back_btn );
-	lv_obj_center( back_label );
+	lv_obj_align( back_label, LV_ALIGN_BOTTOM_MID, 0, 0 );
 	lv_label_set_text( back_label, LV_SYMBOL_LEFT " Wi-Fi" );
 	lv_obj_set_style_text_color( back_label, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
 	lv_obj_set_style_text_font( back_label, VW_FONT_18, LV_PART_MAIN );
 
+	// Время слева
 	lv_obj_t* time_label = lv_label_create( header );
 	lv_obj_align( time_label, LV_ALIGN_BOTTOM_RIGHT, 0, 0 );
+	lv_label_bind_text( time_label, &subject_time_str, NULL );
 	lv_obj_set_style_text_color( time_label, lv_color_white(), LV_PART_MAIN );
 	lv_obj_set_style_text_font( time_label, VW_FONT_18, LV_PART_MAIN );
-	lv_label_bind_text( time_label, &subject_time_str, NULL );
 
-	// =========================================================
-	// КОНТЕЙНЕР ДЛЯ СКРОЛЛА (Занимает все место под шапкой)
-	// =========================================================
+	// КОНТЕЙНЕР ДЛЯ СКРОЛЛА
 	lv_obj_t* scroll_cont = lv_obj_create( wifi_window );
 	lv_obj_set_width( scroll_cont, lv_pct( 100 ) );
-	lv_obj_set_flex_grow( scroll_cont, 1 ); // Растягиваем на всю высоту
+	lv_obj_set_layout( scroll_cont, LV_LAYOUT_FLEX );
+	lv_obj_set_flex_flow( scroll_cont, LV_FLEX_FLOW_COLUMN );
+	lv_obj_set_flex_grow( scroll_cont, 1 );
+	lv_obj_set_scrollbar_mode( scroll_cont, LV_SCROLLBAR_MODE_AUTO );
+	lv_obj_remove_flag( scroll_cont, LV_OBJ_FLAG_SCROLL_ELASTIC );
 	lv_obj_set_style_bg_opa( scroll_cont, 0, LV_PART_MAIN );
 	lv_obj_set_style_border_width( scroll_cont, 0, LV_PART_MAIN );
 	lv_obj_set_style_pad_ver( scroll_cont, 0, LV_PART_MAIN );
 	lv_obj_set_style_pad_hor( scroll_cont, 10, LV_PART_MAIN );
 	lv_obj_set_style_pad_bottom( scroll_cont, 10, LV_PART_MAIN );
-	lv_obj_set_scrollbar_mode( scroll_cont, LV_SCROLLBAR_MODE_AUTO );
-	lv_obj_remove_flag( scroll_cont, LV_OBJ_FLAG_SCROLL_ELASTIC );
-	lv_obj_set_layout( scroll_cont, LV_LAYOUT_FLEX );
-	lv_obj_set_flex_flow( scroll_cont, LV_FLEX_FLOW_COLUMN );
+	lv_obj_set_style_bg_color( scroll_cont, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_SCROLLBAR );
 
 	// 2. Единый блок: Свитчер + Линия + Статус
 	lv_obj_t* main_toggle_cont = lv_obj_create( scroll_cont );
-	lv_obj_set_width( main_toggle_cont, lv_pct( 100 ) );
-	lv_obj_set_height( main_toggle_cont, LV_SIZE_CONTENT );
-	lv_obj_set_style_bg_color( main_toggle_cont, lv_color_hex( 0x333333 ), LV_PART_MAIN );
-	lv_obj_set_style_border_width( main_toggle_cont, 0, LV_PART_MAIN );
-	lv_obj_set_style_radius( main_toggle_cont, 16, LV_PART_MAIN );
+	lv_obj_set_size( main_toggle_cont, lv_pct( 100 ), LV_SIZE_CONTENT );
 	lv_obj_set_layout( main_toggle_cont, LV_LAYOUT_FLEX );
 	lv_obj_set_flex_flow( main_toggle_cont, LV_FLEX_FLOW_COLUMN );
+	lv_obj_set_style_bg_color( main_toggle_cont, lv_color_hex( VW_DARK_GREY_COLOR_HEX ), LV_PART_MAIN );
+	lv_obj_set_style_border_width( main_toggle_cont, 0, LV_PART_MAIN );
+	lv_obj_set_style_radius( main_toggle_cont, 16, LV_PART_MAIN );
 	lv_obj_set_style_pad_all( main_toggle_cont, 15, LV_PART_MAIN );
 	lv_obj_set_style_pad_gap( main_toggle_cont, 10, LV_PART_MAIN );
 
-	// 2a. Верхняя строка: текст Wi-Fi и Свитчер
+	// Верхняя строка: текст Wi-Fi и Свитчер
 	lv_obj_t* top_row = lv_obj_create( main_toggle_cont );
-	lv_obj_set_width( top_row, lv_pct( 100 ) );
-	lv_obj_set_height( top_row, LV_SIZE_CONTENT );
-	lv_obj_set_style_bg_opa( top_row, 0, LV_PART_MAIN );
-	lv_obj_set_style_border_width( top_row, 0, LV_PART_MAIN );
-	lv_obj_set_style_pad_all( top_row, 0, LV_PART_MAIN );
+	lv_obj_set_size( top_row, lv_pct( 100 ), LV_SIZE_CONTENT );
 	lv_obj_set_layout( top_row, LV_LAYOUT_FLEX );
 	lv_obj_set_flex_flow( top_row, LV_FLEX_FLOW_ROW );
 	lv_obj_set_flex_align( top_row, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER );
+	lv_obj_set_style_bg_opa( top_row, 0, LV_PART_MAIN );
+	lv_obj_set_style_border_width( top_row, 0, LV_PART_MAIN );
+	lv_obj_set_style_pad_all( top_row, 0, LV_PART_MAIN );
 
 	lv_obj_t* toggle_label = lv_label_create( top_row );
 	lv_label_set_text( toggle_label, "Wi-Fi" );
 	lv_obj_set_style_text_color( toggle_label, lv_color_white(), LV_PART_MAIN );
 	lv_obj_set_style_text_font( toggle_label, VW_FONT_18, LV_PART_MAIN );
 
-	lv_obj_t* sw = lv_switch_create( top_row );
 	pc_wifi_config curr_wifi_cfg;
 	project_config_get_wifi( &curr_wifi_cfg );
-	if ( curr_wifi_cfg.is_enabled )
-		lv_obj_add_state( sw, LV_STATE_CHECKED );
-	lv_obj_set_style_bg_color( sw, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_INDICATOR | LV_STATE_CHECKED );
+	lv_obj_t* sw = lv_switch_create( top_row );
+	lv_obj_set_state( sw, LV_STATE_CHECKED, curr_wifi_cfg.is_enabled );
 	lv_obj_add_event_cb( sw, wifi_switch_event_cb, LV_EVENT_VALUE_CHANGED, NULL );
+	lv_obj_set_style_bg_color( sw, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_INDICATOR | LV_STATE_CHECKED );
 
 	//  Линия разделитель
 	lv_obj_t* divider = lv_obj_create( main_toggle_cont );
-	lv_obj_set_width( divider, lv_pct( 100 ) );
-	lv_obj_set_height( divider, 1 );
-	lv_obj_set_style_bg_color( divider, lv_color_hex( 0x555555 ), LV_PART_MAIN );
+	lv_obj_set_size( divider, lv_pct( 100 ), 1 );
+	lv_obj_set_style_bg_color( divider, lv_color_hex( VW_GREY_COLOR_HEX ), LV_PART_MAIN );
 	lv_obj_set_style_border_width( divider, 0, LV_PART_MAIN );
 	lv_obj_set_style_pad_all( divider, 0, LV_PART_MAIN );
 
 	// Нижняя строка: Статус по левому краю
 	lv_obj_t* status_label = lv_label_create( main_toggle_cont );
-	lv_obj_set_style_text_font( status_label, VW_FONT_14, LV_PART_MAIN );
 	lv_obj_set_width( status_label, lv_pct( 100 ) );
 	lv_subject_add_observer_obj( &subject_wifi, current_network_observer_cb, status_label, NULL );
+	lv_obj_set_style_text_font( status_label, VW_FONT_18, LV_PART_MAIN );
 
 	// 3. Заголовок CHOOSE NETWORK
 	lv_obj_t* section_label = lv_label_create( scroll_cont );
+	lv_obj_set_width( section_label, lv_pct( 100 ) );
 	lv_label_set_text( section_label, "CHOOSE NETWORK" );
 	lv_obj_set_style_text_color( section_label, lv_color_hex( VW_GREY_COLOR_HEX ), LV_PART_MAIN );
 	lv_obj_set_style_text_font( section_label, VW_FONT_14, LV_PART_MAIN );
+	lv_obj_set_style_text_align( section_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN );
 	lv_obj_set_style_pad_top( section_label, 15, LV_PART_MAIN );
 	lv_obj_set_style_pad_bottom( section_label, 5, LV_PART_MAIN );
 
 	// 4. Контейнер для списка
 	wifi_list_cont = lv_obj_create( scroll_cont );
-	lv_obj_set_width( wifi_list_cont, lv_pct( 100 ) );
-	lv_obj_set_height( wifi_list_cont, LV_SIZE_CONTENT ); // Позволяем растягиваться, чтобы работал внешний скролл
-	lv_obj_set_style_bg_opa( wifi_list_cont, 0, LV_PART_MAIN );
-	lv_obj_set_style_border_width( wifi_list_cont, 0, LV_PART_MAIN );
-	lv_obj_set_style_pad_all( wifi_list_cont, 0, LV_PART_MAIN );
+	lv_obj_set_size( wifi_list_cont, lv_pct( 100 ), LV_SIZE_CONTENT );
 	lv_obj_set_layout( wifi_list_cont, LV_LAYOUT_FLEX );
 	lv_obj_set_flex_flow( wifi_list_cont, LV_FLEX_FLOW_COLUMN );
+	lv_obj_set_style_bg_opa( wifi_list_cont, 0, LV_PART_MAIN );
+	lv_obj_set_style_border_width( wifi_list_cont, 0, LV_PART_MAIN );
+	lv_obj_set_style_pad_ver( wifi_list_cont, 5, LV_PART_MAIN );
+	lv_obj_set_style_pad_hor( wifi_list_cont, 0, LV_PART_MAIN );
 
 	// Анимация появления
 	lv_anim_t a;
