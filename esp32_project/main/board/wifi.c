@@ -114,13 +114,8 @@ int wifi_get_ap_info( int ap_count, wifi_ap_record_t* ap_info )
 	// Wi-Fi сейчас подключается "STA is connecting" (ошибка 12294)
 	if ( scan_err == ESP_ERR_WIFI_STATE )
 	{
-		ESP_LOGW( TAG, "Wi-Fi is busy connecting. Forcing disconnect to allow scan..." );
-
-		s_allow_reconnect = false;
-		esp_wifi_disconnect();
-		vTaskDelay( pdMS_TO_TICKS( 100 ) );
-
-		scan_err = esp_wifi_scan_start( &scan_config, true );
+		ESP_LOGW( TAG, "Wi-Fi is busy connecting. Skipping scan for now..." );
+		return -1;
 	}
 
 	// Ошибка сканирования
@@ -190,12 +185,24 @@ static void wifi_sntp_task( void* pvParameter )
 	{
 		esp_sntp_config_t config = ESP_NETIF_SNTP_DEFAULT_CONFIG( "pool.ntp.org" );
 		esp_netif_sntp_init( &config );
+
+		esp_sntp_setservername( 1, "time.google.com" );
+		esp_sntp_setservername( 2, "time.windows.com" );
 	}
 
 	ESP_LOGI( TAG, "Waiting for system time to be set..." );
 
-	// Блокировка происходит ТОЛЬКО внутри этой задачи
-	esp_err_t err = esp_netif_sntp_sync_wait( pdMS_TO_TICKS( 15000 ) );
+	// Дробим ожидание на мелкие куски. 30 раз по 2 секунды = 60 секунд.
+	esp_err_t err = ESP_FAIL;
+	for ( int i = 0; i < 30; i++ )
+	{
+		err = esp_netif_sntp_sync_wait( pdMS_TO_TICKS( 2000 ) );
+
+		if ( err == ESP_OK )
+			break; // Успешно получили время, выходим из цикла!
+
+		ESP_LOGW( TAG, "SNTP waiting... (%d/30)", i + 1 );
+	}
 
 	if ( err == ESP_OK )
 	{
@@ -204,9 +211,7 @@ static void wifi_sntp_task( void* pvParameter )
 		tzset();
 	}
 	else
-	{
-		ESP_LOGE( TAG, "Failed to get time from NTP!" );
-	}
+		ESP_LOGE( TAG, "Failed to get time from NTP after all retries!" );
 
 	// Задача выполнена - уничтожаем её, чтобы освободить память
 	vTaskDelete( NULL );

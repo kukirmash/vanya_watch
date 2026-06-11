@@ -35,16 +35,35 @@ static void back_btn_event_cb( lv_event_t* e )
 }
 
 //-----------------------------------------------------------------------------------------
+// Обработчик клика по конкретной сети в списке
+static void wifi_list_item_event_cb( lv_event_t* e )
+{
+	lv_obj_t* btn = lv_event_get_target( e );
+
+	lv_obj_t* ssid_label = lv_obj_get_child( btn, 0 );
+	const char* ssid = lv_label_get_text( ssid_label );
+	bool is_secure = ( lv_obj_get_child_count( btn ) == 3 );
+
+	ESP_LOGI( TAG, "User clicked on network: %s", ssid );
+
+#if ESP32
+	//if ( is_secure == false )
+	wifi_connect_to_ap( ssid, "15182615" );
+#endif
+}
+
+//-----------------------------------------------------------------------------------------
 static lv_obj_t* create_wifi_list_item( lv_obj_t* parent, const char* ssid, bool is_secure, int rssi )
 {
 	lv_obj_t* item = lv_button_create( parent );
 	lv_obj_set_size( item, lv_pct( 100 ), LV_SIZE_CONTENT );
-	lv_obj_set_style_bg_color( item, lv_color_hex( VW_DARK_GREY_COLOR_HEX ), LV_PART_MAIN );
-	lv_obj_set_style_radius( item, 16, LV_PART_MAIN );
-	lv_obj_set_style_pad_all( item, 15, LV_PART_MAIN );
 	lv_obj_set_layout( item, LV_LAYOUT_FLEX );
 	lv_obj_set_flex_flow( item, LV_FLEX_FLOW_ROW );
 	lv_obj_set_flex_align( item, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER );
+	lv_obj_add_event_cb( item, wifi_list_item_event_cb, LV_EVENT_CLICKED, NULL );
+	lv_obj_set_style_bg_color( item, lv_color_hex( VW_DARK_GREY_COLOR_HEX ), LV_PART_MAIN );
+	lv_obj_set_style_radius( item, 16, LV_PART_MAIN );
+	lv_obj_set_style_pad_all( item, 15, LV_PART_MAIN );
 
 	lv_obj_t* ssid_label = lv_label_create( item );
 	lv_label_set_text( ssid_label, ssid );
@@ -82,11 +101,11 @@ static void wifi_scan_task( void* arg )
 
 	if ( wifi_window != NULL && wifi_list_cont != NULL )
 	{
-		lv_obj_clean( wifi_list_cont ); // очищаем полностью контейнер
-
 		// Если Wi-Fi включен - рисуем список
-		if ( wifi_cfg.is_enabled )
+		if ( wifi_cfg.is_enabled && ap_count >= 0 )
 		{
+			lv_obj_clean( wifi_list_cont ); // очищаем полностью контейнер
+
 			if ( ap_count > 0 )
 			{
 				for ( int i = 0; i < ap_count; i++ )
@@ -136,7 +155,7 @@ static void current_network_observer_cb( lv_observer_t* observer, lv_subject_t* 
 
 	if ( wifi_data->is_connected && wifi_data->ssid[0] != '\0' )
 	{
-		lv_label_set_text_fmt( label, "Connected: %s", wifi_data->ssid );
+		lv_label_set_text( label, wifi_data->ssid );
 		lv_obj_set_style_text_color( label, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
 	}
 	else if ( wifi_data->is_enabled )
