@@ -34,5 +34,9 @@ void wifi_connect_to_ap(const char* ssid, const char* password);
 void wifi_sntp_sync_time(void);
 
 //-----------------------------------------------------------------------------------------
+// Включение/выключение Wi-Fi модуля
+void wifi_set_state(bool enable);
+
+//-----------------------------------------------------------------------------------------
 
 #endif // VW_WIFI_H
