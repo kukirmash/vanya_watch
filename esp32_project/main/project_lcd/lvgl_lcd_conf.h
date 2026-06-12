@@ -5,7 +5,7 @@
 #include "config/module_config.h"
 #include "lvgl.h"
 
-LV_FONT_DECLARE(science_gothic_14); LV_FONT_DECLARE(science_gothic_18); LV_FONT_DECLARE(science_gothic_22);
+LV_FONT_DECLARE( science_gothic_14 ); LV_FONT_DECLARE( science_gothic_18 ); LV_FONT_DECLARE( science_gothic_22 );
 
 //-----------------------------------------------------------------------------------------
 // Режимы работы
@@ -14,23 +14,24 @@ LV_FONT_DECLARE(science_gothic_14); LV_FONT_DECLARE(science_gothic_18); LV_FONT_
 
 //-----------------------------------------------------------------------------------------
 // Цвета
-#define VW_PRIMARY_COLOR_HEX                  0xFEB563
-#define VW_SECONDARY_COLOR_HEX                0x838383
+#define VW_PRIMARY_COLOR_HEX        0xFEB563
+#define VW_SECONDARY_COLOR_HEX      0x838383
 
-#define VW_GREY_COLOR_HEX                     0x8E8E93
-#define VW_DARK_GREY_COLOR_HEX                0x1C1C1E
+#define VW_GREY_COLOR_HEX           0x8E8E93
+#define VW_DARK_GREY_COLOR_HEX      0x1C1C1E
 
 //-----------------------------------------------------------------------------------------
 // Шрифты
-#define VW_FONT_14                    &science_gothic_14
-#define VW_FONT_18                    &science_gothic_18
-#define VW_FONT_22                    &science_gothic_22
+#define VW_FONT_14                  &science_gothic_14
+#define VW_FONT_18                  &science_gothic_18
+#define VW_FONT_22                  &science_gothic_22
 
 //-----------------------------------------------------------------------------------------
 // Cимволы
-#define VW_SYMBOL_WIFI_LOW                         "\xEF\x9A\xAA"
-#define VW_SYMBOL_WIFI_MID                         "\xEF\x9A\xAB"
-#define VW_SYMBOL_BIRGHTNESS                       "\xEE\x83\x89"
+#define VW_SYMBOL_WIFI_LOW      	"\xEF\x9A\xAA"
+#define VW_SYMBOL_WIFI_MID      	"\xEF\x9A\xAB"
+#define VW_SYMBOL_BIRGHTNESS    	"\xEE\x83\x89"
+#define VW_SYMBOL_LOCK				"\xEF\x80\xA3"
 
 //-----------------------------------------------------------------------------------------
 

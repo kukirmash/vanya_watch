@@ -645,172 +645,172 @@ LV_IMAGE_DECLARE( img_5_0_46 );
 
 //-----------------------------------------------------------------------------------------
 static const lv_image_dsc_t* anim_01_imgs[46] = {
-    &img_0_1_01, &img_0_1_02, &img_0_1_03, &img_0_1_04,
-    &img_0_1_05, &img_0_1_06, &img_0_1_07, &img_0_1_08, &img_0_1_09,
-    &img_0_1_10, &img_0_1_11, &img_0_1_12, &img_0_1_13, &img_0_1_14,
-    &img_0_1_15, &img_0_1_16, &img_0_1_17, &img_0_1_18, &img_0_1_19,
-    &img_0_1_20, &img_0_1_21, &img_0_1_22, &img_0_1_23, &img_0_1_24,
-    &img_0_1_25, &img_0_1_26, &img_0_1_27, &img_0_1_28, &img_0_1_29,
-    &img_0_1_30, &img_0_1_31, &img_0_1_32, &img_0_1_33, &img_0_1_34,
-    &img_0_1_35, &img_0_1_36, &img_0_1_37, &img_0_1_38, &img_0_1_39,
-    &img_0_1_40, &img_0_1_41, &img_0_1_42, &img_0_1_43, &img_0_1_44,
-    &img_0_1_45, &img_0_1_46 };
+	&img_0_1_01, &img_0_1_02, &img_0_1_03, &img_0_1_04,
+	&img_0_1_05, &img_0_1_06, &img_0_1_07, &img_0_1_08, &img_0_1_09,
+	&img_0_1_10, &img_0_1_11, &img_0_1_12, &img_0_1_13, &img_0_1_14,
+	&img_0_1_15, &img_0_1_16, &img_0_1_17, &img_0_1_18, &img_0_1_19,
+	&img_0_1_20, &img_0_1_21, &img_0_1_22, &img_0_1_23, &img_0_1_24,
+	&img_0_1_25, &img_0_1_26, &img_0_1_27, &img_0_1_28, &img_0_1_29,
+	&img_0_1_30, &img_0_1_31, &img_0_1_32, &img_0_1_33, &img_0_1_34,
+	&img_0_1_35, &img_0_1_36, &img_0_1_37, &img_0_1_38, &img_0_1_39,
+	&img_0_1_40, &img_0_1_41, &img_0_1_42, &img_0_1_43, &img_0_1_44,
+	&img_0_1_45, &img_0_1_46 };
 
 //-----------------------------------------------------------------------------------------
 static const lv_image_dsc_t* anim_12_imgs[46] = {
-    &img_1_2_01, &img_1_2_02, &img_1_2_03, &img_1_2_04,
-    &img_1_2_05, &img_1_2_06, &img_1_2_07, &img_1_2_08, &img_1_2_09,
-    &img_1_2_10, &img_1_2_11, &img_1_2_12, &img_1_2_13, &img_1_2_14,
-    &img_1_2_15, &img_1_2_16, &img_1_2_17, &img_1_2_18, &img_1_2_19,
-    &img_1_2_20, &img_1_2_21, &img_1_2_22, &img_1_2_23, &img_1_2_24,
-    &img_1_2_25, &img_1_2_26, &img_1_2_27, &img_1_2_28, &img_1_2_29,
-    &img_1_2_30, &img_1_2_31, &img_1_2_32, &img_1_2_33, &img_1_2_34,
-    &img_1_2_35, &img_1_2_36, &img_1_2_37, &img_1_2_38, &img_1_2_39,
-    &img_1_2_40, &img_1_2_41, &img_1_2_42, &img_1_2_43, &img_1_2_44,
-    &img_1_2_45, &img_1_2_46 };
+	&img_1_2_01, &img_1_2_02, &img_1_2_03, &img_1_2_04,
+	&img_1_2_05, &img_1_2_06, &img_1_2_07, &img_1_2_08, &img_1_2_09,
+	&img_1_2_10, &img_1_2_11, &img_1_2_12, &img_1_2_13, &img_1_2_14,
+	&img_1_2_15, &img_1_2_16, &img_1_2_17, &img_1_2_18, &img_1_2_19,
+	&img_1_2_20, &img_1_2_21, &img_1_2_22, &img_1_2_23, &img_1_2_24,
+	&img_1_2_25, &img_1_2_26, &img_1_2_27, &img_1_2_28, &img_1_2_29,
+	&img_1_2_30, &img_1_2_31, &img_1_2_32, &img_1_2_33, &img_1_2_34,
+	&img_1_2_35, &img_1_2_36, &img_1_2_37, &img_1_2_38, &img_1_2_39,
+	&img_1_2_40, &img_1_2_41, &img_1_2_42, &img_1_2_43, &img_1_2_44,
+	&img_1_2_45, &img_1_2_46 };
 
 //-----------------------------------------------------------------------------------------
 static const lv_image_dsc_t* anim_23_imgs[46] = {
-    &img_2_3_01, &img_2_3_02, &img_2_3_03, &img_2_3_04,
-    &img_2_3_05, &img_2_3_06, &img_2_3_07, &img_2_3_08, &img_2_3_09,
-    &img_2_3_10, &img_2_3_11, &img_2_3_12, &img_2_3_13, &img_2_3_14,
-    &img_2_3_15, &img_2_3_16, &img_2_3_17, &img_2_3_18, &img_2_3_19,
-    &img_2_3_20, &img_2_3_21, &img_2_3_22, &img_2_3_23, &img_2_3_24,
-    &img_2_3_25, &img_2_3_26, &img_2_3_27, &img_2_3_28, &img_2_3_29,
-    &img_2_3_30, &img_2_3_31, &img_2_3_32, &img_2_3_33, &img_2_3_34,
-    &img_2_3_35, &img_2_3_36, &img_2_3_37, &img_2_3_38, &img_2_3_39,
-    &img_2_3_40, &img_2_3_41, &img_2_3_42, &img_2_3_43, &img_2_3_44,
-    &img_2_3_45, &img_2_3_46 };
+	&img_2_3_01, &img_2_3_02, &img_2_3_03, &img_2_3_04,
+	&img_2_3_05, &img_2_3_06, &img_2_3_07, &img_2_3_08, &img_2_3_09,
+	&img_2_3_10, &img_2_3_11, &img_2_3_12, &img_2_3_13, &img_2_3_14,
+	&img_2_3_15, &img_2_3_16, &img_2_3_17, &img_2_3_18, &img_2_3_19,
+	&img_2_3_20, &img_2_3_21, &img_2_3_22, &img_2_3_23, &img_2_3_24,
+	&img_2_3_25, &img_2_3_26, &img_2_3_27, &img_2_3_28, &img_2_3_29,
+	&img_2_3_30, &img_2_3_31, &img_2_3_32, &img_2_3_33, &img_2_3_34,
+	&img_2_3_35, &img_2_3_36, &img_2_3_37, &img_2_3_38, &img_2_3_39,
+	&img_2_3_40, &img_2_3_41, &img_2_3_42, &img_2_3_43, &img_2_3_44,
+	&img_2_3_45, &img_2_3_46 };
 
 //-----------------------------------------------------------------------------------------
 static const lv_image_dsc_t* anim_34_imgs[46] = {
-    &img_3_4_01, &img_3_4_02, &img_3_4_03, &img_3_4_04,
-    &img_3_4_05, &img_3_4_06, &img_3_4_07, &img_3_4_08, &img_3_4_09,
-    &img_3_4_10, &img_3_4_11, &img_3_4_12, &img_3_4_13, &img_3_4_14,
-    &img_3_4_15, &img_3_4_16, &img_3_4_17, &img_3_4_18, &img_3_4_19,
-    &img_3_4_20, &img_3_4_21, &img_3_4_22, &img_3_4_23, &img_3_4_24,
-    &img_3_4_25, &img_3_4_26, &img_3_4_27, &img_3_4_28, &img_3_4_29,
-    &img_3_4_30, &img_3_4_31, &img_3_4_32, &img_3_4_33, &img_3_4_34,
-    &img_3_4_35, &img_3_4_36, &img_3_4_37, &img_3_4_38, &img_3_4_39,
-    &img_3_4_40, &img_3_4_41, &img_3_4_42, &img_3_4_43, &img_3_4_44,
-    &img_3_4_45, &img_3_4_46 };
+	&img_3_4_01, &img_3_4_02, &img_3_4_03, &img_3_4_04,
+	&img_3_4_05, &img_3_4_06, &img_3_4_07, &img_3_4_08, &img_3_4_09,
+	&img_3_4_10, &img_3_4_11, &img_3_4_12, &img_3_4_13, &img_3_4_14,
+	&img_3_4_15, &img_3_4_16, &img_3_4_17, &img_3_4_18, &img_3_4_19,
+	&img_3_4_20, &img_3_4_21, &img_3_4_22, &img_3_4_23, &img_3_4_24,
+	&img_3_4_25, &img_3_4_26, &img_3_4_27, &img_3_4_28, &img_3_4_29,
+	&img_3_4_30, &img_3_4_31, &img_3_4_32, &img_3_4_33, &img_3_4_34,
+	&img_3_4_35, &img_3_4_36, &img_3_4_37, &img_3_4_38, &img_3_4_39,
+	&img_3_4_40, &img_3_4_41, &img_3_4_42, &img_3_4_43, &img_3_4_44,
+	&img_3_4_45, &img_3_4_46 };
 
 //-----------------------------------------------------------------------------------------
 static const lv_image_dsc_t* anim_45_imgs[46] = {
-    &img_4_5_01, &img_4_5_02, &img_4_5_03, &img_4_5_04,
-    &img_4_5_05, &img_4_5_06, &img_4_5_07, &img_4_5_08, &img_4_5_09,
-    &img_4_5_10, &img_4_5_11, &img_4_5_12, &img_4_5_13, &img_4_5_14,
-    &img_4_5_15, &img_4_5_16, &img_4_5_17, &img_4_5_18, &img_4_5_19,
-    &img_4_5_20, &img_4_5_21, &img_4_5_22, &img_4_5_23, &img_4_5_24,
-    &img_4_5_25, &img_4_5_26, &img_4_5_27, &img_4_5_28, &img_4_5_29,
-    &img_4_5_30, &img_4_5_31, &img_4_5_32, &img_4_5_33, &img_4_5_34,
-    &img_4_5_35, &img_4_5_36, &img_4_5_37, &img_4_5_38, &img_4_5_39,
-    &img_4_5_40, &img_4_5_41, &img_4_5_42, &img_4_5_43, &img_4_5_44,
-    &img_4_5_45, &img_4_5_46 };
+	&img_4_5_01, &img_4_5_02, &img_4_5_03, &img_4_5_04,
+	&img_4_5_05, &img_4_5_06, &img_4_5_07, &img_4_5_08, &img_4_5_09,
+	&img_4_5_10, &img_4_5_11, &img_4_5_12, &img_4_5_13, &img_4_5_14,
+	&img_4_5_15, &img_4_5_16, &img_4_5_17, &img_4_5_18, &img_4_5_19,
+	&img_4_5_20, &img_4_5_21, &img_4_5_22, &img_4_5_23, &img_4_5_24,
+	&img_4_5_25, &img_4_5_26, &img_4_5_27, &img_4_5_28, &img_4_5_29,
+	&img_4_5_30, &img_4_5_31, &img_4_5_32, &img_4_5_33, &img_4_5_34,
+	&img_4_5_35, &img_4_5_36, &img_4_5_37, &img_4_5_38, &img_4_5_39,
+	&img_4_5_40, &img_4_5_41, &img_4_5_42, &img_4_5_43, &img_4_5_44,
+	&img_4_5_45, &img_4_5_46 };
 
 //-----------------------------------------------------------------------------------------
 static const lv_image_dsc_t* anim_56_imgs[46] = {
-    &img_5_6_01, &img_5_6_02, &img_5_6_03, &img_5_6_04,
-    &img_5_6_05, &img_5_6_06, &img_5_6_07, &img_5_6_08, &img_5_6_09,
-    &img_5_6_10, &img_5_6_11, &img_5_6_12, &img_5_6_13, &img_5_6_14,
-    &img_5_6_15, &img_5_6_16, &img_5_6_17, &img_5_6_18, &img_5_6_19,
-    &img_5_6_20, &img_5_6_21, &img_5_6_22, &img_5_6_23, &img_5_6_24,
-    &img_5_6_25, &img_5_6_26, &img_5_6_27, &img_5_6_28, &img_5_6_29,
-    &img_5_6_30, &img_5_6_31, &img_5_6_32, &img_5_6_33, &img_5_6_34,
-    &img_5_6_35, &img_5_6_36, &img_5_6_37, &img_5_6_38, &img_5_6_39,
-    &img_5_6_40, &img_5_6_41, &img_5_6_42, &img_5_6_43, &img_5_6_44,
-    &img_5_6_45, &img_5_6_46 };
+	&img_5_6_01, &img_5_6_02, &img_5_6_03, &img_5_6_04,
+	&img_5_6_05, &img_5_6_06, &img_5_6_07, &img_5_6_08, &img_5_6_09,
+	&img_5_6_10, &img_5_6_11, &img_5_6_12, &img_5_6_13, &img_5_6_14,
+	&img_5_6_15, &img_5_6_16, &img_5_6_17, &img_5_6_18, &img_5_6_19,
+	&img_5_6_20, &img_5_6_21, &img_5_6_22, &img_5_6_23, &img_5_6_24,
+	&img_5_6_25, &img_5_6_26, &img_5_6_27, &img_5_6_28, &img_5_6_29,
+	&img_5_6_30, &img_5_6_31, &img_5_6_32, &img_5_6_33, &img_5_6_34,
+	&img_5_6_35, &img_5_6_36, &img_5_6_37, &img_5_6_38, &img_5_6_39,
+	&img_5_6_40, &img_5_6_41, &img_5_6_42, &img_5_6_43, &img_5_6_44,
+	&img_5_6_45, &img_5_6_46 };
 
 //-----------------------------------------------------------------------------------------
 static const lv_image_dsc_t* anim_67_imgs[46] = {
-    &img_6_7_01, &img_6_7_02, &img_6_7_03, &img_6_7_04,
-    &img_6_7_05, &img_6_7_06, &img_6_7_07, &img_6_7_08, &img_6_7_09,
-    &img_6_7_10, &img_6_7_11, &img_6_7_12, &img_6_7_13, &img_6_7_14,
-    &img_6_7_15, &img_6_7_16, &img_6_7_17, &img_6_7_18, &img_6_7_19,
-    &img_6_7_20, &img_6_7_21, &img_6_7_22, &img_6_7_23, &img_6_7_24,
-    &img_6_7_25, &img_6_7_26, &img_6_7_27, &img_6_7_28, &img_6_7_29,
-    &img_6_7_30, &img_6_7_31, &img_6_7_32, &img_6_7_33, &img_6_7_34,
-    &img_6_7_35, &img_6_7_36, &img_6_7_37, &img_6_7_38, &img_6_7_39,
-    &img_6_7_40, &img_6_7_41, &img_6_7_42, &img_6_7_43, &img_6_7_44,
-    &img_6_7_45, &img_6_7_46 };
+	&img_6_7_01, &img_6_7_02, &img_6_7_03, &img_6_7_04,
+	&img_6_7_05, &img_6_7_06, &img_6_7_07, &img_6_7_08, &img_6_7_09,
+	&img_6_7_10, &img_6_7_11, &img_6_7_12, &img_6_7_13, &img_6_7_14,
+	&img_6_7_15, &img_6_7_16, &img_6_7_17, &img_6_7_18, &img_6_7_19,
+	&img_6_7_20, &img_6_7_21, &img_6_7_22, &img_6_7_23, &img_6_7_24,
+	&img_6_7_25, &img_6_7_26, &img_6_7_27, &img_6_7_28, &img_6_7_29,
+	&img_6_7_30, &img_6_7_31, &img_6_7_32, &img_6_7_33, &img_6_7_34,
+	&img_6_7_35, &img_6_7_36, &img_6_7_37, &img_6_7_38, &img_6_7_39,
+	&img_6_7_40, &img_6_7_41, &img_6_7_42, &img_6_7_43, &img_6_7_44,
+	&img_6_7_45, &img_6_7_46 };
 
 //-----------------------------------------------------------------------------------------
 static const lv_image_dsc_t* anim_78_imgs[46] = {
-    &img_7_8_01, &img_7_8_02, &img_7_8_03, &img_7_8_04,
-    &img_7_8_05, &img_7_8_06, &img_7_8_07, &img_7_8_08, &img_7_8_09,
-    &img_7_8_10, &img_7_8_11, &img_7_8_12, &img_7_8_13, &img_7_8_14,
-    &img_7_8_15, &img_7_8_16, &img_7_8_17, &img_7_8_18, &img_7_8_19,
-    &img_7_8_20, &img_7_8_21, &img_7_8_22, &img_7_8_23, &img_7_8_24,
-    &img_7_8_25, &img_7_8_26, &img_7_8_27, &img_7_8_28, &img_7_8_29,
-    &img_7_8_30, &img_7_8_31, &img_7_8_32, &img_7_8_33, &img_7_8_34,
-    &img_7_8_35, &img_7_8_36, &img_7_8_37, &img_7_8_38, &img_7_8_39,
-    &img_7_8_40, &img_7_8_41, &img_7_8_42, &img_7_8_43, &img_7_8_44,
-    &img_7_8_45, &img_7_8_46 };
+	&img_7_8_01, &img_7_8_02, &img_7_8_03, &img_7_8_04,
+	&img_7_8_05, &img_7_8_06, &img_7_8_07, &img_7_8_08, &img_7_8_09,
+	&img_7_8_10, &img_7_8_11, &img_7_8_12, &img_7_8_13, &img_7_8_14,
+	&img_7_8_15, &img_7_8_16, &img_7_8_17, &img_7_8_18, &img_7_8_19,
+	&img_7_8_20, &img_7_8_21, &img_7_8_22, &img_7_8_23, &img_7_8_24,
+	&img_7_8_25, &img_7_8_26, &img_7_8_27, &img_7_8_28, &img_7_8_29,
+	&img_7_8_30, &img_7_8_31, &img_7_8_32, &img_7_8_33, &img_7_8_34,
+	&img_7_8_35, &img_7_8_36, &img_7_8_37, &img_7_8_38, &img_7_8_39,
+	&img_7_8_40, &img_7_8_41, &img_7_8_42, &img_7_8_43, &img_7_8_44,
+	&img_7_8_45, &img_7_8_46 };
 
 //-----------------------------------------------------------------------------------------
 static const lv_image_dsc_t* anim_89_imgs[46] = {
-    &img_8_9_01, &img_8_9_02, &img_8_9_03, &img_8_9_04,
-    &img_8_9_05, &img_8_9_06, &img_8_9_07, &img_8_9_08, &img_8_9_09,
-    &img_8_9_10, &img_8_9_11, &img_8_9_12, &img_8_9_13, &img_8_9_14,
-    &img_8_9_15, &img_8_9_16, &img_8_9_17, &img_8_9_18, &img_8_9_19,
-    &img_8_9_20, &img_8_9_21, &img_8_9_22, &img_8_9_23, &img_8_9_24,
-    &img_8_9_25, &img_8_9_26, &img_8_9_27, &img_8_9_28, &img_8_9_29,
-    &img_8_9_30, &img_8_9_31, &img_8_9_32, &img_8_9_33, &img_8_9_34,
-    &img_8_9_35, &img_8_9_36, &img_8_9_37, &img_8_9_38, &img_8_9_39,
-    &img_8_9_40, &img_8_9_41, &img_8_9_42, &img_8_9_43, &img_8_9_44,
-    &img_8_9_45, &img_8_9_46 };
+	&img_8_9_01, &img_8_9_02, &img_8_9_03, &img_8_9_04,
+	&img_8_9_05, &img_8_9_06, &img_8_9_07, &img_8_9_08, &img_8_9_09,
+	&img_8_9_10, &img_8_9_11, &img_8_9_12, &img_8_9_13, &img_8_9_14,
+	&img_8_9_15, &img_8_9_16, &img_8_9_17, &img_8_9_18, &img_8_9_19,
+	&img_8_9_20, &img_8_9_21, &img_8_9_22, &img_8_9_23, &img_8_9_24,
+	&img_8_9_25, &img_8_9_26, &img_8_9_27, &img_8_9_28, &img_8_9_29,
+	&img_8_9_30, &img_8_9_31, &img_8_9_32, &img_8_9_33, &img_8_9_34,
+	&img_8_9_35, &img_8_9_36, &img_8_9_37, &img_8_9_38, &img_8_9_39,
+	&img_8_9_40, &img_8_9_41, &img_8_9_42, &img_8_9_43, &img_8_9_44,
+	&img_8_9_45, &img_8_9_46 };
 
 //-----------------------------------------------------------------------------------------
 static const lv_image_dsc_t* anim_90_imgs[46] = {
-    &img_9_0_01, &img_9_0_02, &img_9_0_03, &img_9_0_04,
-    &img_9_0_05, &img_9_0_06, &img_9_0_07, &img_9_0_08, &img_9_0_09,
-    &img_9_0_10, &img_9_0_11, &img_9_0_12, &img_9_0_13, &img_9_0_14,
-    &img_9_0_15, &img_9_0_16, &img_9_0_17, &img_9_0_18, &img_9_0_19,
-    &img_9_0_20, &img_9_0_21, &img_9_0_22, &img_9_0_23, &img_9_0_24,
-    &img_9_0_25, &img_9_0_26, &img_9_0_27, &img_9_0_28, &img_9_0_29,
-    &img_9_0_30, &img_9_0_31, &img_9_0_32, &img_9_0_33, &img_9_0_34,
-    &img_9_0_35, &img_9_0_36, &img_9_0_37, &img_9_0_38, &img_9_0_39,
-    &img_9_0_40, &img_9_0_41, &img_9_0_42, &img_9_0_43, &img_9_0_44,
-    &img_9_0_45, &img_9_0_46 };
+	&img_9_0_01, &img_9_0_02, &img_9_0_03, &img_9_0_04,
+	&img_9_0_05, &img_9_0_06, &img_9_0_07, &img_9_0_08, &img_9_0_09,
+	&img_9_0_10, &img_9_0_11, &img_9_0_12, &img_9_0_13, &img_9_0_14,
+	&img_9_0_15, &img_9_0_16, &img_9_0_17, &img_9_0_18, &img_9_0_19,
+	&img_9_0_20, &img_9_0_21, &img_9_0_22, &img_9_0_23, &img_9_0_24,
+	&img_9_0_25, &img_9_0_26, &img_9_0_27, &img_9_0_28, &img_9_0_29,
+	&img_9_0_30, &img_9_0_31, &img_9_0_32, &img_9_0_33, &img_9_0_34,
+	&img_9_0_35, &img_9_0_36, &img_9_0_37, &img_9_0_38, &img_9_0_39,
+	&img_9_0_40, &img_9_0_41, &img_9_0_42, &img_9_0_43, &img_9_0_44,
+	&img_9_0_45, &img_9_0_46 };
 
 //-----------------------------------------------------------------------------------------
 static const lv_image_dsc_t* anim_20_imgs[46] = {
-    &img_2_0_01, &img_2_0_02, &img_2_0_03, &img_2_0_04,
-    &img_2_0_05, &img_2_0_06, &img_2_0_07, &img_2_0_08, &img_2_0_09,
-    &img_2_0_10, &img_2_0_11, &img_2_0_12, &img_2_0_13, &img_2_0_14,
-    &img_2_0_15, &img_2_0_16, &img_2_0_17, &img_2_0_18, &img_2_0_19,
-    &img_2_0_20, &img_2_0_21, &img_2_0_22, &img_2_0_23, &img_2_0_24,
-    &img_2_0_25, &img_2_0_26, &img_2_0_27, &img_2_0_28, &img_2_0_29,
-    &img_2_0_30, &img_2_0_31, &img_2_0_32, &img_2_0_33, &img_2_0_34,
-    &img_2_0_35, &img_2_0_36, &img_2_0_37, &img_2_0_38, &img_2_0_39,
-    &img_2_0_40, &img_2_0_41, &img_2_0_42, &img_2_0_43, &img_2_0_44,
-    &img_2_0_45, &img_2_0_46 };
+	&img_2_0_01, &img_2_0_02, &img_2_0_03, &img_2_0_04,
+	&img_2_0_05, &img_2_0_06, &img_2_0_07, &img_2_0_08, &img_2_0_09,
+	&img_2_0_10, &img_2_0_11, &img_2_0_12, &img_2_0_13, &img_2_0_14,
+	&img_2_0_15, &img_2_0_16, &img_2_0_17, &img_2_0_18, &img_2_0_19,
+	&img_2_0_20, &img_2_0_21, &img_2_0_22, &img_2_0_23, &img_2_0_24,
+	&img_2_0_25, &img_2_0_26, &img_2_0_27, &img_2_0_28, &img_2_0_29,
+	&img_2_0_30, &img_2_0_31, &img_2_0_32, &img_2_0_33, &img_2_0_34,
+	&img_2_0_35, &img_2_0_36, &img_2_0_37, &img_2_0_38, &img_2_0_39,
+	&img_2_0_40, &img_2_0_41, &img_2_0_42, &img_2_0_43, &img_2_0_44,
+	&img_2_0_45, &img_2_0_46 };
 
 //-----------------------------------------------------------------------------------------
 static const lv_image_dsc_t* anim_30_imgs[46] = {
-    &img_3_0_01, &img_3_0_02, &img_3_0_03, &img_3_0_04,
-    &img_3_0_05, &img_3_0_06, &img_3_0_07, &img_3_0_08, &img_3_0_09,
-    &img_3_0_10, &img_3_0_11, &img_3_0_12, &img_3_0_13, &img_3_0_14,
-    &img_3_0_15, &img_3_0_16, &img_3_0_17, &img_3_0_18, &img_3_0_19,
-    &img_3_0_20, &img_3_0_21, &img_3_0_22, &img_3_0_23, &img_3_0_24,
-    &img_3_0_25, &img_3_0_26, &img_3_0_27, &img_3_0_28, &img_3_0_29,
-    &img_3_0_30, &img_3_0_31, &img_3_0_32, &img_3_0_33, &img_3_0_34,
-    &img_3_0_35, &img_3_0_36, &img_3_0_37, &img_3_0_38, &img_3_0_39,
-    &img_3_0_40, &img_3_0_41, &img_3_0_42, &img_3_0_43, &img_3_0_44,
-    &img_3_0_45, &img_3_0_46 };
+	&img_3_0_01, &img_3_0_02, &img_3_0_03, &img_3_0_04,
+	&img_3_0_05, &img_3_0_06, &img_3_0_07, &img_3_0_08, &img_3_0_09,
+	&img_3_0_10, &img_3_0_11, &img_3_0_12, &img_3_0_13, &img_3_0_14,
+	&img_3_0_15, &img_3_0_16, &img_3_0_17, &img_3_0_18, &img_3_0_19,
+	&img_3_0_20, &img_3_0_21, &img_3_0_22, &img_3_0_23, &img_3_0_24,
+	&img_3_0_25, &img_3_0_26, &img_3_0_27, &img_3_0_28, &img_3_0_29,
+	&img_3_0_30, &img_3_0_31, &img_3_0_32, &img_3_0_33, &img_3_0_34,
+	&img_3_0_35, &img_3_0_36, &img_3_0_37, &img_3_0_38, &img_3_0_39,
+	&img_3_0_40, &img_3_0_41, &img_3_0_42, &img_3_0_43, &img_3_0_44,
+	&img_3_0_45, &img_3_0_46 };
 
 //-----------------------------------------------------------------------------------------
 static const lv_image_dsc_t* anim_50_imgs[46] = {
-    &img_5_0_01, &img_5_0_02, &img_5_0_03, &img_5_0_04,
-    &img_5_0_05, &img_5_0_06, &img_5_0_07, &img_5_0_08, &img_5_0_09,
-    &img_5_0_10, &img_5_0_11, &img_5_0_12, &img_5_0_13, &img_5_0_14,
-    &img_5_0_15, &img_5_0_16, &img_5_0_17, &img_5_0_18, &img_5_0_19,
-    &img_5_0_20, &img_5_0_21, &img_5_0_22, &img_5_0_23, &img_5_0_24,
-    &img_5_0_25, &img_5_0_26, &img_5_0_27, &img_5_0_28, &img_5_0_29,
-    &img_5_0_30, &img_5_0_31, &img_5_0_32, &img_5_0_33, &img_5_0_34,
-    &img_5_0_35, &img_5_0_36, &img_5_0_37, &img_5_0_38, &img_5_0_39,
-    &img_5_0_40, &img_5_0_41, &img_5_0_42, &img_5_0_43, &img_5_0_44,
-    &img_5_0_45, &img_5_0_46 };
+	&img_5_0_01, &img_5_0_02, &img_5_0_03, &img_5_0_04,
+	&img_5_0_05, &img_5_0_06, &img_5_0_07, &img_5_0_08, &img_5_0_09,
+	&img_5_0_10, &img_5_0_11, &img_5_0_12, &img_5_0_13, &img_5_0_14,
+	&img_5_0_15, &img_5_0_16, &img_5_0_17, &img_5_0_18, &img_5_0_19,
+	&img_5_0_20, &img_5_0_21, &img_5_0_22, &img_5_0_23, &img_5_0_24,
+	&img_5_0_25, &img_5_0_26, &img_5_0_27, &img_5_0_28, &img_5_0_29,
+	&img_5_0_30, &img_5_0_31, &img_5_0_32, &img_5_0_33, &img_5_0_34,
+	&img_5_0_35, &img_5_0_36, &img_5_0_37, &img_5_0_38, &img_5_0_39,
+	&img_5_0_40, &img_5_0_41, &img_5_0_42, &img_5_0_43, &img_5_0_44,
+	&img_5_0_45, &img_5_0_46 };
 
 //-----------------------------------------------------------------------------------------
 static lv_obj_t* anim_h_tens;   // Десятки часов
@@ -819,6 +819,7 @@ static lv_obj_t* anim_m_tens;   // Десятки минут
 static lv_obj_t* anim_m_units;  // Единицы минут
 static lv_obj_t* date_label;    // Дата
 static lv_obj_t* battery_label; // Заряд батареи
+static lv_obj_t* wifi_label;	// Иконка Wi-Fi
 
 static uint8_t curr_h_tens = 255;
 static uint8_t curr_h_units = 255;
@@ -827,142 +828,236 @@ static uint8_t curr_m_units = 255;
 static uint8_t curr_day = 0;
 
 static const char* month_names[] = {
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December" };
+	"January", "February", "March", "April", "May", "June",
+	"July", "August", "September", "October", "November", "December" };
 
 //-----------------------------------------------------------------------------------------
 // Нужная анимация в зависимости от перехода цифры
 static const lv_image_dsc_t** get_anim_array( uint8_t from_digit, uint8_t to_digit )
 {
-    if ( from_digit == 0 && to_digit == 1 )
-        return ( const lv_image_dsc_t** )anim_01_imgs;
-    if ( from_digit == 1 && to_digit == 2 )
-        return ( const lv_image_dsc_t** )anim_12_imgs;
-    if ( from_digit == 2 && to_digit == 3 )
-        return ( const lv_image_dsc_t** )anim_23_imgs;
-    if ( from_digit == 3 && to_digit == 4 )
-        return ( const lv_image_dsc_t** )anim_34_imgs;
-    if ( from_digit == 4 && to_digit == 5 )
-        return ( const lv_image_dsc_t** )anim_45_imgs;
-    if ( from_digit == 5 && to_digit == 6 )
-        return ( const lv_image_dsc_t** )anim_56_imgs;
-    if ( from_digit == 6 && to_digit == 7 )
-        return ( const lv_image_dsc_t** )anim_67_imgs;
-    if ( from_digit == 7 && to_digit == 8 )
-        return ( const lv_image_dsc_t** )anim_78_imgs;
-    if ( from_digit == 8 && to_digit == 9 )
-        return ( const lv_image_dsc_t** )anim_89_imgs;
-    if ( from_digit == 9 && to_digit == 0 )
-        return ( const lv_image_dsc_t** )anim_90_imgs;
+	if ( from_digit == 0 && to_digit == 1 )
+		return ( const lv_image_dsc_t** )anim_01_imgs;
+	if ( from_digit == 1 && to_digit == 2 )
+		return ( const lv_image_dsc_t** )anim_12_imgs;
+	if ( from_digit == 2 && to_digit == 3 )
+		return ( const lv_image_dsc_t** )anim_23_imgs;
+	if ( from_digit == 3 && to_digit == 4 )
+		return ( const lv_image_dsc_t** )anim_34_imgs;
+	if ( from_digit == 4 && to_digit == 5 )
+		return ( const lv_image_dsc_t** )anim_45_imgs;
+	if ( from_digit == 5 && to_digit == 6 )
+		return ( const lv_image_dsc_t** )anim_56_imgs;
+	if ( from_digit == 6 && to_digit == 7 )
+		return ( const lv_image_dsc_t** )anim_67_imgs;
+	if ( from_digit == 7 && to_digit == 8 )
+		return ( const lv_image_dsc_t** )anim_78_imgs;
+	if ( from_digit == 8 && to_digit == 9 )
+		return ( const lv_image_dsc_t** )anim_89_imgs;
+	if ( from_digit == 9 && to_digit == 0 )
+		return ( const lv_image_dsc_t** )anim_90_imgs;
 
-    if ( from_digit == 2 && to_digit == 0 )
-        return ( const lv_image_dsc_t** )anim_20_imgs;
-    if ( from_digit == 3 && to_digit == 0 )
-        return ( const lv_image_dsc_t** )anim_30_imgs;
-    if ( from_digit == 5 && to_digit == 0 )
-        return ( const lv_image_dsc_t** )anim_50_imgs;
+	if ( from_digit == 2 && to_digit == 0 )
+		return ( const lv_image_dsc_t** )anim_20_imgs;
+	if ( from_digit == 3 && to_digit == 0 )
+		return ( const lv_image_dsc_t** )anim_30_imgs;
+	if ( from_digit == 5 && to_digit == 0 )
+		return ( const lv_image_dsc_t** )anim_50_imgs;
 
-    return ( const lv_image_dsc_t** )anim_01_imgs;
+	return ( const lv_image_dsc_t** )anim_01_imgs;
 }
 
 //-----------------------------------------------------------------------------------------
 static void play_transition( lv_obj_t* anim_obj, uint8_t from_digit, uint8_t to_digit )
 {
-    lv_animimg_set_src( anim_obj, ( const void** )get_anim_array( from_digit, to_digit ), 46 );
-    lv_animimg_start( anim_obj );
+	lv_animimg_set_src( anim_obj, ( const void** )get_anim_array( from_digit, to_digit ), 46 );
+	lv_animimg_start( anim_obj );
+}
+
+//-----------------------------------------------------------------------------------------
+// Вспомогательные функции для вычисления "правильного" предыдущего кадра
+
+// Для единиц минут (0..9 -> предыдущее 9)
+static uint8_t get_prev_m_units( uint8_t current )
+{
+	return ( current == 0 ) ? 9 : current - 1;
+}
+
+// Для десятков минут (0..5 -> предыдущее 5)
+static uint8_t get_prev_m_tens( uint8_t current )
+{
+	return ( current == 0 ) ? 5 : current - 1;
+}
+
+// Для десятков часов (0..2 -> предыдущее 2)
+static uint8_t get_prev_h_tens( uint8_t current )
+{
+	return ( current == 0 ) ? 2 : current - 1;
+}
+
+// Для единиц часов самая хитрая логика (переход полночи vs обычный десяток)
+static uint8_t get_prev_h_units( uint8_t current, uint8_t new_h_tens )
+{
+	if ( current == 0 )
+	{
+		// Если сейчас 00:xx (десятки равны 0), то прошлый час был 23:xx (единица = 3).
+		// Для 10:xx или 20:xx прошлый час заканчивался на 9 (09:xx или 19:xx).
+		return ( new_h_tens == 0 ) ? 3 : 9;
+	}
+	return current - 1;
 }
 
 //-----------------------------------------------------------------------------------------
 static void watchface_time_observer_cb( lv_observer_t* observer, lv_subject_t* subject )
 {
-    const pc_time_config* time_data = lv_subject_get_pointer( subject );
-    if ( !time_data )
-        return;
+	const pc_time_config* time_data = lv_subject_get_pointer( subject );
+	if ( !time_data )
+		return;
 
-    uint8_t new_h_tens = time_data->hour / 10;
-    uint8_t new_h_units = time_data->hour % 10;
-    uint8_t new_m_tens = time_data->minute / 10;
-    uint8_t new_m_units = time_data->minute % 10;
+	uint8_t new_h_tens = time_data->hour / 10;
+	uint8_t new_h_units = time_data->hour % 10;
+	uint8_t new_m_tens = time_data->minute / 10;
+	uint8_t new_m_units = time_data->minute % 10;
 
-    if ( curr_m_units == 255 )
-    {
-        uint8_t prev_m_units = ( new_m_units == 0 ) ? 9 : new_m_units - 1;
-        uint8_t prev_m_tens = ( new_m_tens == 0 ) ? 5 : new_m_tens - 1;
-        uint8_t prev_h_tens = ( new_h_tens == 0 ) ? 2 : new_h_tens - 1;
-        uint8_t prev_h_units = ( new_h_units == 0 ) ? ( new_h_tens == 0 ? 3 : 9 ) : new_h_units - 1;
+	// Вычисляем "естественные" (ожидаемые) предыдущие значения для каждой цифры
+	uint8_t prev_m_units = get_prev_m_units( new_m_units );
+	uint8_t prev_m_tens = get_prev_m_tens( new_m_tens );
+	uint8_t prev_h_tens = get_prev_h_tens( new_h_tens );
+	uint8_t prev_h_units = get_prev_h_units( new_h_units, new_h_tens );
 
-        play_transition( anim_m_units, prev_m_units, new_m_units );
-        play_transition( anim_m_tens, prev_m_tens, new_m_tens );
-        play_transition( anim_h_units, prev_h_units, new_h_units );
-        play_transition( anim_h_tens, prev_h_tens, new_h_tens );
-    }
-    else
-    {
-        if ( new_m_units != curr_m_units )
-            play_transition( anim_m_units, curr_m_units, new_m_units );
-        if ( new_m_tens != curr_m_tens )
-            play_transition( anim_m_tens, curr_m_tens, new_m_tens );
-        if ( new_h_units != curr_h_units )
-            play_transition( anim_h_units, curr_h_units, new_h_units );
-        if ( new_h_tens != curr_h_tens )
-            play_transition( anim_h_tens, curr_h_tens, new_h_tens );
-    }
+	if ( curr_m_units == 255 )
+	{
+		// Первый старт часов. Проигрываем плавное появление от естественного прошлого
+		play_transition( anim_m_units, prev_m_units, new_m_units );
+		play_transition( anim_m_tens, prev_m_tens, new_m_tens );
+		play_transition( anim_h_units, prev_h_units, new_h_units );
+		play_transition( anim_h_tens, prev_h_tens, new_h_tens );
+	}
+	else
+	{
+		if ( new_m_units != curr_m_units )
+		{
+			// Магия здесь: если время шло штатно, curr совпадет с prev.
+			// Если случился скачок SNTP, мы подменим начальную цифру на prev!
+			uint8_t from = ( curr_m_units == prev_m_units ) ? curr_m_units : prev_m_units;
+			play_transition( anim_m_units, from, new_m_units );
+		}
+		if ( new_m_tens != curr_m_tens )
+		{
+			uint8_t from = ( curr_m_tens == prev_m_tens ) ? curr_m_tens : prev_m_tens;
+			play_transition( anim_m_tens, from, new_m_tens );
+		}
+		if ( new_h_units != curr_h_units )
+		{
+			uint8_t from = ( curr_h_units == prev_h_units ) ? curr_h_units : prev_h_units;
+			play_transition( anim_h_units, from, new_h_units );
+		}
+		if ( new_h_tens != curr_h_tens )
+		{
+			uint8_t from = ( curr_h_tens == prev_h_tens ) ? curr_h_tens : prev_h_tens;
+			play_transition( anim_h_tens, from, new_h_tens );
+		}
+	}
 
-    curr_m_units = new_m_units;
-    curr_m_tens = new_m_tens;
-    curr_h_units = new_h_units;
-    curr_h_tens = new_h_tens;
+	// Сохраняем актуальный стейт
+	curr_m_units = new_m_units;
+	curr_m_tens = new_m_tens;
+	curr_h_units = new_h_units;
+	curr_h_tens = new_h_tens;
+}
+
+//-----------------------------------------------------------------------------------------
+// Наблюдатель за изменениями Wi-Fi для циферблата
+static void watchface_wifi_observer_cb( lv_observer_t* observer, lv_subject_t* subject )
+{
+	lv_obj_t* label = lv_observer_get_target( observer );
+	const pc_wifi_config* wifi_data = lv_subject_get_pointer( subject );
+
+	if ( !wifi_data )
+		return;
+
+	// Показываем иконку только если устройство подключено к сети
+	if ( wifi_data->is_connected )
+	{
+		const char* wifi_sym = LV_SYMBOL_WIFI;
+		if ( wifi_data->rssi < -75 )
+			wifi_sym = VW_SYMBOL_WIFI_LOW;
+		else if ( wifi_data->rssi < -60 )
+			wifi_sym = VW_SYMBOL_WIFI_MID;
+
+		lv_label_set_text( label, wifi_sym );
+	}
+	else
+	{
+		// Если не подключено - прячем иконку (оставляем пустоту)
+		lv_label_set_text( label, "" );
+	}
 }
 
 //-----------------------------------------------------------------------------------------
 void watchface_init( lv_obj_t* parent )
 {
-    date_label = lv_label_create( parent );
-    lv_obj_align( date_label, LV_ALIGN_TOP_MID, 0, 10 );
-    lv_obj_set_style_text_font( date_label, VW_FONT_18, LV_PART_MAIN );
-    lv_obj_set_style_text_color( date_label, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
-    lv_label_set_text( date_label, "" );
+	date_label = lv_label_create( parent );
+	lv_obj_align( date_label, LV_ALIGN_TOP_MID, 0, 10 );
+	lv_obj_set_style_text_font( date_label, VW_FONT_18, LV_PART_MAIN );
+	lv_obj_set_style_text_color( date_label, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
+	lv_label_set_text( date_label, "" );
 
-    anim_h_tens = lv_animimg_create( parent );
-    lv_obj_align( anim_h_tens, LV_ALIGN_TOP_LEFT, 7, 27 );
-    lv_animimg_set_duration( anim_h_tens, 1500 );
-    lv_animimg_set_repeat_count( anim_h_tens, 1 );
-    lv_animimg_set_src( anim_h_tens, ( const void** )anim_01_imgs, 46 );
-    lv_obj_set_style_image_recolor( anim_h_tens, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
-    lv_obj_set_style_image_recolor_opa( anim_h_tens, 255, LV_PART_MAIN );
+	anim_h_tens = lv_animimg_create( parent );
+	lv_obj_align( anim_h_tens, LV_ALIGN_TOP_LEFT, 7, 27 );
+	lv_animimg_set_duration( anim_h_tens, 1500 );
+	lv_animimg_set_repeat_count( anim_h_tens, 1 );
+	lv_animimg_set_src( anim_h_tens, ( const void** )anim_01_imgs, 46 );
+	lv_obj_set_style_image_recolor( anim_h_tens, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
+	lv_obj_set_style_image_recolor_opa( anim_h_tens, 255, LV_PART_MAIN );
 
-    anim_h_units = lv_animimg_create( parent );
-    lv_obj_align( anim_h_units, LV_ALIGN_TOP_RIGHT, -7, 27 );
-    lv_animimg_set_duration( anim_h_units, 1500 );
-    lv_animimg_set_repeat_count( anim_h_units, 1 );
-    lv_animimg_set_src( anim_h_units, ( const void** )anim_01_imgs, 46 );
-    lv_obj_set_style_image_recolor( anim_h_units, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
-    lv_obj_set_style_image_recolor_opa( anim_h_units, 255, LV_PART_MAIN );
+	anim_h_units = lv_animimg_create( parent );
+	lv_obj_align( anim_h_units, LV_ALIGN_TOP_RIGHT, -7, 27 );
+	lv_animimg_set_duration( anim_h_units, 1500 );
+	lv_animimg_set_repeat_count( anim_h_units, 1 );
+	lv_animimg_set_src( anim_h_units, ( const void** )anim_01_imgs, 46 );
+	lv_obj_set_style_image_recolor( anim_h_units, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
+	lv_obj_set_style_image_recolor_opa( anim_h_units, 255, LV_PART_MAIN );
 
-    anim_m_tens = lv_animimg_create( parent );
-    lv_obj_align( anim_m_tens, LV_ALIGN_BOTTOM_LEFT, 7, -27 );
-    lv_animimg_set_duration( anim_m_tens, 1500 );
-    lv_animimg_set_repeat_count( anim_m_tens, 1 );
-    lv_animimg_set_src( anim_m_tens, ( const void** )anim_01_imgs, 46 );
-    lv_obj_set_style_image_recolor( anim_m_tens, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
-    lv_obj_set_style_image_recolor_opa( anim_m_tens, 255, LV_PART_MAIN );
+	anim_m_tens = lv_animimg_create( parent );
+	lv_obj_align( anim_m_tens, LV_ALIGN_BOTTOM_LEFT, 7, -27 );
+	lv_animimg_set_duration( anim_m_tens, 1500 );
+	lv_animimg_set_repeat_count( anim_m_tens, 1 );
+	lv_animimg_set_src( anim_m_tens, ( const void** )anim_01_imgs, 46 );
+	lv_obj_set_style_image_recolor( anim_m_tens, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
+	lv_obj_set_style_image_recolor_opa( anim_m_tens, 255, LV_PART_MAIN );
 
-    anim_m_units = lv_animimg_create( parent );
-    lv_obj_align( anim_m_units, LV_ALIGN_BOTTOM_RIGHT, -7, -27 );
-    lv_animimg_set_duration( anim_m_units, 1500 );
-    lv_animimg_set_repeat_count( anim_m_units, 1 );
-    lv_animimg_set_src( anim_m_units, ( const void** )anim_01_imgs, 46 );
-    lv_obj_set_style_image_recolor( anim_m_units, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
-    lv_obj_set_style_image_recolor_opa( anim_m_units, 255, LV_PART_MAIN );
+	anim_m_units = lv_animimg_create( parent );
+	lv_obj_align( anim_m_units, LV_ALIGN_BOTTOM_RIGHT, -7, -27 );
+	lv_animimg_set_duration( anim_m_units, 1500 );
+	lv_animimg_set_repeat_count( anim_m_units, 1 );
+	lv_animimg_set_src( anim_m_units, ( const void** )anim_01_imgs, 46 );
+	lv_obj_set_style_image_recolor( anim_m_units, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
+	lv_obj_set_style_image_recolor_opa( anim_m_units, 255, LV_PART_MAIN );
 
-    battery_label = lv_label_create( parent );
-    lv_obj_align( battery_label, LV_ALIGN_BOTTOM_MID, 0, -10 );
-    lv_obj_set_style_text_font( battery_label, VW_FONT_18, LV_PART_MAIN );
-    lv_obj_set_style_text_color( battery_label, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
+	lv_obj_t* bottom_cont = lv_obj_create( parent );
+	lv_obj_set_size( bottom_cont, lv_pct( 100 ), 35 );
+	lv_obj_align( bottom_cont, LV_ALIGN_BOTTOM_MID, 0, 0 );
+	lv_obj_set_layout( bottom_cont, LV_LAYOUT_FLEX );
+	lv_obj_set_flex_flow( bottom_cont, LV_FLEX_FLOW_ROW );
+	lv_obj_set_flex_align( bottom_cont, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER );
+	lv_obj_set_style_bg_opa( bottom_cont, 0, LV_PART_MAIN );
+	lv_obj_set_style_border_width( bottom_cont, 0, LV_PART_MAIN );
+	lv_obj_set_style_pad_all( bottom_cont, 0, LV_PART_MAIN );
+	lv_obj_set_style_pad_gap( bottom_cont, 10, LV_PART_MAIN );
 
-    lv_label_bind_text( date_label, &subject_date_str, NULL );
-    lv_label_bind_text( battery_label, &subject_power_str, NULL );
-    lv_subject_add_observer_obj( &subject_time, watchface_time_observer_cb, parent, NULL );
+	wifi_label = lv_label_create( bottom_cont );
+	lv_obj_set_style_text_font( wifi_label, VW_FONT_18, LV_PART_MAIN );
+	lv_obj_set_style_text_color( wifi_label, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
+	lv_label_set_text( wifi_label, "" );
+
+	battery_label = lv_label_create( bottom_cont );
+	lv_obj_set_style_text_font( battery_label, VW_FONT_18, LV_PART_MAIN );
+	lv_obj_set_style_text_color( battery_label, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
+
+	lv_label_bind_text( date_label, &subject_date_str, NULL );
+	lv_label_bind_text( battery_label, &subject_power_str, NULL );
+	lv_subject_add_observer_obj( &subject_time, watchface_time_observer_cb, parent, NULL );
+	lv_subject_add_observer_obj( &subject_wifi, watchface_wifi_observer_cb, wifi_label, NULL ); // TODO: bind_text на икноку
 }
 
 //-----------------------------------------------------------------------------------------

@@ -30,7 +30,7 @@ static void wifi_event_handler( void* arg, esp_event_base_t event_base, int32_t 
 	else if ( event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED )
 	{
 		ESP_LOGW( TAG, "Disconnected from AP." );
-		project_config_set_wifi_status( false, "", "" );
+		project_config_set_wifi_status( false, "", "", 0, false );
 
 		// Если соединение пропало само(а не выключили сами или еще на подключились)
 		if ( s_allow_reconnect )
@@ -62,11 +62,22 @@ static void wifi_event_handler( void* arg, esp_event_base_t event_base, int32_t 
 
 		ESP_LOGI( TAG, "Successfully connected to AP - IP: %s", ip_str );
 
+		int8_t rssi = 0;
+		bool is_secure = false;
+		wifi_ap_record_t ap;
+		if ( esp_wifi_sta_get_ap_info( &ap ) == ESP_OK )
+		{
+			rssi = ap.rssi;
+			is_secure = ( ap.authmode != WIFI_AUTH_OPEN );
+		}
+
 		wifi_config_t conf;
 		esp_wifi_get_config( WIFI_IF_STA, &conf );
-		project_config_set_wifi_status( true, ( char* )conf.sta.ssid, ip_str );
 
-		wifi_sntp_sync_time();// сразу синхронизируем время
+		// Передаем новые данные в глобальный конфиг!
+		project_config_set_wifi_status( true, ( char* )conf.sta.ssid, ip_str, rssi, is_secure );
+
+		wifi_sntp_sync_time();
 	}
 }
 
@@ -244,7 +255,7 @@ void wifi_set_state( bool enable )
 		esp_wifi_disconnect();
 		esp_wifi_stop();
 		project_config_set_wifi_enabled( false );
-		project_config_set_wifi_status( false, "", "" );
+		project_config_set_wifi_status( false, "", "", 0, false );
 	}
 }
 

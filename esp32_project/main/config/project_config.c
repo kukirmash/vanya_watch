@@ -104,7 +104,7 @@ void project_config_set_power( uint8_t percent, uint32_t mv, bool charging )
 }
 
 //-----------------------------------------------------------------------------------------
-void project_config_set_wifi_status( bool connected, const char* ssid, const char* ip )
+void project_config_set_wifi_status( bool connected, const char* ssid, const char* ip, int8_t rssi, bool is_secure )
 {
 	lvgl_port_lock( 0 );
 
@@ -114,14 +114,18 @@ void project_config_set_wifi_status( bool connected, const char* ssid, const cha
 	bool changed =
 		( s_config.wifi.is_connected != connected ) ||
 		( strncmp( s_config.wifi.ssid, safe_ssid, sizeof( s_config.wifi.ssid ) ) != 0 ) ||
-		( strncmp( s_config.wifi.ip_address, safe_ip, sizeof( s_config.wifi.ip_address ) ) != 0 );
+		( strncmp( s_config.wifi.ip_address, safe_ip, sizeof( s_config.wifi.ip_address ) ) != 0 ) ||
+		( s_config.wifi.rssi != rssi ) ||
+		( s_config.wifi.is_secure != is_secure );
 
 	if ( changed )
 	{
 		s_config.wifi.is_connected = connected;
+		s_config.wifi.rssi = rssi;
+		s_config.wifi.is_secure = is_secure;
 
 		strncpy( s_config.wifi.ssid, safe_ssid, sizeof( s_config.wifi.ssid ) - 1 );
-		s_config.wifi.ssid[sizeof( s_config.wifi.ssid ) - 1] = '\0'; // Гарантируем нуль-терминатор
+		s_config.wifi.ssid[sizeof( s_config.wifi.ssid ) - 1] = '\0';
 
 		strncpy( s_config.wifi.ip_address, safe_ip, sizeof( s_config.wifi.ip_address ) - 1 );
 		s_config.wifi.ip_address[sizeof( s_config.wifi.ip_address ) - 1] = '\0';

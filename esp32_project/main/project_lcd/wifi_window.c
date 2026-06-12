@@ -74,12 +74,18 @@ static lv_obj_t* create_wifi_list_item( lv_obj_t* parent, const char* ssid, bool
 	if ( is_secure )
 	{
 		lv_obj_t* lock_icon = lv_label_create( item );
-		lv_label_set_text( lock_icon, LV_SYMBOL_WARNING );
+		lv_label_set_text( lock_icon, VW_SYMBOL_LOCK );
 		lv_obj_set_style_text_color( lock_icon, lv_color_hex( VW_GREY_COLOR_HEX ), LV_PART_MAIN );
+		lv_obj_set_style_text_font( lock_icon, VW_FONT_14, LV_PART_MAIN );
 	}
 
+	const char* wifi_sym = LV_SYMBOL_WIFI;
+	if ( rssi < -75 )
+		wifi_sym = VW_SYMBOL_WIFI_LOW;
+	else if ( rssi < -60 )
+		wifi_sym = VW_SYMBOL_WIFI_MID;
 	lv_obj_t* signal_icon = lv_label_create( item );
-	lv_label_set_text( signal_icon, LV_SYMBOL_WIFI );
+	lv_label_set_text( signal_icon, wifi_sym );
 	lv_obj_set_style_text_color( signal_icon, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
 
 	return item;
@@ -110,8 +116,10 @@ static void wifi_scan_task( void* arg )
 			{
 				for ( int i = 0; i < ap_count; i++ )
 				{
-					bool is_secure = ( ap_info[i].authmode != WIFI_AUTH_OPEN );
+					if ( wifi_cfg.is_connected && strcmp( ( const char* )ap_info[i].ssid, wifi_cfg.ssid ) == 0 )
+						continue;
 
+					bool is_secure = ( ap_info[i].authmode != WIFI_AUTH_OPEN );
 					create_wifi_list_item( wifi_list_cont, ( const char* )ap_info[i].ssid, is_secure, ap_info[i].rssi );
 				}
 			}

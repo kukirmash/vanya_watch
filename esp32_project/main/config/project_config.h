@@ -38,7 +38,9 @@ typedef struct {
 	bool is_connected;
 	char ssid[32];
 	char ip_address[16];
-} pc_wifi_config;
+	int8_t rssi;
+	bool is_secure;
+} pc_wifi_config; // TODO: хранить сразу wifi_ap_record_t
 
 //-----------------------------------------------------------------------------------------
 // Глобальная структура
@@ -65,7 +67,7 @@ void project_config_init( void );
 // Сеттеры (для записи из рабочих потоков)
 void project_config_set_time( uint8_t h, uint8_t m, uint8_t s, uint8_t d, uint8_t mo, uint16_t y );
 void project_config_set_power( uint8_t percent, uint32_t mv, bool charging );
-void project_config_set_wifi_status( bool connected, const char* ssid, const char* ip );
+void project_config_set_wifi_status( bool connected, const char* ssid, const char* ip, int8_t rssi, bool is_secure );
 void project_config_set_wifi_enabled( bool enabled );
 
 //-----------------------------------------------------------------------------------------
