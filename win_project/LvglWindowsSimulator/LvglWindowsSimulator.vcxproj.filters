@@ -2117,6 +2117,9 @@
     <ClInclude Include="project_lcd\wifi_window.h">
       <Filter>project_lcd</Filter>
     </ClInclude>
+    <ClInclude Include="project_lcd\keyboard_window.h">
+      <Filter>project_lcd</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="LvglWindowsSimulator.manifest" />
@@ -6554,6 +6557,15 @@
     <ClCompile Include="project_lcd\wifi_window.c">
       <Filter>project_lcd</Filter>
     </ClCompile>
+    <ClCompile Include="config\project_config.c">
+      <Filter>config</Filter>
+    </ClCompile>
+    <ClCompile Include="config\module_config.c">
+      <Filter>config</Filter>
+    </ClCompile>
+    <ClCompile Include="project_lcd\keyboard_window.c">
+      <Filter>project_lcd</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="freetype">
@@ -8565,6 +8577,9 @@
     </Filter>
     <Filter Include="project_lcd\fonts\science_gothic">
       <UniqueIdentifier>{f503b42e-7032-41a3-a8bc-c46e7d4231b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="project_lcd\NewFilter1">
+      <UniqueIdentifier>{4121edfa-a36a-489e-9029-e093672bb32b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

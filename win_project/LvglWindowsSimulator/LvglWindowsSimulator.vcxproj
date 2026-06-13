@@ -741,6 +741,7 @@
     <ClInclude Include="lv_conf.h" />
     <ClInclude Include="project_lcd\control_center.h" />
     <ClInclude Include="project_lcd\demo_sequential.h" />
+    <ClInclude Include="project_lcd\keyboard_window.h" />
     <ClInclude Include="project_lcd\lvgl_lcd_conf.h" />
     <ClInclude Include="project_lcd\project_lcd_main.h" />
     <ClInclude Include="project_lcd\watchface.h" />
@@ -4234,6 +4235,8 @@
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
+    <ClCompile Include="config\module_config.c" />
+    <ClCompile Include="config\project_config.c" />
     <ClCompile Include="LvglWindowsSimulator.cpp" />
     <ClCompile Include="project_lcd\control_center.c" />
     <ClCompile Include="project_lcd\demo_sequential.c" />
@@ -4838,6 +4841,7 @@
     <ClCompile Include="project_lcd\images\watchface2\img_9_0_44.c" />
     <ClCompile Include="project_lcd\images\watchface2\img_9_0_45.c" />
     <ClCompile Include="project_lcd\images\watchface2\img_9_0_46.c" />
+    <ClCompile Include="project_lcd\keyboard_window.c" />
     <ClCompile Include="project_lcd\project_lcd_main.c" />
     <ClCompile Include="project_lcd\watchface.c" />
     <ClCompile Include="project_lcd\wifi_window.c" />

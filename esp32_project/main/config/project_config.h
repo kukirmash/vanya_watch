@@ -37,6 +37,7 @@ typedef struct {
 	bool is_enabled;
 	bool is_connected;
 	char ssid[32];
+	char password[64];
 	char ip_address[16];
 	int8_t rssi;
 	bool is_secure;
@@ -72,7 +73,6 @@ void project_config_set_wifi_enabled( bool enabled );
 
 //-----------------------------------------------------------------------------------------
 // Геттеры (для чтения из UI / LVGL потока)
-// Мы передаем указатель, куда скопировать безопасные данные
 void project_config_get_time( pc_time_config* out_time );
 void project_config_get_power( pc_power_config* out_power );
 void project_config_get_wifi( pc_wifi_config* out_wifi );

@@ -13,6 +13,9 @@
 #include <stdio.h>
 #define LOGI(TAG, format, ...) printf("I (%lu) %s: " format "\n", (unsigned long)clock(), TAG, ##__VA_ARGS__)
 
+void lvgl_port_lock( int t );
+void lvgl_port_unlock();
+
 #elif ESP32
 #include "esp_log.h"
 

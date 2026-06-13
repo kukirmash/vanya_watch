@@ -5,6 +5,7 @@
 #include "lvgl/lvgl.h"
 
 #include "project_lcd/project_lcd_main.h"
+#include "config/project_config.h"
 
 int main()
 {
@@ -71,6 +72,8 @@ int main()
     {
         return -1;
     }
+
+    project_config_init();
 
     lvgl_lcd();
 

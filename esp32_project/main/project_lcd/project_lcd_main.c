@@ -2,7 +2,6 @@
 
 #if MOD_LVGL_LCD
 
-#include "../board/lcd.h"// TODO: VW_LCD_H_RES вынести в project_config
 #include "esp_log.h"
 #include "esp_check.h"
 #include "esp_lvgl_port.h"
