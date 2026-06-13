@@ -156,8 +156,10 @@ void wifi_connect_to_ap( const char* ssid, const char* password )
 	if ( !pc_wifi_cfg.is_enabled )
 		return;
 
-	s_retry_num = 0;
-	s_allow_reconnect = true;
+	s_allow_reconnect = false;
+
+	esp_wifi_disconnect();
+	vTaskDelay( pdMS_TO_TICKS( 30 ) ); // на обработку разрыва и сброс состояния
 
 	wifi_config_t wifi_config = { 0 };
 	strncpy( ( char* )wifi_config.sta.ssid, ssid, sizeof( wifi_config.sta.ssid ) );
@@ -173,7 +175,9 @@ void wifi_connect_to_ap( const char* ssid, const char* password )
 
 	ESP_LOGI( TAG, "Connecting to AP: %s", ssid );
 
-	esp_wifi_disconnect();
+	s_retry_num = 0;
+	s_allow_reconnect = true;
+
 	ESP_ERROR_CHECK( esp_wifi_connect() );
 }
 
