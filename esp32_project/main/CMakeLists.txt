@@ -13,6 +13,7 @@ idf_component_register(
 
         "project_lcd/control_center.c"
         "project_lcd/demo_sequential.c"
+        "project_lcd/keyboard_window.c"
         "project_lcd/project_lcd_main.c"
         "project_lcd/watchface.c"
         "project_lcd/wifi_window.c"

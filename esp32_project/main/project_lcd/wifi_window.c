@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------------------
 #include "../config/project_config.h"
 #include "esp_lvgl_port.h"
+#include "keyboard_window.h"
 
 #if ESP32
 #include "board/wifi.h"
@@ -16,6 +17,9 @@ static lv_obj_t* wifi_window = NULL;
 static lv_obj_t* wifi_list_cont = NULL;
 static lv_timer_t* scan_timer = NULL;
 static bool is_scanning = false;
+
+static char target_ssid[ 32 ] = { 0 };
+static char temp_password[ 64 ] = { 0 };
 
 //-----------------------------------------------------------------------------------------
 static void back_btn_event_cb( lv_event_t* e )
@@ -35,21 +39,52 @@ static void back_btn_event_cb( lv_event_t* e )
 }
 
 //-----------------------------------------------------------------------------------------
+// Функция, которая вызовется, когда мы нажмем Done на клавиатуре
+static void on_wifi_password_done( const char* entered_password )
+{
+    LOGI( TAG, "Connecting to %s with password: %s", target_ssid, entered_password );
+#if ESP32
+    wifi_connect_to_ap( target_ssid, entered_password );
+#endif
+}
+
+//-----------------------------------------------------------------------------------------
 // Обработчик клика по конкретной сети в списке
 static void wifi_list_item_event_cb( lv_event_t* e )
 {
-	lv_obj_t* btn = lv_event_get_target( e );
+    lv_obj_t* btn = lv_event_get_target( e );
 
-	lv_obj_t* ssid_label = lv_obj_get_child( btn, 0 );
-	const char* ssid = lv_label_get_text( ssid_label );
-	bool is_secure = ( lv_obj_get_child_count( btn ) == 3 );
+    lv_obj_t* ssid_label = lv_obj_get_child( btn, 0 );
+    const char* ssid = lv_label_get_text( ssid_label );
+    bool is_secure = ( lv_obj_get_child_count( btn ) == 3 );
 
-	ESP_LOGI( TAG, "User clicked on network: %s", ssid );
+    LOGI( TAG, "User clicked on network: %s", ssid );
 
+    // Сохраняем имя сети в статический буфер (он дождется кнопки Done)
+    strncpy( target_ssid, ssid, sizeof( target_ssid ) - 1 );
+    target_ssid[ sizeof( target_ssid ) - 1 ] = '\0';
+
+    if ( is_secure )
+    {
+        // Очищаем статический буфер пароля перед новым вводом
+        memset( temp_password, 0, sizeof( temp_password ) );
+
+        keyboard_window_create(
+            target_ssid,               // Заголовок - имя сети
+            temp_password,             // СТАТИЧЕСКИЙ БУФЕР (Не уничтожится!)
+            sizeof( temp_password ),   // Размер
+            KB_INPUT_PASSWORD,         // Тип - скрытый пароль
+            on_wifi_password_done      // Что делать после "Done"
+        );
+    }
+    else
+    {
+        // Если сеть без пароля - подключаемся сразу
+        LOGI( TAG, "Network is open, connecting directly..." );
 #if ESP32
-	//if ( is_secure == false )
-	wifi_connect_to_ap( ssid, "15182615" );
+        wifi_connect_to_ap( target_ssid, "" );
 #endif
+    }
 }
 
 //-----------------------------------------------------------------------------------------
@@ -186,13 +221,13 @@ static void wifi_switch_event_cb( lv_event_t* e )
 
 #if ESP32
 	wifi_set_state( is_on );
-	scan_timer_cb( NULL );
+#elif WINDOWS
+    project_config_set_wifi_enabled( is_on );
 #endif
 
-	if ( !is_on && wifi_list_cont != NULL )
-	{
-		lv_obj_clean( wifi_list_cont );
-	}
+    scan_timer_cb( NULL );
+    if (!is_on && wifi_list_cont != NULL)
+        lv_obj_clean( wifi_list_cont );
 }
 
 //-----------------------------------------------------------------------------------------
@@ -224,7 +259,7 @@ void wifi_window_create( void )
 	lv_obj_set_style_pad_ver( header, 0, LV_PART_MAIN );
 
 	// Кнопка "Назад"
-	lv_obj_t* back_btn = lv_btn_create( header );
+	lv_obj_t* back_btn = lv_button_create( header );
 	lv_obj_align( back_btn, LV_ALIGN_BOTTOM_LEFT, 0, 0 );
 	lv_obj_add_event_cb( back_btn, back_btn_event_cb, LV_EVENT_CLICKED, NULL );
 	lv_obj_set_style_bg_opa( back_btn, 0, LV_PART_MAIN );

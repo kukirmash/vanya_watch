@@ -1,9 +1,11 @@
 #include "project_config.h"
 
+#if ESP32
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
 
 #include "esp_lvgl_port.h"
+#endif // ESP32
 
 #include <string.h>
 
