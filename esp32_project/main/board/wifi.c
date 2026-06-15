@@ -1,6 +1,7 @@
 #include "wifi.h"
 
 #include "nvs_flash.h"
+#include "nvs.h"
 #include "esp_log.h"
 #include "esp_netif.h"
 #include "esp_event.h"
@@ -10,33 +11,52 @@
 #include <string.h>
 
 #include "config/project_config.h"
+#include "weather.h"
 
 static const char* TAG = "WIFI";
 
-#define MAX_RETRY 5 // Лимит попыток подключения
+#define MAX_RETRY 5
 static int s_retry_num = 0;
-static bool s_allow_reconnect = false;// Флаг, разрешающий переподключение 
 
 //-----------------------------------------------------------------------------------------
-// Внутренний обработчик событий Wi-Fi (асинхронная работа)
+// Асинхронный обработчик событий от ядра ESP-IDF
 static void wifi_event_handler( void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data )
 {
-	// Wi-Fi запустился
 	if ( event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START )
 	{
-		ESP_LOGI( TAG, "Wi-Fi successfully started." );
+		ESP_LOGI( TAG, "Wi-Fi started." );
+
+		wifi_config_t conf;
+		if ( esp_wifi_get_config( WIFI_IF_STA, &conf ) == ESP_OK && conf.sta.ssid[0] != '\0' )
+		{
+			ESP_LOGI( TAG, "Auto-connecting to saved AP: %s", conf.sta.ssid );
+			project_config_set_wifi_state( WIFI_STATE_CONNECTING );
+			s_retry_num = 0;
+			esp_wifi_connect();
+		}
+		else
+		{
+			// Если сохраненной сети нет - просто переходим в режим поиска
+			project_config_set_wifi_state( WIFI_STATE_DISCONNECTED );
+		}
 	}
-	// Пропало соединение с точкей доступа Wi-Fi(или сами откючились)
 	else if ( event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED )
 	{
 		ESP_LOGW( TAG, "Disconnected from AP." );
-		project_config_set_wifi_status( false, "", "", 0, false );
+		project_config_set_wifi_connected_ap( NULL, NULL );
 
-		// Если соединение пропало само(а не выключили сами или еще на подключились)
-		if ( s_allow_reconnect )
+		project_config_lock();
+		project_config* pc = project_config_get();
+		pc_wifi_state_t current_state = pc->wifi.state;
+		project_config_unlock();
+
+		// Если мы были в процессе подключения или отвалились от сети, пробуем переподключиться
+		if ( current_state == WIFI_STATE_CONNECTING || current_state == WIFI_STATE_CONNECTED )
 		{
 			if ( s_retry_num < MAX_RETRY )
 			{
+				project_config_set_wifi_state( WIFI_STATE_CONNECTING );
+
 				esp_wifi_connect();
 				s_retry_num++;
 
@@ -44,17 +64,14 @@ static void wifi_event_handler( void* arg, esp_event_base_t event_base, int32_t 
 			}
 			else
 			{
-				ESP_LOGW( TAG, "Max retries reached. Stopping reconnects." );
-
-				s_allow_reconnect = false; // Отключаем авто-повтор
+				ESP_LOGW( TAG, "Max retries reached. Going to sleep mode." );
+				project_config_set_wifi_state( WIFI_STATE_DISCONNECTED );
 			}
 		}
 	}
-	// Успешно подлкючились к точке доступа Wi-Fi и получили ip адрес от dhcp
 	else if ( event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP )
 	{
-		s_retry_num = 0;
-		s_allow_reconnect = true; // Разрешаем переподключение в будущем при обрывах
+		s_retry_num = 0; // Сбрасываем попытки
 
 		ip_event_got_ip_t* event = ( ip_event_got_ip_t* )event_data;
 		char ip_str[16];
@@ -62,22 +79,198 @@ static void wifi_event_handler( void* arg, esp_event_base_t event_base, int32_t 
 
 		ESP_LOGI( TAG, "Successfully connected to AP - IP: %s", ip_str );
 
-		int8_t rssi = 0;
-		bool is_secure = false;
-		wifi_ap_record_t ap;
-		if ( esp_wifi_sta_get_ap_info( &ap ) == ESP_OK )
+		// Собираем данные
+		pc_ap_info ap = { 0 };
+		wifi_ap_record_t raw_ap;
+		if ( esp_wifi_sta_get_ap_info( &raw_ap ) == ESP_OK )
 		{
-			rssi = ap.rssi;
-			is_secure = ( ap.authmode != WIFI_AUTH_OPEN );
+			strncpy( ap.ssid, ( char* )raw_ap.ssid, sizeof( ap.ssid ) - 1 );
+			ap.rssi = raw_ap.rssi;
+			ap.is_secure = ( raw_ap.authmode != WIFI_AUTH_OPEN );
 		}
 
-		wifi_config_t conf;
-		esp_wifi_get_config( WIFI_IF_STA, &conf );
+		project_config_set_wifi_connected_ap( &ap, ip_str );
+		project_config_set_wifi_state( WIFI_STATE_CONNECTED );
+	}
+}
 
-		// Передаем новые данные в глобальный конфиг!
-		project_config_set_wifi_status( true, ( char* )conf.sta.ssid, ip_str, rssi, is_secure );
+//-----------------------------------------------------------------------------------------
+// Функция для выполнения сканирования
+static bool execute_wifi_scan( void )
+{
+	wifi_scan_config_t scan_config = { 0 };
+	if ( esp_wifi_scan_start( &scan_config, true ) == ESP_OK )
+	{
+		uint16_t ap_found = 0;
+		esp_wifi_scan_get_ap_num( &ap_found );
 
-		wifi_sntp_sync_time();
+		uint16_t number_to_get = ( ap_found > 15 ) ? 15 : ap_found;
+		wifi_ap_record_t ap_info[15];
+		esp_wifi_scan_get_ap_records( &number_to_get, ap_info );
+
+		pc_ap_info safe_list[15];
+		for ( int i = 0; i < number_to_get; i++ )
+		{
+			strncpy( safe_list[i].ssid, ( char* )ap_info[i].ssid, 32 );
+			safe_list[i].ssid[32] = '\0';
+			safe_list[i].rssi = ap_info[i].rssi;
+			safe_list[i].is_secure = ( ap_info[i].authmode != WIFI_AUTH_OPEN );
+		}
+		project_config_set_wifi_ap_list( safe_list, number_to_get );
+
+		return true;
+	}
+
+	return false;
+}
+
+//-----------------------------------------------------------------------------------------
+static bool execute_sntp_sync( void )
+{
+	ESP_LOGI( TAG, "Manager: Starting SNTP sync..." );
+
+	if ( !esp_sntp_enabled() )
+	{
+		esp_sntp_config_t sntp_cfg = ESP_NETIF_SNTP_DEFAULT_CONFIG( "pool.ntp.org" );
+		esp_netif_sntp_init( &sntp_cfg );
+		esp_sntp_setservername( 1, "time.google.com" );
+		esp_sntp_setservername( 2, "time.windows.com" );
+	}
+
+	for ( int i = 0; i < 5; i++ )
+	{
+		if ( esp_netif_sntp_sync_wait( pdMS_TO_TICKS( 2000 ) ) == ESP_OK )
+		{
+			ESP_LOGI( TAG, "Time synchronized successfully!" );
+			setenv( "TZ", "MSK-3", 1 );
+			tzset();
+			return true;
+		}
+	}
+
+	esp_netif_sntp_deinit();
+	ESP_LOGW( TAG, "Time was not synchronized" );
+	return false;
+}
+
+//-----------------------------------------------------------------------------------------
+static void wifi_task( void* arg )
+{
+	// TODO: константы для таймеров вынести в конфиг
+	uint32_t scan_timer = 15;
+	uint32_t sntp_timer = 86400; // 24 часа
+	uint32_t weather_timer = 3600; // 1 час
+
+	while ( 1 )
+	{
+		project_config_lock();
+		project_config* pc = project_config_get();
+		pc_wifi_state_t state = pc->wifi.state;
+		project_config_unlock();
+
+		scan_timer++;
+		sntp_timer++;
+		weather_timer++;
+
+		switch ( state )
+		{
+		case WIFI_STATE_DISABLED:
+		case WIFI_STATE_CONNECTING:
+		case WIFI_STATE_BUSY:
+			// Блокировка: ничего не делаем
+			break;
+
+		case WIFI_STATE_DISCONNECTED:
+		{
+			if ( scan_timer >= 10 )
+			{
+				project_config_set_wifi_state( WIFI_STATE_BUSY );
+				bool res = execute_wifi_scan(); // БЛОКИРУЕТ ПОТОК
+				if ( res )
+					scan_timer = 0;
+
+				project_config_lock();
+				if ( project_config_get()->wifi.state == WIFI_STATE_BUSY )
+					project_config_set_wifi_state( WIFI_STATE_DISCONNECTED );
+				project_config_unlock();
+			}
+			break;
+		}
+		case WIFI_STATE_CONNECTED:
+		{
+			// ПРИОРИТЕТ 1: SNTP
+			if ( sntp_timer >= 86400 )
+			{
+				project_config_set_wifi_state( WIFI_STATE_BUSY );
+				bool res = execute_sntp_sync(); // БЛОКИРУЕТ ПОТОК
+				if ( res )
+					sntp_timer = 0;
+
+				project_config_lock();
+				if ( project_config_get()->wifi.state == WIFI_STATE_BUSY )
+					project_config_set_wifi_state( WIFI_STATE_CONNECTED );
+				project_config_unlock();
+			}
+			// ПРИОРИТЕТ 2: Погода
+			else if ( weather_timer >= 3600 )
+			{
+				project_config_set_wifi_state( WIFI_STATE_BUSY );
+				bool res = weather_update_sync(); // БЛОКИРУЕТ ПОТОК
+				if ( res )
+					weather_timer = 0;
+
+				project_config_lock();
+				if ( project_config_get()->wifi.state == WIFI_STATE_BUSY )
+					project_config_set_wifi_state( WIFI_STATE_CONNECTED );
+				project_config_unlock();
+			}
+			// ПРИОРИТЕТ 3: Сканирование сетей
+			else if ( scan_timer >= 15 )
+			{
+				project_config_set_wifi_state( WIFI_STATE_BUSY );
+				bool res = execute_wifi_scan(); // БЛОКИРУЕТ ПОТОК
+				if ( res )
+					scan_timer = 0;
+
+				project_config_lock();
+				if ( project_config_get()->wifi.state == WIFI_STATE_BUSY )
+					project_config_set_wifi_state( WIFI_STATE_CONNECTED );
+				project_config_unlock();
+			}
+			break;
+		}
+		}
+
+		vTaskDelay( pdMS_TO_TICKS( 1000 ) );
+	}
+}
+
+//-----------------------------------------------------------------------------------------
+void wifi_set_state( bool enable )
+{
+	nvs_handle_t my_handle;
+	if ( nvs_open( "storage", NVS_READWRITE, &my_handle ) == ESP_OK )
+	{
+		nvs_set_u8( my_handle, "wifi_on", enable ? 1 : 0 );
+		nvs_commit( my_handle );
+		nvs_close( my_handle );
+	}
+
+	if ( enable )
+	{
+		ESP_LOGI( TAG, "Turning Wi-Fi ON" );
+		esp_wifi_start(); // Сгенерирует событие STA_START и переведет в DISCONNECTED
+	}
+	else
+	{
+		ESP_LOGI( TAG, "Turning Wi-Fi OFF" );
+		project_config_set_wifi_state( WIFI_STATE_DISABLED ); // Сразу глушим автомат
+
+		esp_wifi_disconnect();
+		esp_wifi_stop();
+
+		project_config_set_wifi_connected_ap( NULL, NULL );
+		project_config_set_wifi_ap_list( NULL, 0 );
 	}
 }
 
@@ -101,65 +294,36 @@ void wifi_init( void )
 
 	ESP_ERROR_CHECK( esp_event_handler_instance_register( WIFI_EVENT, ESP_EVENT_ANY_ID, &wifi_event_handler, NULL, NULL ) );
 	ESP_ERROR_CHECK( esp_event_handler_instance_register( IP_EVENT, IP_EVENT_STA_GOT_IP, &wifi_event_handler, NULL, NULL ) );
-}
 
-//-----------------------------------------------------------------------------------------
-int wifi_get_ap_info( int ap_count, wifi_ap_record_t* ap_info )
-{
-	if ( ap_info == NULL || ap_count <= 0 )
-		return 0;
+	xTaskCreate( wifi_task, "wifi_manager", 6144, NULL, 5, NULL );
 
-	ESP_ERROR_CHECK( esp_wifi_set_mode( WIFI_MODE_STA ) );
-
-	pc_wifi_config pc_wifi_cfg;
-	project_config_get_wifi( &pc_wifi_cfg );
-
-	if ( !pc_wifi_cfg.is_enabled )
-		return 0;
-
-	ESP_LOGI( TAG, "Starting Wi-Fi scan..." );
-
-	wifi_scan_config_t scan_config = { 0 };
-	esp_err_t scan_err = esp_wifi_scan_start( &scan_config, true );
-
-	// Wi-Fi сейчас подключается "STA is connecting" (ошибка 12294)
-	if ( scan_err == ESP_ERR_WIFI_STATE )
+	uint8_t wifi_was_on = 0;
+	nvs_handle_t my_handle;
+	if ( nvs_open( "storage", NVS_READONLY, &my_handle ) == ESP_OK )
 	{
-		ESP_LOGW( TAG, "Wi-Fi is busy connecting. Skipping scan for now..." );
-		return -1;
+		nvs_get_u8( my_handle, "wifi_on", &wifi_was_on );
+		nvs_close( my_handle );
 	}
 
-	// Ошибка сканирования
-	if ( scan_err != ESP_OK )
-	{
-		ESP_LOGE( TAG, "Scan failed: %d", scan_err );
-		return 0;
-	}
-
-	uint16_t number_to_get = ap_count;
-	uint16_t ap_found = 0;
-
-	esp_wifi_scan_get_ap_num( &ap_found );
-	esp_wifi_scan_get_ap_records( &number_to_get, ap_info );
-
-	ESP_LOGI( TAG, "Total APs found: %u, returned to array: %u", ap_found, number_to_get );
-
-	return ( int )number_to_get;
+	if ( wifi_was_on )
+		wifi_set_state( true );
 }
 
 //-----------------------------------------------------------------------------------------
 void wifi_connect_to_ap( const char* ssid, const char* password )
 {
-	pc_wifi_config pc_wifi_cfg;
-	project_config_get_wifi( &pc_wifi_cfg );
+	project_config_lock();
+	pc_wifi_state_t state = project_config_get()->wifi.state;
+	project_config_unlock();
 
-	if ( !pc_wifi_cfg.is_enabled )
+	if ( state == WIFI_STATE_DISABLED )
 		return;
 
-	s_allow_reconnect = false;
+	project_config_set_wifi_password( password );
+	project_config_set_wifi_state( WIFI_STATE_CONNECTING ); // Блокируем сканер
 
 	esp_wifi_disconnect();
-	vTaskDelay( pdMS_TO_TICKS( 30 ) ); // на обработку разрыва и сброс состояния
+	vTaskDelay( pdMS_TO_TICKS( 30 ) );
 
 	wifi_config_t wifi_config = { 0 };
 	strncpy( ( char* )wifi_config.sta.ssid, ssid, sizeof( wifi_config.sta.ssid ) );
@@ -176,91 +340,7 @@ void wifi_connect_to_ap( const char* ssid, const char* password )
 	ESP_LOGI( TAG, "Connecting to AP: %s", ssid );
 
 	s_retry_num = 0;
-	s_allow_reconnect = true;
-
 	ESP_ERROR_CHECK( esp_wifi_connect() );
-}
-
-//-----------------------------------------------------------------------------------------
-// Отдельная задача для синхронизации времени
-static void wifi_sntp_task( void* pvParameter )
-{
-	pc_wifi_config pc_wifi_cfg;
-	project_config_get_wifi( &pc_wifi_cfg );
-
-	if ( !pc_wifi_cfg.is_enabled )
-	{
-		vTaskDelete( NULL );
-		return;
-	}
-
-	ESP_LOGI( TAG, "Initializing SNTP..." );
-
-	if ( !esp_sntp_enabled() )
-	{
-		esp_sntp_config_t config = ESP_NETIF_SNTP_DEFAULT_CONFIG( "pool.ntp.org" );
-		esp_netif_sntp_init( &config );
-
-		esp_sntp_setservername( 1, "time.google.com" );
-		esp_sntp_setservername( 2, "time.windows.com" );
-	}
-
-	ESP_LOGI( TAG, "Waiting for system time to be set..." );
-
-	// Дробим ожидание на мелкие куски. 30 раз по 2 секунды = 60 секунд.
-	esp_err_t err = ESP_FAIL;
-	for ( int i = 0; i < 30; i++ )
-	{
-		err = esp_netif_sntp_sync_wait( pdMS_TO_TICKS( 2000 ) );
-
-		if ( err == ESP_OK )
-			break; // Успешно получили время, выходим из цикла!
-
-		ESP_LOGW( TAG, "SNTP waiting... (%d/30)", i + 1 );
-	}
-
-	if ( err == ESP_OK )
-	{
-		ESP_LOGI( TAG, "Time synchronized successfully!" );
-		setenv( "TZ", "MSK-3", 1 );
-		tzset();
-	}
-	else
-		ESP_LOGE( TAG, "Failed to get time from NTP after all retries!" );
-
-	// Задача выполнена - уничтожаем её, чтобы освободить память
-	vTaskDelete( NULL );
-}
-
-//-----------------------------------------------------------------------------------------
-void wifi_sntp_sync_time( void )
-{
-	// Вместо блокировки потока, просто запускаем одноразовую задачу
-	xTaskCreate( wifi_sntp_task, "sntp_task", 3072, NULL, 5, NULL );
-}
-
-//-----------------------------------------------------------------------------------------
-void wifi_set_state( bool enable )
-{
-	if ( enable )
-	{
-		ESP_LOGI( TAG, "Turning Wi-Fi ON" );
-
-		esp_wifi_start();
-		project_config_set_wifi_enabled( true );
-	}
-	else
-	{
-		ESP_LOGI( TAG, "Turning Wi-Fi OFF" );
-
-		s_retry_num = MAX_RETRY; // Отменяем любые попытки
-		s_allow_reconnect = false;
-
-		esp_wifi_disconnect();
-		esp_wifi_stop();
-		project_config_set_wifi_enabled( false );
-		project_config_set_wifi_status( false, "", "", 0, false );
-	}
 }
 
 //-----------------------------------------------------------------------------------------

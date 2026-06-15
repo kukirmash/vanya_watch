@@ -7,6 +7,7 @@ idf_component_register(
         "board/touch.c"
         "board/power.c"
         "board/time.c"
+        "board/weather.c"
         "board/wifi.c"
 
         "config/project_config.c"
@@ -33,6 +34,8 @@ idf_component_register(
         esp_wifi
         nvs_flash
         esp_netif
+        esp_http_client 
+        json
 )
 
 target_compile_definitions(${COMPONENT_LIB} PRIVATE LV_LVGL_H_INCLUDE_SIMPLE)

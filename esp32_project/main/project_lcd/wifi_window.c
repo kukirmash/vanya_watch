@@ -15,11 +15,9 @@ static const char* TAG = "VW_WIFI_WINDOW";
 
 static lv_obj_t* wifi_window = NULL;
 static lv_obj_t* wifi_list_cont = NULL;
-static lv_timer_t* scan_timer = NULL;
-static bool is_scanning = false;
 
-static char target_ssid[ 32 ] = { 0 };
-static char temp_password[ 64 ] = { 0 };
+static char target_ssid[32] = { 0 };
+static char temp_password[64] = { 0 };
 
 //-----------------------------------------------------------------------------------------
 static void back_btn_event_cb( lv_event_t* e )
@@ -27,11 +25,6 @@ static void back_btn_event_cb( lv_event_t* e )
 	lv_event_code_t code = lv_event_get_code( e );
 	if ( code == LV_EVENT_CLICKED && wifi_window != NULL )
 	{
-		if ( scan_timer )
-		{
-			lv_timer_delete( scan_timer );
-			scan_timer = NULL;
-		}
 		lv_obj_delete_async( wifi_window );
 		wifi_window = NULL;
 		wifi_list_cont = NULL;
@@ -42,9 +35,12 @@ static void back_btn_event_cb( lv_event_t* e )
 // Функция, которая вызовется, когда мы нажмем Done на клавиатуре
 static void on_wifi_password_done( const char* entered_password )
 {
-    LOGI( TAG, "Connecting to %s with password: %s", target_ssid, entered_password );
+	strncpy( temp_password, entered_password, sizeof( temp_password ) - 1 );
+	temp_password[sizeof( temp_password ) - 1] = '\0';
+
+	LOGI( TAG, "Connecting to %s with password: %s", target_ssid, temp_password );
 #if ESP32
-    wifi_connect_to_ap( target_ssid, entered_password );
+	wifi_connect_to_ap( target_ssid, temp_password );
 #endif
 }
 
@@ -52,39 +48,34 @@ static void on_wifi_password_done( const char* entered_password )
 // Обработчик клика по конкретной сети в списке
 static void wifi_list_item_event_cb( lv_event_t* e )
 {
-    lv_obj_t* btn = lv_event_get_target( e );
+	lv_obj_t* btn = lv_event_get_target( e );
 
-    lv_obj_t* ssid_label = lv_obj_get_child( btn, 0 );
-    const char* ssid = lv_label_get_text( ssid_label );
-    bool is_secure = ( lv_obj_get_child_count( btn ) == 3 );
+	lv_obj_t* ssid_label = lv_obj_get_child( btn, 0 );
+	const char* ssid = lv_label_get_text( ssid_label );
+	bool is_secure = ( lv_obj_get_child_count( btn ) == 3 );
 
-    LOGI( TAG, "User clicked on network: %s", ssid );
+	LOGI( TAG, "User clicked on network: %s", ssid );
 
-    // Сохраняем имя сети в статический буфер (он дождется кнопки Done)
-    strncpy( target_ssid, ssid, sizeof( target_ssid ) - 1 );
-    target_ssid[ sizeof( target_ssid ) - 1 ] = '\0';
+	// Сохраняем имя сети в статический буфер (он дождется кнопки Done)
+	strncpy( target_ssid, ssid, sizeof( target_ssid ) - 1 );
+	target_ssid[sizeof( target_ssid ) - 1] = '\0';
 
-    if ( is_secure )
-    {
-        // Очищаем статический буфер пароля перед новым вводом
-        memset( temp_password, 0, sizeof( temp_password ) );
-
-        keyboard_window_create(
-            target_ssid,               // Заголовок - имя сети
-            temp_password,             // СТАТИЧЕСКИЙ БУФЕР (Не уничтожится!)
-            sizeof( temp_password ),   // Размер
-            KB_INPUT_PASSWORD,         // Тип - скрытый пароль
-            on_wifi_password_done      // Что делать после "Done"
-        );
-    }
-    else
-    {
-        // Если сеть без пароля - подключаемся сразу
-        LOGI( TAG, "Network is open, connecting directly..." );
+	if ( is_secure )
+	{
+		keyboard_window_create(
+			target_ssid,               // Заголовок - имя сети
+			KB_INPUT_PASSWORD,         // Тип - скрытый пароль
+			on_wifi_password_done      // Колбэк
+		);
+	}
+	else
+	{
+		// Если сеть без пароля - подключаемся сразу
+		LOGI( TAG, "Network is open, connecting directly..." );
 #if ESP32
-        wifi_connect_to_ap( target_ssid, "" );
+		wifi_connect_to_ap( target_ssid, "" );
 #endif
-    }
+	}
 }
 
 //-----------------------------------------------------------------------------------------
@@ -114,11 +105,13 @@ static lv_obj_t* create_wifi_list_item( lv_obj_t* parent, const char* ssid, bool
 		lv_obj_set_style_text_font( lock_icon, VW_FONT_14, LV_PART_MAIN );
 	}
 
+	// TODO: константы для RSSI иконок вынести в конфиг
 	const char* wifi_sym = LV_SYMBOL_WIFI;
 	if ( rssi < -75 )
 		wifi_sym = VW_SYMBOL_WIFI_LOW;
 	else if ( rssi < -60 )
 		wifi_sym = VW_SYMBOL_WIFI_MID;
+
 	lv_obj_t* signal_icon = lv_label_create( item );
 	lv_label_set_text( signal_icon, wifi_sym );
 	lv_obj_set_style_text_color( signal_icon, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
@@ -127,64 +120,45 @@ static lv_obj_t* create_wifi_list_item( lv_obj_t* parent, const char* ssid, bool
 }
 
 //-----------------------------------------------------------------------------------------
-static void wifi_scan_task( void* arg )
+// observer списка сетей (Автоматически перерисовывает список при обновлении конфига)
+static void wifi_list_observer_cb( lv_observer_t* observer, lv_subject_t* subject )
 {
-	wifi_ap_record_t ap_info[15];
-	memset( ap_info, 0, sizeof( ap_info ) );
+	lv_obj_t* list_cont = lv_observer_get_target( observer );
+	const pc_wifi_config* wifi_data = lv_subject_get_pointer( subject );
 
-	int ap_count = wifi_get_ap_info( 15, ap_info );
+	if ( !wifi_data || !list_cont )
+		return;
 
-	lvgl_port_lock( 0 );
+	lv_obj_clean( list_cont );
 
-	// Снова запрашиваем конфиг, чтобы узнать, не выключили ли Wi-Fi, пока шло сканирование
-	pc_wifi_config wifi_cfg;
-	project_config_get_wifi( &wifi_cfg );
-
-	if ( wifi_window != NULL && wifi_list_cont != NULL )
+	if ( wifi_data->state != WIFI_STATE_DISABLED )
 	{
-		// Если Wi-Fi включен - рисуем список
-		if ( wifi_cfg.is_enabled && ap_count >= 0 )
+		int drawn_count = 0;
+		if ( wifi_data->ap_count > 0 )
 		{
-			lv_obj_clean( wifi_list_cont ); // очищаем полностью контейнер
-
-			if ( ap_count > 0 )
+			for ( int i = 0; i < wifi_data->ap_count; i++ )
 			{
-				for ( int i = 0; i < ap_count; i++ )
-				{
-					if ( wifi_cfg.is_connected && strcmp( ( const char* )ap_info[i].ssid, wifi_cfg.ssid ) == 0 )
-						continue;
+				// Пропускаем подключенную сеть (она выводится в верхнем статусе)
+				if ( wifi_data->connected_ap != NULL && strcmp( wifi_data->ap_list[i].ssid, wifi_data->connected_ap->ssid ) == 0 )
+					continue;
 
-					bool is_secure = ( ap_info[i].authmode != WIFI_AUTH_OPEN );
-					create_wifi_list_item( wifi_list_cont, ( const char* )ap_info[i].ssid, is_secure, ap_info[i].rssi );
-				}
-			}
-			else
-			{
-				lv_obj_t* no_wifi_label = lv_label_create( wifi_list_cont );
-				lv_label_set_text( no_wifi_label, "No networks found" );
-				lv_obj_set_style_text_color( no_wifi_label, lv_color_hex( VW_GREY_COLOR_HEX ), LV_PART_MAIN );
-				lv_obj_set_width( no_wifi_label, lv_pct( 100 ) );
-				lv_obj_set_style_text_align( no_wifi_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN );
+				create_wifi_list_item( list_cont,
+					wifi_data->ap_list[i].ssid,
+					wifi_data->ap_list[i].is_secure,
+					wifi_data->ap_list[i].rssi );
+
+				drawn_count++;
 			}
 		}
-	}
 
-	is_scanning = false;
-	lvgl_port_unlock();
-
-	vTaskDelete( NULL );
-}
-
-//-----------------------------------------------------------------------------------------
-static void scan_timer_cb( lv_timer_t* timer )
-{
-	pc_wifi_config wifi_cfg;
-	project_config_get_wifi( &wifi_cfg );
-
-	if ( wifi_cfg.is_enabled && !is_scanning )
-	{
-		is_scanning = true;
-		xTaskCreate( wifi_scan_task, "wifi_scan_task", 4096, NULL, 5, NULL );
+		if ( drawn_count == 0 )
+		{
+			lv_obj_t* no_wifi_label = lv_label_create( list_cont );
+			lv_label_set_text( no_wifi_label, "No networks found" );
+			lv_obj_set_style_text_color( no_wifi_label, lv_color_hex( VW_GREY_COLOR_HEX ), LV_PART_MAIN );
+			lv_obj_set_width( no_wifi_label, lv_pct( 100 ) );
+			lv_obj_set_style_text_align( no_wifi_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN );
+		}
 	}
 }
 
@@ -196,12 +170,13 @@ static void current_network_observer_cb( lv_observer_t* observer, lv_subject_t* 
 	if ( !wifi_data )
 		return;
 
-	if ( wifi_data->is_connected && wifi_data->ssid[0] != '\0' )
+	// Проверяем наличие подключенной сети через NULL-указатель
+	if ( wifi_data->connected_ap != NULL )
 	{
-		lv_label_set_text( label, wifi_data->ssid );
+		lv_label_set_text( label, wifi_data->connected_ap->ssid );
 		lv_obj_set_style_text_color( label, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_MAIN );
 	}
-	else if ( wifi_data->is_enabled )
+	else if ( wifi_data->state != WIFI_STATE_DISABLED )
 	{
 		lv_label_set_text( label, "Not connected" );
 		lv_obj_set_style_text_color( label, lv_color_white(), LV_PART_MAIN );
@@ -222,12 +197,11 @@ static void wifi_switch_event_cb( lv_event_t* e )
 #if ESP32
 	wifi_set_state( is_on );
 #elif WINDOWS
-    project_config_set_wifi_enabled( is_on );
+	// Для Windows эмулируем смену стейта напрямую
+	project_config_set_wifi_state( is_on ? WIFI_STATE_DISCONNECTED : WIFI_STATE_DISABLED );
 #endif
 
-    scan_timer_cb( NULL );
-    if (!is_on && wifi_list_cont != NULL)
-        lv_obj_clean( wifi_list_cont );
+	// Список сетей очистится сам, так как сработает wifi_list_observer_cb !
 }
 
 //-----------------------------------------------------------------------------------------
@@ -323,8 +297,9 @@ void wifi_window_create( void )
 
 	pc_wifi_config curr_wifi_cfg;
 	project_config_get_wifi( &curr_wifi_cfg );
+
 	lv_obj_t* sw = lv_switch_create( top_row );
-	lv_obj_set_state( sw, LV_STATE_CHECKED, curr_wifi_cfg.is_enabled );
+	lv_obj_set_state( sw, LV_STATE_CHECKED, curr_wifi_cfg.state != WIFI_STATE_DISABLED );
 	lv_obj_add_event_cb( sw, wifi_switch_event_cb, LV_EVENT_VALUE_CHANGED, NULL );
 	lv_obj_set_style_bg_color( sw, lv_color_hex( VW_PRIMARY_COLOR_HEX ), LV_PART_INDICATOR | LV_STATE_CHECKED );
 
@@ -361,6 +336,9 @@ void wifi_window_create( void )
 	lv_obj_set_style_pad_ver( wifi_list_cont, 5, LV_PART_MAIN );
 	lv_obj_set_style_pad_hor( wifi_list_cont, 0, LV_PART_MAIN );
 
+	// ДОБАВЛЕНО: Подписываем список на изменения Wi-Fi!
+	lv_subject_add_observer_obj( &subject_wifi, wifi_list_observer_cb, wifi_list_cont, NULL );
+
 	// Анимация появления
 	lv_anim_t a;
 	lv_anim_init( &a );
@@ -370,10 +348,8 @@ void wifi_window_create( void )
 	lv_anim_set_values( &a, VW_LCD_V_RES, 0 );
 	lv_anim_set_path_cb( &a, lv_anim_path_ease_out );
 	lv_anim_start( &a );
-
-	// Запускаем таймер сканирования
-	scan_timer = lv_timer_create( scan_timer_cb, 10000, NULL );
-	lv_timer_ready( scan_timer );
 }
+
+//-----------------------------------------------------------------------------------------
 
 #endif // MOD_LVGL_LCD && VW_WORK_MODE

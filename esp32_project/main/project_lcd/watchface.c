@@ -975,13 +975,13 @@ static void watchface_wifi_observer_cb( lv_observer_t* observer, lv_subject_t* s
 	if ( !wifi_data )
 		return;
 
-	// Показываем иконку только если устройство подключено к сети
-	if ( wifi_data->is_connected )
+	// Показываем иконку ТОЛЬКО если у нас есть физически подключенная сеть
+	if ( wifi_data->connected_ap != NULL )
 	{
 		const char* wifi_sym = LV_SYMBOL_WIFI;
-		if ( wifi_data->rssi < -75 )
+		if ( wifi_data->connected_ap->rssi < -75 )
 			wifi_sym = VW_SYMBOL_WIFI_LOW;
-		else if ( wifi_data->rssi < -60 )
+		else if ( wifi_data->connected_ap->rssi < -60 )
 			wifi_sym = VW_SYMBOL_WIFI_MID;
 
 		lv_label_set_text( label, wifi_sym );
