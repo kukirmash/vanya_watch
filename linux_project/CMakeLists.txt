@@ -20,7 +20,8 @@ add_subdirectory(lvgl)
 file(GLOB LV_LINUX_SRC src/lib/*.c)
 set(LV_LINUX_BACKEND_SRC src/lib/display_backends/sdl.c src/lib/indev_backends/evdev.c)
 
-add_library(lvgl_linux ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
+add_library(lvgl_linux ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC}
+    src/config/lvgl_lcd_config.h)
 target_link_libraries(lvgl_linux PUBLIC lvgl::lvgl)
 
 # ДОБАВЛЕНО: Ищем и линкуем системную библиотеку SDL2
