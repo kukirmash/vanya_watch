@@ -1,0 +1,8 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/kukirmash/vanya_watch/linux_project/build/cmake_install.cmake",
+		"/home/kukirmash/vanya_watch/linux_project/build/lvgl/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
