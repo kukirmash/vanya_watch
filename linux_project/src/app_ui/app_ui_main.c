@@ -1,9 +1,8 @@
 ﻿#include "app_ui/app_ui_main.h"
 
-#if MOD_LVGL_LCD
-
 #include "lvgl/lvgl.h"
 #include "config/ui_config.h"
+#include "app_ui/windows/watchface.h"
 
 static const char *TAG = "PROJECT_LCD_MAIN";
 
@@ -73,16 +72,9 @@ void app_ui_main()
 	lv_obj_t *screen = lv_screen_active();
 	lv_obj_set_style_bg_color(screen, lv_color_hex(0x000000), 0);
 
-#if VW_WORK_MODE
-
-	lv_obj_t *label_test = lv_label_create(screen);
-	lv_label_set_text(label_test, "Hello world");
-
-#endif // VW_WORK_MODE
+	watchface_init(screen);
 
 	lv_unlock();
 }
 
 //-----------------------------------------------------------------------------------------
-
-#endif // MOD_LVGL_LCD

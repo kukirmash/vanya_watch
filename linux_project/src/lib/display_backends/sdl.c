@@ -90,9 +90,10 @@ static lv_display_t * init_sdl(void)
 
     lv_display_t * disp = lv_sdl_window_create(settings.window_width, settings.window_height);
 
-    if(disp == NULL) {
+    if(disp == NULL)
         return NULL;
-    }
+
+    lv_sdl_window_set_title( disp, "vanya watch" );
 
     lv_indev_t * mouse = lv_sdl_mouse_create();
     lv_indev_set_group(mouse, lv_group_get_default());

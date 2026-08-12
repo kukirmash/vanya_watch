@@ -3,8 +3,6 @@
 
 #include "config/modules_config.h"
 
-#if MOD_LVGL_LCD
-
 #if ESP32
 
 #include "esp_err.h"
@@ -24,5 +22,4 @@ void app_ui_main(void);
 
 //-----------------------------------------------------------------------------------------
 
-#endif // MOD_LVGL_LCD
 #endif // APP_UI_MAIN_H

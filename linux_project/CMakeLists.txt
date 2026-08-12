@@ -38,6 +38,7 @@ file(GLOB_RECURSE MY_UI_SOURCES
     "src/app_ui/*.c"
     "src/board/*.c"
     "src/config/*.c"
+    "src/helpers/*.c"
 )
 
 # Собираем исполняемый файл из main.c и всех найденных файлов интерфейса
