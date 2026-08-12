@@ -9,6 +9,8 @@
 
 #include "config/lcd_config.h"
 
+#include "app_ui/app_ui_main.h"
+
 extern simulator_settings_t settings;
 
 int main(void)
@@ -28,7 +30,7 @@ int main(void)
     }
 
     // 4. Основная часть
-
+    app_ui_main();
 
     // 5. Бесконечный цикл обработки событий LVGL
     while(1) {

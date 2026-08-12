@@ -2421,7 +2421,7 @@
  *============================================================================*/
 
 /** Build examples */
-#define LV_BUILD_EXAMPLES 1
+#define LV_BUILD_EXAMPLES 0
 
 
 
@@ -2430,7 +2430,7 @@
  *============================================================================*/
 
 /** Build demos */
-#define LV_BUILD_DEMOS 1
+#define LV_BUILD_DEMOS 0
 
 #if LV_BUILD_DEMOS
 /** Benchmark demo
