@@ -11,6 +11,8 @@
 
 #include "app_ui/app_ui_main.h"
 
+#include "board/time.h"
+
 extern simulator_settings_t settings;
 
 int main(void)
@@ -29,10 +31,13 @@ int main(void)
         return -1;
     }
 
-    // 4. Основная часть
+    // 4. Инициализация времени
+    board_time_init();
+
+    // 5. Основная часть
     app_ui_main();
 
-    // 5. Бесконечный цикл обработки событий LVGL
+    // 6. Бесконечный цикл обработки событий LVGL
     while(1) {
         uint32_t ms = lv_timer_handler();
         if(ms == LV_NO_TIMER_READY) {

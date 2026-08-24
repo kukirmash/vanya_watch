@@ -1,10 +1,10 @@
 ﻿#include "app_ui/windows/watchface.h"
 
 #include "app_ui/animations/watchface_anims/watchface_anim_1.h"
+#include "helpers/time/time_helper.h"
+#include "board/time.h"
 
 static const char *TAG = "WATCHFACE";
-
-#include "helpers/time/time_helper.h"
 
 //-----------------------------------------------------------------------------------------
 static lv_obj_t *anim_h_tens;  // Десятки часов
@@ -22,12 +22,14 @@ static uint8_t curr_m_tens = 255;
 static uint8_t curr_m_units = 255;
 static uint8_t curr_day = 0;
 
+static int last_min = -1;
+
 static const char *month_names[] = {
 	"January", "February", "March", "April", "May", "June",
 	"July", "August", "September", "October", "November", "December"};
 
 //-----------------------------------------------------------------------------------------
-// Нужная анимация в зависимости от перехода цифры
+// Возвращает нужный массив кадров анимации в зависимости от начальной и конечной цифры
 static const lv_image_dsc_t **get_anim_array(uint8_t from_digit, uint8_t to_digit)
 {
 	if (from_digit == 0 && to_digit == 1)
@@ -64,9 +66,64 @@ static const lv_image_dsc_t **get_anim_array(uint8_t from_digit, uint8_t to_digi
 //-----------------------------------------------------------------------------------------
 static void play_transition(lv_obj_t *anim_obj, uint8_t from_digit, uint8_t to_digit)
 {
-	const lv_image_dsc_t** animation = get_anim_array(from_digit, to_digit);
+	const lv_image_dsc_t **animation = get_anim_array(from_digit, to_digit);
 	lv_animimg_set_src(anim_obj, (const void **)animation, 46);
 	lv_animimg_start(anim_obj);
+}
+
+//-----------------------------------------------------------------------------------------
+// Обновляет значение цифры на экране с запуском анимации или статической установкой
+static void update_digit(lv_obj_t *anim_obj, uint8_t *curr_val, uint8_t new_val, uint8_t prev_val)
+{
+	// Прерывание, если значение не изменилось
+	if (*curr_val == new_val)
+		return;
+
+	// Установка последнего кадра анимации перехода в качестве начального статического состояния
+	if (*curr_val == 255)
+		play_transition(anim_obj, prev_val, new_val);
+	else // Запуск полноценной анимации перехода
+		play_transition(anim_obj, *curr_val, new_val);
+
+	*curr_val = new_val;
+}
+
+//-----------------------------------------------------------------------------------------
+// Обрабатывает событие изменения времени и обновляет элементы интерфейса
+static void watchface_time_observer_cb(lv_observer_t *observer, lv_subject_t *subject)
+{
+	// Получаем timestamp из Subject
+	time_t current_time = (time_t)lv_subject_get_int(subject);
+	if (current_time == 0)
+		return;
+
+	// Безопасно распаковываем время в структуру прямо внутри потока отрисовки
+	struct tm time_info;
+	localtime_r(&current_time, &time_info);
+
+	// Ограничение частоты обновления интерфейса до одного раза в минуту (после первичной инициализации)
+	if (last_min == time_info.tm_min && curr_h_tens != 255)
+		return;
+
+	last_min = time_info.tm_min;
+
+	// Расчет текущих значений для каждой позиции
+	uint8_t new_h_tens = time_info.tm_hour / 10;
+	uint8_t new_h_units = time_info.tm_hour % 10;
+	uint8_t new_m_tens = time_info.tm_min / 10;
+	uint8_t new_m_units = time_info.tm_min % 10;
+
+	// Вычисление предыдущих значений для корректного выбора начального кадра при запуске
+	uint8_t prev_h_tens = get_prev_h_tens(new_h_tens);
+	uint8_t prev_h_units = get_prev_h_units(new_h_units, new_h_tens);
+	uint8_t prev_m_tens = get_prev_m_tens(new_m_tens);
+	uint8_t prev_m_units = get_prev_m_units(new_m_units);
+
+	// Применение изменений к инерфейсу и к переменным
+	update_digit(anim_h_tens, &curr_h_tens, new_h_tens, prev_h_tens);
+	update_digit(anim_h_units, &curr_h_units, new_h_units, prev_h_units);
+	update_digit(anim_m_tens, &curr_m_tens, new_m_tens, prev_m_tens);
+	update_digit(anim_m_units, &curr_m_units, new_m_units, prev_m_units);
 }
 
 //-----------------------------------------------------------------------------------------
@@ -136,6 +193,8 @@ void watchface_init(lv_obj_t *parent)
 	battery_label = lv_label_create(bottom_cont);
 	lv_obj_set_style_text_font(battery_label, VW_FONT_18, LV_PART_MAIN);
 	lv_obj_set_style_text_color(battery_label, lv_color_hex(VW_PRIMARY_COLOR_HEX), LV_PART_MAIN);
+
+	lv_subject_add_observer_obj(&subject_time, watchface_time_observer_cb, parent, NULL);
 
 	// lv_label_bind_text(date_label, &subject_date_str, NULL);
 	// lv_label_bind_text(battery_label, &subject_power_str, NULL);

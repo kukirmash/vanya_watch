@@ -1,6 +1,7 @@
 #ifndef MODULES_CONFIG_H
 #define MODULES_CONFIG_H
 
+//-----------------------------------------------------------------------------------------
 #define WINDOWS         0
 #define ESP32           0
 #define LINUX           1

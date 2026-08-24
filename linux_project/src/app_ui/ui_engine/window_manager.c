@@ -1,7 +1,6 @@
 #include "app_ui/ui_engine/window_manager.h"
 
-#if MOD_LVGL_LCD && VW_WORK_MODE
-
+#include "config/ui_config.h"
 #include <stdio.h>
 
 //-----------------------------------------------------------------------------------------
@@ -46,7 +45,7 @@ static void apply_transition_animation(lv_obj_t *obj, window_anim_t anim, bool i
     lv_anim_t a;
     lv_anim_init(&a);
     lv_anim_set_var(&a, obj);
-    lv_anim_set_time(&a, 250); // Время анимации 250 мс
+    lv_anim_set_time(&a, 150); // Время анимации 150 мс
     lv_anim_set_path_cb(&a, lv_anim_path_ease_out);
 
     int32_t start_val = 0, end_val = 0;
@@ -109,7 +108,7 @@ void window_manager_register_wnd(window_id_t id, wnd_create_cb cb)
 //-----------------------------------------------------------------------------------------
 void window_open(window_id_t id, window_anim_t anim)
 {
-    if (id <= WIN_ID_NONE || id >= WIN_ID_COUNT || desc_windows[id].create_cb == NULL)
+    if (id <= WIN_ID_NONE || id >= WIN_ID_COUNT || desc_windows[id].create_cb == NULL  || menu_top >= MAX_MENU_DEPTH - 1)
         return;
 
     // 1. Анимируем уход текущего верхнего окна (если есть)
@@ -176,5 +175,3 @@ window_id_t current_window_get_id(void)
 }
 
 //-----------------------------------------------------------------------------------------
-
-#endif // MOD_LVGL_LCD && VW_WORK_MODE

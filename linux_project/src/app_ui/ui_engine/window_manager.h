@@ -1,11 +1,6 @@
 #ifndef WINDOW_MANAGER_H
 #define WINDOW_MANAGER_H
 
-#include "config/modules_config.h"
-#include "config/ui_config.h"
-
-#if MOD_LVGL_LCD && VW_WORK_MODE
-
 #include "lvgl/lvgl.h"
 
 //-----------------------------------------------------------------------------------------
@@ -46,7 +41,7 @@ typedef lv_obj_t* (*wnd_create_cb)(void);
 typedef struct 
 {
     window_id_t id;
-    wnd_create_cb create_cb
+    wnd_create_cb create_cb;
 
 } window_desc_t;
 
@@ -72,5 +67,4 @@ void return_to_watchface(void);
 window_id_t current_window_get_id(void);
 
 //-----------------------------------------------------------------------------------------
-#endif // MOD_LVGL_LCD && VW_WORK_MODE
 #endif // WINDOW_MANAGER_H
