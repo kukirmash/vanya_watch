@@ -1,7 +1,6 @@
 ﻿#ifndef WATCHFACE_H
 #define WATCHFACE_H
 
-#include "config/modules_config.h"
 #include "config/ui_config.h"
 
 //-----------------------------------------------------------------------------------------

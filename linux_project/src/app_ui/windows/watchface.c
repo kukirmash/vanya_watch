@@ -124,6 +124,13 @@ static void watchface_time_observer_cb(lv_observer_t *observer, lv_subject_t *su
 	update_digit(anim_h_units, &curr_h_units, new_h_units, prev_h_units);
 	update_digit(anim_m_tens, &curr_m_tens, new_m_tens, prev_m_tens);
 	update_digit(anim_m_units, &curr_m_units, new_m_units, prev_m_units);
+
+	// Обновление текстового поля с датой только при смене дня в году
+	if (curr_day != time_info.tm_yday)
+	{
+		lv_label_set_text_fmt(date_label, "%02d %s", time_info.tm_mday, month_names[time_info.tm_mon]);
+		curr_day = time_info.tm_yday;
+	}
 }
 
 //-----------------------------------------------------------------------------------------
@@ -191,9 +198,11 @@ void watchface_init(lv_obj_t *parent)
 
 	// Заряд
 	battery_label = lv_label_create(bottom_cont);
+	lv_label_set_text(battery_label, "");
 	lv_obj_set_style_text_font(battery_label, VW_FONT_18, LV_PART_MAIN);
 	lv_obj_set_style_text_color(battery_label, lv_color_hex(VW_PRIMARY_COLOR_HEX), LV_PART_MAIN);
 
+	// Подписка на обновление времени и даты
 	lv_subject_add_observer_obj(&subject_time, watchface_time_observer_cb, parent, NULL);
 
 	// lv_label_bind_text(date_label, &subject_date_str, NULL);

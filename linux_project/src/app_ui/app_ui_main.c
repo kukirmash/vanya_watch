@@ -1,8 +1,12 @@
 ﻿#include "app_ui/app_ui_main.h"
 
 #include "lvgl/lvgl.h"
+
 #include "config/ui_config.h"
+
 #include "app_ui/windows/watchface.h"
+#include "app_ui/windows/control_center.h"
+#include "app_ui/ui_engine/window_manager.h"
 
 static const char *TAG = "PROJECT_LCD_MAIN";
 
@@ -71,8 +75,29 @@ void app_ui_main()
 
 	lv_obj_t *screen = lv_screen_active();
 	lv_obj_set_style_bg_color(screen, lv_color_hex(0x000000), 0);
+	lv_obj_remove_flag(screen, LV_OBJ_FLAG_SCROLLABLE);
 
-	watchface_init(screen);
+	// Инициализация менеджера окон
+	window_manager_init();
+
+	// Регистрация главного экрана (Циферблат)
+	window_manager_register_wnd(WIN_ID_WATCHFACE, watchface_init, (window_swipe_targets_t){
+		.left  = WIN_ID_NONE,         
+		.right = WIN_ID_NONE,         
+		.up    = WIN_ID_NONE,         
+		.down  = WIN_ID_CONTROL_CENTER 
+	});
+
+	// Регистрация Центра управления (Шторка)
+	window_manager_register_wnd(WIN_ID_CONTROL_CENTER, control_center_init, (window_swipe_targets_t){
+		.left  = WIN_ID_NONE,
+		.right = WIN_ID_NONE,
+		.up    = WIN_ID_WATCHFACE,
+		.down  = WIN_ID_NONE
+	});
+
+	// Запуск базового окна при включении часов
+	window_open(WIN_ID_WATCHFACE, WIN_ANIM_NONE);
 
 	lv_unlock();
 }
