@@ -73,16 +73,40 @@ static void global_gesture_event_cb(lv_event_t *e)
 }
 
 //-----------------------------------------------------------------------------------------
-// Применяет анимацию к объекту (настроено симметрично для корректной работы стека)
-static void apply_transition_animation(lv_obj_t *obj, window_anim_t anim, bool is_appearing)
+// Коллбэк вызывается ядром LVGL ровно в тот момент, когда анимация полностью завершилась
+static void anim_ready_delete_cb(lv_anim_t *a)
 {
-    if (anim == WIN_ANIM_NONE || obj == NULL)
+    // Безопасно получаем объект окна из анимации и удаляем его
+    lv_obj_t *obj = (lv_obj_t *)lv_anim_get_var(a);
+    if (obj)
+    {
+        lv_obj_delete_async(obj);
+    }
+}
+
+//-----------------------------------------------------------------------------------------
+// Применяет анимацию к объекту (настроено симметрично для корректной работы стека)
+static void apply_transition_animation(lv_obj_t *obj, window_anim_t anim, bool is_appearing, bool delete_after)
+{
+    if (obj == NULL)
         return;
+
+    // Если анимация отключена, но окно нужно удалить - удаляем его сразу
+    if (anim == WIN_ANIM_NONE)
+    {
+        if (delete_after)
+            lv_obj_delete_async(obj);
+
+        return;
+    }
+
+    // 1. Форсируем пересчет размеров (решает проблему с нулями из-за lv_pct)
+    lv_obj_update_layout(obj);
 
     lv_anim_t a;
     lv_anim_init(&a);
     lv_anim_set_var(&a, obj);
-    lv_anim_set_time(&a, 1250);
+    lv_anim_set_time(&a, 250);
     lv_anim_set_path_cb(&a, lv_anim_path_ease_out);
 
     int32_t start_val = 0, end_val = 0;
@@ -96,25 +120,25 @@ static void apply_transition_animation(lv_obj_t *obj, window_anim_t anim, bool i
     case WIN_ANIM_SLIDE_LEFT:
         exec_cb = (lv_anim_exec_xcb_t)lv_obj_set_x;
         start_val = is_appearing ? w : 0;
-        end_val = is_appearing ? 0 : -w / 3;
+        end_val = is_appearing ? 0 : -w;
         break;
 
     case WIN_ANIM_SLIDE_RIGHT:
         exec_cb = (lv_anim_exec_xcb_t)lv_obj_set_x;
-        start_val = is_appearing ? -w / 3 : 0;
+        start_val = is_appearing ? -w : 0;
         end_val = is_appearing ? 0 : w;
         break;
 
     case WIN_ANIM_SLIDE_UP:
         exec_cb = (lv_anim_exec_xcb_t)lv_obj_set_y;
-        start_val = is_appearing ? h / 3 : 0;
+        start_val = is_appearing ? h : 0;
         end_val = is_appearing ? 0 : -h;
         break;
 
     case WIN_ANIM_SLIDE_DOWN:
         exec_cb = (lv_anim_exec_xcb_t)lv_obj_set_y;
         start_val = is_appearing ? -h : 0;
-        end_val = is_appearing ? 0 : h / 3;
+        end_val = is_appearing ? 0 : h;
         break;
 
     case WIN_ANIM_FADE:
@@ -129,9 +153,20 @@ static void apply_transition_animation(lv_obj_t *obj, window_anim_t anim, bool i
 
     lv_anim_set_exec_cb(&a, exec_cb);
     lv_anim_set_values(&a, start_val, end_val);
+
+    // Если флаг установлен - вешаем коллбэк для удаления после окончания анимации
+    if (delete_after) 
+        lv_anim_set_ready_cb(&a, anim_ready_delete_cb);
+
+    // 2. Устанавливаем окно в начальную позицию ДО старта анимации,
+    // чтобы оно не успело отрисоваться в координатах 0,0
+    if (exec_cb)
+    {
+        exec_cb(obj, start_val);
+    }
+
     lv_anim_start(&a);
 }
-
 //-----------------------------------------------------------------------------------------
 void window_manager_init(void)
 {
@@ -158,7 +193,7 @@ void window_open(window_id_t id, window_anim_t anim)
         return;
 
     if (menu_top >= 0)
-        apply_transition_animation(menu_windows[menu_top].obj, anim, false);
+        apply_transition_animation(menu_windows[menu_top].obj, anim, false, false);
 
     // Создаем холст для нового окна и настраиваем базовые стили (цвет, отсутствие рамок)
     lv_obj_t *new_win = lv_obj_create(lv_screen_active());
@@ -176,7 +211,7 @@ void window_open(window_id_t id, window_anim_t anim)
     menu_windows[menu_top].id = id;
     menu_windows[menu_top].obj = new_win;
 
-    apply_transition_animation(new_win, anim, true);
+    apply_transition_animation(new_win, anim, true, false);
 }
 
 //-----------------------------------------------------------------------------------------
@@ -186,13 +221,12 @@ bool window_back(window_anim_t anim)
         return false;
 
     lv_obj_t *closing_win = menu_windows[menu_top].obj;
-    apply_transition_animation(closing_win, anim, false);
+    apply_transition_animation(closing_win, anim, false, true); // удаление после анимации
 
-    lv_obj_delete_async(closing_win);
     menu_top--;
 
     lv_obj_t *prev_win = menu_windows[menu_top].obj;
-    apply_transition_animation(prev_win, anim, true);
+    apply_transition_animation(prev_win, anim, true, false);
 
     return true;
 }

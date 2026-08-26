@@ -349,6 +349,8 @@ void lv_anim_set_bezier3_param(lv_anim_t * a, int16_t x1, int16_t y1, int16_t x2
  */
 lv_anim_t * lv_anim_start(const lv_anim_t * a);
 
+void* lv_anim_get_var(lv_anim_t * a);
+
 /**
  * Get a delay before starting the animation
  * @param a pointer to an initialized `lv_anim_t` variable
