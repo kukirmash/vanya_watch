@@ -1,6 +1,32 @@
 ﻿#include "control_center.h"
 
+#include "app_ui/ui_engine/window_manager.h"
+
 static const char* TAG = "VW_CONTROL_CENTER";
+
+//-----------------------------------------------------------------------------------------
+// Обрабатывает события нажатия на кнопку Wi-Fi
+static void wifi_btn_event_cb( lv_event_t* e )
+{
+    lv_event_code_t code = lv_event_get_code( e );
+    lv_obj_t * btn = lv_event_get_target(e);
+
+    // Короткий клик - переключаем состояние кнопки (вкл/выкл)
+    if (code == LV_EVENT_SHORT_CLICKED)
+    {
+        if (lv_obj_has_state(btn, LV_STATE_CHECKED)) {
+            lv_obj_clear_state(btn, LV_STATE_CHECKED);
+        } else {
+            lv_obj_add_state(btn, LV_STATE_CHECKED);
+        }
+    }
+    // Долгое удержание - открываем окно выбора сети
+    else if (code == LV_EVENT_LONG_PRESSED)
+    {
+        // Открываем окно со списком Wi-Fi (выезжает слева, как меню)
+        window_open(WIN_ID_WIFI, WIN_ANIM_FADE);
+    }
+}
 
 //-----------------------------------------------------------------------------------------
 // Создает круглую кнопку в заданной ячейке сетки
@@ -63,7 +89,7 @@ void control_center_init( lv_obj_t* parent )
 
     // switch кнопки и slider
     lv_obj_t* wifi_btn = grid_button_create( parent, 0, 0, LV_SYMBOL_WIFI );
-    lv_obj_add_flag( wifi_btn, LV_OBJ_FLAG_CHECKABLE );// Делаем кнопку "залипающей" (тумблер)
+    lv_obj_add_event_cb( wifi_btn, wifi_btn_event_cb, LV_EVENT_ALL, NULL );
 
     lv_obj_t* bluetooth_btn = grid_button_create( parent, 1, 0, LV_SYMBOL_BLUETOOTH );
     lv_obj_add_flag( bluetooth_btn, LV_OBJ_FLAG_CHECKABLE );// Делаем кнопку "залипающей" (тумблер)

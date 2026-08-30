@@ -1,10 +1,10 @@
-﻿#ifndef WATCHFACE_H
-#define WATCHFACE_H
+#ifndef WIFI_WINDOW_H
+#define WIFI_WINDOW_H
 
 #include "config/ui_config.h"
 
 //-----------------------------------------------------------------------------------------
-void watchface_init( lv_obj_t* parent );
+void wifi_window_init( lv_obj_t * parent );
 
 //-----------------------------------------------------------------------------------------
-#endif // WATCHFACE_H
+#endif // WIFI_WINDOW_H

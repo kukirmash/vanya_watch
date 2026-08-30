@@ -6,6 +6,7 @@
 
 #include "app_ui/windows/watchface.h"
 #include "app_ui/windows/control_center.h"
+#include "app_ui/windows/wifi_window.h"
 #include "app_ui/ui_engine/window_manager.h"
 
 static const char *TAG = "PROJECT_LCD_MAIN";
@@ -93,6 +94,13 @@ void app_ui_main()
 		.left  = WIN_ID_NONE,
 		.right = WIN_ID_NONE,
 		.up    = WIN_ID_WATCHFACE,
+		.down  = WIN_ID_NONE
+	});
+
+	window_manager_register_wnd(WIN_ID_WIFI, wifi_window_init, (window_swipe_targets_t){
+		.left  = WIN_ID_NONE,
+		.right = WIN_ID_CONTROL_CENTER, // Возврат назад в шторку свайпом вправо
+		.up    = WIN_ID_NONE,
 		.down  = WIN_ID_NONE
 	});
 

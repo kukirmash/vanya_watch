@@ -85,6 +85,13 @@ static void anim_ready_delete_cb(lv_anim_t *a)
 }
 
 //-----------------------------------------------------------------------------------------
+// Функция-обертка для анимации прозрачности, так как базовой функции нужны 3 аргумента
+static void anim_set_opa_cb(void *var, int32_t v)
+{
+    lv_obj_set_style_opa((lv_obj_t *)var, v, LV_PART_MAIN);
+}
+
+//-----------------------------------------------------------------------------------------
 // Применяет анимацию к объекту (настроено симметрично для корректной работы стека)
 static void apply_transition_animation(lv_obj_t *obj, window_anim_t anim, bool is_appearing, bool delete_after)
 {
@@ -100,8 +107,22 @@ static void apply_transition_animation(lv_obj_t *obj, window_anim_t anim, bool i
         return;
     }
 
-    // 1. Форсируем пересчет размеров (решает проблему с нулями из-за lv_pct)
+    // 1. Форсируем пересчет размеров
     lv_obj_update_layout(obj);
+
+    // ВАЖНО: Очистка "остаточных" состояний от предыдущих анимаций
+    if (anim != WIN_ANIM_FADE) {
+        // Если это слайд, гарантируем, что окно не осталось прозрачным от старого FADE
+        lv_obj_set_style_opa(obj, LV_OPA_COVER, LV_PART_MAIN);
+    }
+    if (anim != WIN_ANIM_SLIDE_LEFT && anim != WIN_ANIM_SLIDE_RIGHT) {
+        // Если это не горизонтальный слайд, обнуляем X
+        lv_obj_set_x(obj, 0);
+    }
+    if (anim != WIN_ANIM_SLIDE_UP && anim != WIN_ANIM_SLIDE_DOWN) {
+        // Если это не вертикальный слайд, обнуляем Y
+        lv_obj_set_y(obj, 0);
+    }
 
     lv_anim_t a;
     lv_anim_init(&a);
@@ -142,7 +163,7 @@ static void apply_transition_animation(lv_obj_t *obj, window_anim_t anim, bool i
         break;
 
     case WIN_ANIM_FADE:
-        exec_cb = (lv_anim_exec_xcb_t)lv_obj_set_style_opa;
+        exec_cb = (lv_anim_exec_xcb_t)anim_set_opa_cb;
         start_val = is_appearing ? LV_OPA_TRANSP : LV_OPA_COVER;
         end_val = is_appearing ? LV_OPA_COVER : LV_OPA_TRANSP;
         break;
@@ -158,8 +179,7 @@ static void apply_transition_animation(lv_obj_t *obj, window_anim_t anim, bool i
     if (delete_after) 
         lv_anim_set_ready_cb(&a, anim_ready_delete_cb);
 
-    // 2. Устанавливаем окно в начальную позицию ДО старта анимации,
-    // чтобы оно не успело отрисоваться в координатах 0,0
+    // 2. Устанавливаем окно в начальную позицию ДО старта анимации
     if (exec_cb)
     {
         exec_cb(obj, start_val);
@@ -167,6 +187,8 @@ static void apply_transition_animation(lv_obj_t *obj, window_anim_t anim, bool i
 
     lv_anim_start(&a);
 }
+//-----------------------------------------------------------------------------------------
+
 //-----------------------------------------------------------------------------------------
 void window_manager_init(void)
 {
@@ -198,7 +220,6 @@ void window_open(window_id_t id, window_anim_t anim)
     // Создаем холст для нового окна и настраиваем базовые стили (цвет, отсутствие рамок)
     lv_obj_t *new_win = lv_obj_create(lv_screen_active());
     lv_obj_set_size(new_win, lv_pct(100), lv_pct(100));
-    lv_obj_remove_flag(new_win, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_scrollbar_mode(new_win, LV_SCROLLBAR_MODE_OFF);
     lv_obj_set_style_bg_color(new_win, lv_color_hex(0x000000), LV_PART_MAIN);
     lv_obj_set_style_border_width(new_win, 0, LV_PART_MAIN);
