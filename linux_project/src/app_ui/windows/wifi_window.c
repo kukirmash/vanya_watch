@@ -2,6 +2,7 @@
 
 #include "config/ui_config.h"
 #include "app_ui/ui_engine/window_manager.h"
+#include "board/time.h"
 
 static const char *TAG = "WIFI_WINDOW";
 
@@ -99,9 +100,9 @@ void wifi_window_init(lv_obj_t *parent)
     lv_obj_set_style_text_font(back_label, VW_FONT_18, LV_PART_MAIN);
 
     lv_obj_t *time_label = lv_label_create(header_row);
-    lv_label_set_text(time_label, "19:41");
     lv_obj_set_style_text_color(time_label, lv_color_white(), LV_PART_MAIN);
     lv_obj_set_style_text_font(time_label, VW_FONT_18, LV_PART_MAIN);
+    lv_label_bind_text(time_label, &subject_str_time, NULL);
 
     // 2. ПЕРЕКЛЮЧАТЕЛЬ WI-FI
     lv_obj_t *toggle_row = create_transparent_row(parent);
