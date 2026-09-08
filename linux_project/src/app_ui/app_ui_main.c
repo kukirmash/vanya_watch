@@ -7,6 +7,7 @@
 #include "app_ui/windows/watchface.h"
 #include "app_ui/windows/control_center.h"
 #include "app_ui/windows/wifi_window.h"
+#include "app_ui/windows/text_input_window.h"
 #include "app_ui/ui_engine/window_manager.h"
 
 static const char *TAG = "PROJECT_LCD_MAIN";
@@ -99,9 +100,16 @@ void app_ui_main()
 
 	window_manager_register_wnd(WIN_ID_WIFI, wifi_window_init, (window_swipe_targets_t){
 		.left  = WIN_ID_NONE,
-		.right = WIN_ID_CONTROL_CENTER, // Возврат назад в шторку свайпом вправо
+		.right = WIN_ID_CONTROL_CENTER,
 		.up    = WIN_ID_NONE,
 		.down  = WIN_ID_NONE
+	});
+
+	window_manager_register_wnd(WIN_ID_TEXT_INPUT, text_input_window_init, (window_swipe_targets_t){
+			.left  = WIN_ID_NONE,
+			.right = WIN_ID_WIFI,
+			.up    = WIN_ID_NONE,
+			.down  = WIN_ID_NONE
 	});
 
 	// Запуск базового окна при включении часов

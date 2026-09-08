@@ -35,7 +35,8 @@ void board_time_init(void)
 {
     lv_subject_init_int(&subject_time, 0);
     lv_subject_init_string(&subject_str_time, time_str_buffer, prev_time_str_buffer, sizeof(time_str_buffer), "00:00");
-    thread_create(time_update_task, NULL, 4096, 5, "time_task");
+
+    thread_create(time_update_task, NULL, 4096, 5, "time_thread");
 }
 
 //-----------------------------------------------------------------------------------------

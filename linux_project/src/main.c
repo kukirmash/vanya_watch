@@ -12,6 +12,7 @@
 #include "app_ui/app_ui_main.h"
 
 #include "board/time.h"
+#include "board/wifi.h"
 
 extern simulator_settings_t settings;
 
@@ -31,8 +32,9 @@ int main(void)
         return -1;
     }
 
-    // 4. Инициализация времени
+    // 4. Инициализация
     board_time_init();
+    board_wifi_init();
 
     // 5. Основная часть
     app_ui_main();
