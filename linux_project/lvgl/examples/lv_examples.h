@@ -10,9 +10,9 @@
 extern "C" {
 #endif
 
-/*********************
- *      INCLUDES
- *********************/
+	/*********************
+	 *      INCLUDES
+	 *********************/
 #include "../lvgl.h"
 
 #include "anim/lv_example_anim.h"
@@ -25,27 +25,26 @@ extern "C" {
 #include "scroll/lv_example_scroll.h"
 #include "styles/lv_example_style.h"
 #include "styles/lv_example_styles.h"
-#include "widgets/lv_example_widgets.h"
 #include "grad/lv_example_grad.h"
 
-/*Backward-compatible aliases for the pre-rework numbered example names.*/
+	 /*Backward-compatible aliases for the pre-rework numbered example names.*/
 #include "lv_examples_api_map.h"
 
 /*********************
  *      DEFINES
  *********************/
 
-/**********************
- *      TYPEDEFS
- **********************/
+ /**********************
+  *      TYPEDEFS
+  **********************/
 
-/**********************
- * GLOBAL PROTOTYPES
- **********************/
+  /**********************
+   * GLOBAL PROTOTYPES
+   **********************/
 
-/**********************
- *      MACROS
- **********************/
+   /**********************
+	*      MACROS
+	**********************/
 
 #ifdef __cplusplus
 } /*extern "C"*/

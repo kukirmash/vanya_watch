@@ -8,13 +8,14 @@
 #include "app_ui/windows/control_center.h"
 #include "app_ui/windows/wifi_window.h"
 #include "app_ui/windows/text_input_window.h"
+#include "app_ui/windows/pop_the_lock.h"
 #include "app_ui/ui_engine/window_manager.h"
 
-static const char *TAG = "PROJECT_LCD_MAIN";
+static const char* TAG = "PROJECT_LCD_MAIN";
 
 // Внутренние переменные LVGL
-static lv_display_t *lvgl_disp = NULL;
-static lv_indev_t *lvgl_touch_indev = NULL;
+static lv_display_t* lvgl_disp = NULL;
+static lv_indev_t* lvgl_touch_indev = NULL;
 
 #if ESP32
 
@@ -30,7 +31,7 @@ esp_err_t app_lvgl_init(esp_lcd_panel_io_handle_t lcd_io, esp_lcd_panel_handle_t
 		.task_stack = 8192,
 		.task_affinity = -1,
 		.task_max_sleep_ms = 500,
-		.timer_period_ms = 2};
+		.timer_period_ms = 2 };
 	ESP_RETURN_ON_ERROR(lvgl_port_init(&lvgl_cfg), TAG, "LVGL port init failed");
 
 	ESP_LOGI(TAG, "Add LCD screen to LVGL");
@@ -45,13 +46,13 @@ esp_err_t app_lvgl_init(esp_lcd_panel_io_handle_t lcd_io, esp_lcd_panel_handle_t
 #if LVGL_VERSION_MAJOR >= 9
 		.color_format = LV_COLOR_FORMAT_RGB565,
 #endif
-		.rotation = {.swap_xy = false, .mirror_x = false, .mirror_y = false},
+		.rotation = { .swap_xy = false, .mirror_x = false, .mirror_y = false },
 		.flags = {
 			.buff_dma = true,
 #if LVGL_VERSION_MAJOR >= 9
 			.swap_bytes = true,
 #endif
-		}};
+		} };
 	lvgl_disp = lvgl_port_add_disp(&disp_cfg);
 
 	const lvgl_port_touch_cfg_t touch_cfg = {
@@ -72,10 +73,10 @@ void app_ui_main()
 	lv_lock();
 
 	// Темная тема
-	lv_theme_t *dark_theme = lv_theme_default_init(lvgl_disp, lv_color_hex(VW_PRIMARY_COLOR_HEX), lv_color_hex(VW_SECONDARY_COLOR_HEX), true, VW_FONT_14);
+	lv_theme_t* dark_theme = lv_theme_default_init(lvgl_disp, lv_color_hex(VW_PRIMARY_COLOR_HEX), lv_color_hex(VW_SECONDARY_COLOR_HEX), true, VW_FONT_14);
 	lv_display_set_theme(lvgl_disp, dark_theme);
 
-	lv_obj_t *screen = lv_screen_active();
+	lv_obj_t* screen = lv_screen_active();
 	lv_obj_set_style_bg_color(screen, lv_color_hex(0x000000), 0);
 	lv_obj_remove_flag(screen, LV_OBJ_FLAG_SCROLLABLE);
 
@@ -83,34 +84,42 @@ void app_ui_main()
 	window_manager_init();
 
 	// Регистрация главного экрана (Циферблат)
-	window_manager_register_wnd(WIN_ID_WATCHFACE, watchface_init, (window_swipe_targets_t){
-		.left  = WIN_ID_NONE,         
-		.right = WIN_ID_NONE,         
-		.up    = WIN_ID_NONE,         
-		.down  = WIN_ID_CONTROL_CENTER 
+	window_manager_register_wnd(WIN_ID_WATCHFACE, watchface_init, (window_swipe_targets_t) {
+		.left = WIN_ID_POP_THE_LOCK,
+			.right = WIN_ID_NONE,
+			.up = WIN_ID_NONE,
+			.down = WIN_ID_CONTROL_CENTER
 	});
 
 	// Регистрация Центра управления (Шторка)
-	window_manager_register_wnd(WIN_ID_CONTROL_CENTER, control_center_init, (window_swipe_targets_t){
-		.left  = WIN_ID_NONE,
-		.right = WIN_ID_NONE,
-		.up    = WIN_ID_WATCHFACE,
-		.down  = WIN_ID_NONE
+	window_manager_register_wnd(WIN_ID_CONTROL_CENTER, control_center_init, (window_swipe_targets_t) {
+		.left = WIN_ID_NONE,
+			.right = WIN_ID_NONE,
+			.up = WIN_ID_WATCHFACE,
+			.down = WIN_ID_NONE
 	});
 
-	window_manager_register_wnd(WIN_ID_WIFI, wifi_window_init, (window_swipe_targets_t){
-		.left  = WIN_ID_NONE,
-		.right = WIN_ID_CONTROL_CENTER,
-		.up    = WIN_ID_NONE,
-		.down  = WIN_ID_NONE
+	window_manager_register_wnd(WIN_ID_WIFI, wifi_window_init, (window_swipe_targets_t) {
+		.left = WIN_ID_NONE,
+			.right = WIN_ID_CONTROL_CENTER,
+			.up = WIN_ID_NONE,
+			.down = WIN_ID_NONE
 	});
 
-	window_manager_register_wnd(WIN_ID_TEXT_INPUT, text_input_window_init, (window_swipe_targets_t){
-			.left  = WIN_ID_NONE,
+	window_manager_register_wnd(WIN_ID_TEXT_INPUT, text_input_window_init, (window_swipe_targets_t) {
+		.left = WIN_ID_NONE,
 			.right = WIN_ID_WIFI,
-			.up    = WIN_ID_NONE,
-			.down  = WIN_ID_NONE
+			.up = WIN_ID_NONE,
+			.down = WIN_ID_NONE
 	});
+
+	window_manager_register_wnd(WIN_ID_POP_THE_LOCK, pop_the_lock_init, (window_swipe_targets_t) {
+		.left = WIN_ID_NONE,
+			.right = WIN_ID_WATCHFACE,
+			.up = WIN_ID_NONE,
+			.down = WIN_ID_NONE
+	});
+
 
 	// Запуск базового окна при включении часов
 	window_open(WIN_ID_WATCHFACE, WIN_ANIM_NONE);
