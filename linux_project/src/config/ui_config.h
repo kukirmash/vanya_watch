@@ -12,13 +12,15 @@
 
 //-----------------------------------------------------------------------------------------
 // Шрифты
-LV_FONT_DECLARE( science_gothic_14 ); 
-LV_FONT_DECLARE( science_gothic_18 ); 
+LV_FONT_DECLARE( science_gothic_14 );
+LV_FONT_DECLARE( science_gothic_18 );
 LV_FONT_DECLARE( science_gothic_22 );
+LV_FONT_DECLARE( science_gothic_64 );
 
 #define VW_FONT_14                  &science_gothic_14
 #define VW_FONT_18                  &science_gothic_18
 #define VW_FONT_22                  &science_gothic_22
+#define VW_FONT_64                  &science_gothic_64
 
 //-----------------------------------------------------------------------------------------
 // Cимволы
