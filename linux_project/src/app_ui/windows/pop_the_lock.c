@@ -11,32 +11,8 @@
 static const char* TAG = "VW_POP_THE_LOCK";
 
 //-----------------------------------------------------------------------------------------
-/*
-// Открисовка ручки замка
-
-set_color(LOCK_HANDLE_COLOR_HEX[0]);
-
-
-
-set_color(BACKGROUND_COLOR_HEX[0]);
-
-draw_ellipse(100, 79, 40, 32);
-draw_rect(100, 95, 40, 42);
-
-*/
-
 #define RADIUS  100
 #define WIDTH   30
-
-#define SCALE_SIZE      (150)
-#define SCALE_X         (45)
-#define SCALE_Y         (124)
-
-#define CIRCLE_CONT_SIZE    (98)
-#define CIRCLE_CONT_X       (71)
-#define CIRCLE_CONT_Y       (150)
-
-#define HANDLE_OPEN_DY  (50)
 
 #define GOAL_SIZE       (WIDTH - 6)
 #define CENTER_RADIUS   (RADIUS - (WIDTH / 2))
@@ -48,12 +24,11 @@ draw_rect(100, 95, 40, 42);
 #define GOAL_COLOR_HEX          0xEFCC3C
 #define POINTER_COLOR_HEX       0xE82C5E
 #define SCORE_COLOR_HEX         0xAEE7EE
+#define LOCK_COLOR_HEX          0x00294D
 
 #define CHANGE_BG_LEVEL_INTERVAL 10    
 #define BG_COLORS_CNT   11
 static const int BACKGROUND_COLOR_HEX[BG_COLORS_CNT] = { 0x00BC98, 0x663F90, 0xCD7B31, 0x329FB3, 0x7B7856, 0xBF58C8, 0x6DD1DA, 0x719092, 0x3A4B38, 0x0B0D30, 0xC7B136 };
-static const int LOCK_COLOR_HEX[BG_COLORS_CNT] = { 0x00294D, 0x000C35, 0x241F17, 0x221705, 0x000000, 0x392721, 0x1C0431, 0x240223, 0x1D0431, 0x540422, 0x25221C };
-static const int LOCK_HANDLE_COLOR_HEX[BG_COLORS_CNT] = { 0x00666A, 0x231F5A, 0x674321, 0x214E4B, 0x313123, 0x6E3B64, 0x395676, 0x423B50, 0x282033, 0x360727, 0x665C28 };
 
 #define M_PI 3.14159265358979323846 // pi
 #define radians(degrees) ((degrees) * M_PI / 180)
@@ -174,6 +149,9 @@ static void game_restart()
     pointer_speed = POINTER_SPEED;
 
     uint32_t levelBgColorHex = BACKGROUND_COLOR_HEX[level / CHANGE_BG_LEVEL_INTERVAL % BG_COLORS_CNT];
+
+    if (content == NULL || circle_cont == NULL)
+        return;
 
     lv_obj_set_style_bg_color(content, lv_color_hex(levelBgColorHex), LV_PART_MAIN);
     lv_obj_set_style_bg_color(circle_cont, lv_color_hex(levelBgColorHex), LV_PART_MAIN);
@@ -333,7 +311,7 @@ void pop_the_lock_init(lv_obj_t* parent)
     lv_scale_set_rotation(scale, 0);
     lv_obj_remove_flag(scale, LV_OBJ_FLAG_CLICKABLE);
     lv_obj_set_style_arc_width(scale, 30, LV_PART_MAIN);
-    lv_obj_set_style_arc_color(scale, lv_color_hex(LOCK_COLOR_HEX[0]), LV_PART_MAIN);
+    lv_obj_set_style_arc_color(scale, lv_color_hex(LOCK_COLOR_HEX), LV_PART_MAIN);
 
     goal_obj = lv_obj_create(scale);
     lv_obj_set_size(goal_obj, GOAL_SIZE, GOAL_SIZE);
