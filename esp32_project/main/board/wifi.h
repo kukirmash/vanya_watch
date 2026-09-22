@@ -1,42 +1,49 @@
-#ifndef VW_WIFI_H
-#define VW_WIFI_H
+#ifndef BOARD_WIFI_H
+#define BOARD_WIFI_H
 
-#include "esp_wifi.h"
+#include <stdint.h>
+#include <stdbool.h>
 
-//-----------------------------------------------------------------------------------------
-/**
- * @brief Базовая инициализация сетевого стека и NVS. Вызывать один раз при старте!
- */
-void wifi_init(void);
-
-//-----------------------------------------------------------------------------------------
-/**
- * @brief Сканирование сетей.
- * @param ap_count Максимальное количество сетей, которое вмещает ваш массив.
- * @param ap_info Указатель на массив структур wifi_ap_record_t.
- * @return Количество реально найденных и записанных в массив сетей.
- */
-int wifi_get_ap_info(int ap_count, wifi_ap_record_t* ap_info);
+#define WIFI_MAX_SSID_LEN 32
+#define WIFI_MAX_PASS_LEN 64
+#define WIFI_MAX_AP_COUNT 15
 
 //-----------------------------------------------------------------------------------------
-/**
- * @brief Подключение к конкретной точке доступа.
- * @param ssid Имя сети (до 32 символов).
- * @param password Пароль (до 64 символов). Если сеть без пароля, передайте "".
- */
-void wifi_connect_to_ap(const char* ssid, const char* password);
+// Информация об одной найденной точке доступа
+typedef struct
+{
+	char ssid[WIFI_MAX_SSID_LEN];
+	int8_t rssi;
+	bool is_secure;
+
+} board_ap_info_t;
 
 //-----------------------------------------------------------------------------------------
-/**
- * @brief Синхронизация времени через интернет (SNTP).
- * Вызывать только ПОСЛЕ успешного подключения к Wi-Fi!
- */
-void wifi_sntp_sync_time(void);
+// Конфигурация Wi-Fi модуля (Singleton)
+typedef struct
+{
+	char ssid[WIFI_MAX_SSID_LEN];
+	char password[WIFI_MAX_PASS_LEN];
+	bool is_connected;
+
+	// Результаты последнего сканирования
+	board_ap_info_t ap_list[WIFI_MAX_AP_COUNT];
+	uint8_t ap_count;
+
+} board_wifi_config_t;
 
 //-----------------------------------------------------------------------------------------
-// Включение/выключение Wi-Fi модуля
-void wifi_set_state(bool enable);
+// Возвращает указатель на Singleton конфигурацию Wi-Fi
+board_wifi_config_t* board_wifi_get_config(void);
+
+//-----------------------------------------------------------------------------------------
+// Инициализация сетевого стека (NVS, esp_netif, esp_wifi) и запуск фоновой задачи
+void board_wifi_init(void);
+
+//-----------------------------------------------------------------------------------------
+// Подключение к конкретной точке доступа (ssid/password)
+void board_wifi_connect(const char* ssid, const char* password);
 
 //-----------------------------------------------------------------------------------------
 
-#endif // VW_WIFI_H
+#endif // BOARD_WIFI_H

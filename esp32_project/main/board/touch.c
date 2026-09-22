@@ -4,7 +4,7 @@
 #include "esp_check.h"
 #include "driver/i2c_master.h"
 
-#include "config/project_config.h"
+#include "config/lcd_config.h"
 
 static const char* TAG = "TOUCH";
 

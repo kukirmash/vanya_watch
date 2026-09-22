@@ -6,7 +6,7 @@
 #include "driver/gpio.h"
 #include "esp_lcd_panel_vendor.h"
 
-#include "config/project_config.h"
+#include "config/lcd_config.h"
 
 static const char* TAG = "LCD";
 
@@ -68,7 +68,7 @@ esp_err_t lcd_app_init( esp_lcd_panel_io_handle_t* ret_io, esp_lcd_panel_handle_
 	ESP_LOGI( TAG, "Install LCD driver (ST7789)" );
 	const esp_lcd_panel_dev_config_t panel_config = {
 		.reset_gpio_num = VW_LCD_GPIO_RST,
-		.rgb_endian = LCD_RGB_ENDIAN_RGB,
+		.rgb_ele_order = LCD_RGB_ELEMENT_ORDER_RGB,
 		.bits_per_pixel = VW_LCD_BITS_PER_PIXEL,
 	};
 	ESP_GOTO_ON_ERROR( esp_lcd_new_panel_st7789( lcd_io, &panel_config, &lcd_panel ), err, TAG, "New panel failed" );

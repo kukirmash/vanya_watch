@@ -13,8 +13,6 @@
 
 #include "board/lcd.h"
 
-#include "config/project_config.h"
-
 // TODO: продумать логику работы питания
 
 //-----------------------------------------------------------------------------------------
@@ -133,9 +131,9 @@ static void power_task( void* pvParameter )
 				has_initial_reading = true;
 			}
 
-			// Передаем false в качестве флага зарядки, так как мы его не знаем
-			project_config_set_power( last_known_percent, mv, false );
-
+			// Передаем false в качестве флага зарядки, так как мы его не знаем.
+			// Отображение заряда в новом UI пока не используется, поэтому
+			// достаточно контролировать аварийное отключение при 0%.
 			if ( last_known_percent == 0 )
 			{
 				ESP_LOGW( TAG, "Battery 0%. Forced hardware shutdown!" );
@@ -184,7 +182,7 @@ esp_err_t power_init( void )
 	adc_oneshot_chan_cfg_t config =
 	{
 		.bitwidth = ADC_BITWIDTH_DEFAULT,
-		.atten = ADC_ATTEN_DB_11,
+		.atten = ADC_ATTEN_DB_12,
 	};
 	ESP_ERROR_CHECK( adc_oneshot_config_channel( adc1_handle, VW_GPIO_BAT_ADC, &config ) );
 
@@ -192,7 +190,7 @@ esp_err_t power_init( void )
 	adc_cali_curve_fitting_config_t cali_config =
 	{
 		.unit_id = ADC_UNIT_1,
-		.atten = ADC_ATTEN_DB_11,
+		.atten = ADC_ATTEN_DB_12,
 		.bitwidth = ADC_BITWIDTH_DEFAULT,
 	};
 	if ( adc_cali_create_scheme_curve_fitting( &cali_config, &adc1_cali_handle ) == ESP_OK )
