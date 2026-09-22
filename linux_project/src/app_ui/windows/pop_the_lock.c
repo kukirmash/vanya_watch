@@ -26,7 +26,8 @@ static const char* TAG = "VW_POP_THE_LOCK";
 #define SCORE_COLOR_HEX         0xAEE7EE
 #define LOCK_COLOR_HEX          0x00294D
 
-#define CHANGE_BG_LEVEL_INTERVAL 10    
+#define GAME_TICK_MS 33
+#define CHANGE_BG_LEVEL_INTERVAL 10
 #define BG_COLORS_CNT   11
 static const int BACKGROUND_COLOR_HEX[BG_COLORS_CNT] = { 0x00BC98, 0x663F90, 0xCD7B31, 0x329FB3, 0x7B7856, 0xBF58C8, 0x6DD1DA, 0x719092, 0x3A4B38, 0x0B0D30, 0xC7B136 };
 
@@ -36,20 +37,22 @@ static const int BACKGROUND_COLOR_HEX[BG_COLORS_CNT] = { 0x00BC98, 0x663F90, 0xC
 
 //-----------------------------------------------------------------------------------------
 // Состояние игры
-typedef enum {
-    GAME_READY = 0,                 // Ожидание нажатия
-    GAME_POINTER_BEFORE_GOAL = 1,   // Указатель не достиг цели
-    GAME_POINTER_INSIDE_GOAL = 2,   // Указатель достиг цели
-    GAME_OVER = 3,                  // Игра проиграна
+typedef enum
+{
+    GAME_READY = 0,               // Ожидание нажатия
+    GAME_POINTER_BEFORE_GOAL = 1, // Указатель не достиг цели
+    GAME_POINTER_INSIDE_GOAL = 2, // Указатель достиг цели
+    GAME_OVER = 3,                // Игра проиграна
 
     GAME_STATE_CNT
 } game_state_t;
 
 //-----------------------------------------------------------------------------------------
 // Направление движения указателя
-typedef enum {
-    CLOCKWISE = -1,       // По часовой стрелке
-    COUNTERCLOCKWISE = 1  // Против часовой стрелки
+typedef enum
+{
+    CLOCKWISE = -1,      // По часовой стрелке
+    COUNTERCLOCKWISE = 1 // Против часовой стрелки
 } pointer_dir_t;
 
 //-----------------------------------------------------------------------------------------
@@ -66,7 +69,7 @@ typedef enum {
 // Длина дуги, на которой появляется цель
 #define GOAL_SPAWN_LENGTH radians(180)
 // Длина дуги, на которой будет засчитано попадание указателя в цель
-#define GOAL_LENGTH  radians(15.84)
+#define GOAL_LENGTH radians(15.84)
 
 //-----------------------------------------------------------------------------------------
 // Текущий уровень
@@ -96,20 +99,23 @@ static void init_timer();
 
 //-----------------------------------------------------------------------------------------
 // Устанавливает позицию цели в радианах
-static void goal_obj_set_pos_rad(lv_obj_t* goal_obj, float positon_rad)
+static void goal_obj_set_pos_rad(lv_obj_t *goal_obj, float position_rad)
 {
     if (goal_obj == NULL)
         return;
 
-    int32_t goal_x = RADIUS + CENTER_RADIUS * cosf(positon_rad) - GOAL_SIZE / 2;
-    int32_t goal_y = RADIUS - CENTER_RADIUS * sinf(positon_rad) - GOAL_SIZE / 2;
+    int16_t deg = ((int16_t)(degrees(position_rad)) % 360 + 360) % 360;
+
+    // lv_trigo_sin/cos возвращают значение, отмасштабированное на 32767 (сдвиг на 15)
+    int32_t goal_x = RADIUS + ((CENTER_RADIUS * lv_trigo_cos(deg)) >> 15) - GOAL_SIZE / 2;
+    int32_t goal_y = RADIUS - ((CENTER_RADIUS * lv_trigo_sin(deg)) >> 15) - GOAL_SIZE / 2;
 
     lv_obj_set_pos(goal_obj, goal_x, goal_y);
 }
 
 //-----------------------------------------------------------------------------------------
 // Устанавливает позицию указателя в радианах
-static void pointer_set_pos_rad(lv_obj_t* scale, lv_obj_t* pointer, float position_rad)
+static void pointer_set_pos_rad(lv_obj_t *scale, lv_obj_t *pointer, float position_rad)
 {
     if (scale == NULL || pointer == NULL)
         return;
@@ -120,11 +126,21 @@ static void pointer_set_pos_rad(lv_obj_t* scale, lv_obj_t* pointer, float positi
 }
 
 //-----------------------------------------------------------------------------------------
+static void bg_set_color(uint32_t color_hex)
+{
+    if (content == NULL || circle_cont == NULL)
+        return;
+
+    lv_obj_set_style_bg_color(content, lv_color_hex(color_hex), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(circle_cont, lv_color_hex(color_hex), LV_PART_MAIN);
+}
+
+//-----------------------------------------------------------------------------------------
 // Функция появления цели
 static void spawn_goal()
 {
     // Получение случайного расстояния на дуге
-    float position = GOAL_SPAWN_LENGTH * (rand() % 1000) / 1000;
+    float position = GOAL_SPAWN_LENGTH * (rand() % 1000) / 1000.0f;
     // Обновление положения цели
     goal_position = pointer_position + pointer_direction * (GOAL_SPAWN_DISTANCE + position);
 
@@ -145,16 +161,11 @@ static void game_restart()
 
     // Установка начального направления указателя
     pointer_direction = POINTER_INITAIL_DIRECTION;
-    // Установка скорости  
+    // Установка скорости
     pointer_speed = POINTER_SPEED;
 
     uint32_t levelBgColorHex = BACKGROUND_COLOR_HEX[level / CHANGE_BG_LEVEL_INTERVAL % BG_COLORS_CNT];
-
-    if (content == NULL || circle_cont == NULL)
-        return;
-
-    lv_obj_set_style_bg_color(content, lv_color_hex(levelBgColorHex), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(circle_cont, lv_color_hex(levelBgColorHex), LV_PART_MAIN);
+    bg_set_color(levelBgColorHex);
 
     // Появление цели
     spawn_goal();
@@ -174,47 +185,36 @@ static void game_init()
 }
 
 //-----------------------------------------------------------------------------------------
-static void game_over()
-{
-    if (content == NULL || circle_cont == NULL)
-        return;
-
-    lv_obj_set_style_bg_color(content, lv_color_hex(GAME_OVER_COLOR_HEX), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(circle_cont, lv_color_hex(GAME_OVER_COLOR_HEX), LV_PART_MAIN);
-}
-
-//-----------------------------------------------------------------------------------------
 // Обновляет состояние игры
-static void update(lv_timer_t* timer)
+static void update(lv_timer_t *timer)
 {
-    const float dt = 0.033f;
+    const float dt = (float)GAME_TICK_MS / 1000.0f;
 
-    switch (game_state) {
-        // Если активное состояние игры
-    case GAME_POINTER_BEFORE_GOAL:
-        // Обновить положение игрока
+    // Общая логика обновления позиции вынесена за пределы switch
+    if (game_state == GAME_POINTER_BEFORE_GOAL || game_state == GAME_POINTER_INSIDE_GOAL)
+    {
         pointer_position += dt * pointer_direction * pointer_speed;
         pointer_set_pos_rad(scale, pointer, pointer_position);
+    }
 
+    switch (game_state)
+    {
+    case GAME_POINTER_BEFORE_GOAL:
         // Если указатель попадает в цель
         if (goal_position - GOAL_LENGTH / 2 <= pointer_position && pointer_position <= goal_position + GOAL_LENGTH / 2)
-            // Установить соответствующее состояние
             game_state = GAME_POINTER_INSIDE_GOAL;
-
         break;
-    case GAME_POINTER_INSIDE_GOAL:
-        // Обновить положение игрока
-        pointer_position += dt * pointer_direction * pointer_speed;
-        pointer_set_pos_rad(scale, pointer, pointer_position);
 
+    case GAME_POINTER_INSIDE_GOAL:
         // Если указатель вышел с цели
         if (goal_position - GOAL_LENGTH / 2 > pointer_position || pointer_position > goal_position + GOAL_LENGTH / 2)
         {
-            // Игра проиграна
             game_state = GAME_OVER;
-            game_over();
+            bg_set_color(GAME_OVER_COLOR_HEX);
         }
+        break;
 
+    default:
         break;
     }
 }
@@ -237,21 +237,42 @@ static void init_timer()
 }
 
 //-----------------------------------------------------------------------------------------
-// Обработчик нажатия на экран
-static void content_click_cb(lv_event_t* e)
+static void window_delete_cb(lv_event_t *e)
 {
-    switch (game_state) {
+    if (game_timer != NULL)
+    {
+        lv_timer_delete(game_timer);
+        game_timer = NULL;
+    }
+
+    // Очистка глобальных указателей после удаления окна ядром LVGL
+    scale = NULL;
+    circle_cont = NULL;
+    pointer = NULL;
+    goal_obj = NULL;
+    label_score = NULL;
+    content = NULL;
+}
+
+//-----------------------------------------------------------------------------------------
+// Обработчик нажатия на экран
+static void content_click_cb(lv_event_t *e)
+{
+    switch (game_state)
+    {
         // Если игрок готов
     case GAME_READY:
         // Игра начинается, указатель - до цели
         game_state = GAME_POINTER_BEFORE_GOAL;
+        if (game_timer)
+            lv_timer_resume(game_timer); // Возобновление таймера
         break;
 
         // Если игрок нажал до цели
     case GAME_POINTER_BEFORE_GOAL:
         // Игра проиграна
         game_state = GAME_OVER;
-        game_over();
+        bg_set_color(GAME_OVER_COLOR_HEX);
         break;
 
         // Если игрок попал в цель
@@ -289,16 +310,20 @@ static void content_click_cb(lv_event_t* e)
         break;
     }
 
-    lv_label_set_text_fmt(label_score, "%d", score);
+    if (label_score != NULL)
+    {
+        lv_label_set_text_fmt(label_score, "%d", score);
+    }
 }
 
 //-----------------------------------------------------------------------------------------
 // Создает экран игры "Pop The Lock"
-void pop_the_lock_init(lv_obj_t* parent)
+void pop_the_lock_init(lv_obj_t *parent)
 {
     content = parent;
     lv_obj_set_style_bg_color(content, lv_color_hex(BACKGROUND_COLOR_HEX[0]), LV_PART_MAIN);
     lv_obj_add_event_cb(content, content_click_cb, LV_EVENT_CLICKED, NULL);
+    lv_obj_add_event_cb(content, window_delete_cb, LV_EVENT_DELETE, NULL);
 
     scale = lv_scale_create(parent);
     lv_obj_set_size(scale, 2 * RADIUS, 2 * RADIUS);
